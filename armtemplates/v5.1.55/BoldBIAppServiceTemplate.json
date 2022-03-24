@@ -136,8 +136,8 @@
             "[resourceId('Microsoft.Web/Sites', parameters('WebAppName'))]"
           ],
           "properties": {
-            "RepoUrl": "https://github.com/Vigneshwaran-Alagappan/azure-arm-template.git",
-            "branch": "v5.1",
+            "RepoUrl": "https://github.com/r-rameshkannan/azure-arm-template-1.git",
+            "branch": "v5.1.55",
             "IsManualIntegration": true
           }
         },
