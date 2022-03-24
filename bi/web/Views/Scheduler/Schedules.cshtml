@@ -1,7 +1,7 @@
 ﻿@{
     var globalAppSettings = _globalAppSettings;
 
-    ViewBag.Title = "[[[Schedules]]] - " + globalAppSettings.SystemSettings.OrganizationName;
+    ViewBag.Title = T["Schedules"].Value + " - " + globalAppSettings.SystemSettings.OrganizationName;
     var isMobile = new DeviceDetection(Context).IsMobile;
     ViewBag.HelpSiteUrl = GlobalAppSettings.GetHelpSiteUrl(HelpSiteUrlNames.ManageSchedules);
     var itemPermissions = ViewBag.ItemAddOptions as Dictionary<ItemType, bool>;
@@ -10,22 +10,29 @@
     var customUI = globalAppSettings.SystemSettings.CustomUI;
     var schemes = customUI?.Profiles != null ? customUI.Schemes.Where(x => x.Name == customUI.Profiles[0].Schedules.Scheme).FirstOrDefault() : null;
     var userId = _identityResponse.User.UserId;
+    var themeCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".css";
+    var themeMinCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".min.css";
+    var themeBaseColors = globalAppSettings.SystemSettings.AppTheme.BaseColors;
 }
 @model List<ScheduleViewModel>
 
 @section styles{
     <environment include="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/schedules.css" />
         <link rel="stylesheet" asp-append-version="true" href="@ServerAppConfig.CustomFontUrl(globalAppSettings?.SystemSettings?.FontPreference, dashboardServerResourceUrl)" />
     </environment>
     <environment exclude="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.min.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeMinCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/schedules.min.css" />
         <link rel="stylesheet" asp-append-version="true" href="@ServerAppConfig.CustomFontUrl(globalAppSettings?.SystemSettings?.FontPreference, dashboardServerResourceUrl)" />
     </environment>
 }
-
+<style>
+          :root {
+              @themeBaseColors
+          }
+</style>
 @section scripts{
 
     <script>
@@ -66,11 +73,10 @@
                         query = query.replace('=', ':');
                         searchValue = query.split('&');
                         $("#search-schedules").val(searchValue[0]);
-                        var searchEvent = $.Event('keydown');
-                        $("#search-schedules").trigger(searchEvent);
                     }
                     addPlacehoder("#search-area");
                     ej.support.enableLocalizedSort = true;
+                    GridLocalization();
                     $("#scheduleGrid")
                         .ejGrid({
                             dataSource: ej.DataManager({ url: "@Url.Action("getschedules", "scheduler")", adaptor: "UrlAdaptor" }),
@@ -81,6 +87,7 @@
                             allowFiltering: true,
                             filterSettings: { filterType: "menu" },
                             enableAltRow: false,
+                            locale: "en-US",
                             gridLines: ej.Grid.GridLines.None,
                             recordClick: manageSchedule,
                             toolbarSettings: { showToolbar: false, toolbarItems: [ej.Grid.ToolBarItems.Search] },
@@ -108,7 +115,7 @@
                             columns: [
                                 {
                                     field: "Name",
-                                    headerText: "[[[Name]]]",
+                                    headerText: "@T["Name"]",
                                     templateID: "#schedule-template",
                                     headerTemplateID: "#item-name-header",
                                     type: "string",
@@ -119,7 +126,7 @@
                                 },
                                 {
                                     field: "ItemName",
-                                    headerText: "[[[Dashboard]]]",
+                                    headerText: "@T["Dashboard"]",
                                     templateID: "#dashboard-template",
                                     type: "string",
                                     width: 100,
@@ -128,7 +135,7 @@
                                 },
                                 {
                                     field: "LastRunString",
-                                    headerText: "[[[Last Run]]]",
+                                    headerText: "@T["Last Run"]",
                                     visible: !(window.innerWidth < 1200),
                                     width: 70,
                                     allowSorting: false,
@@ -136,7 +143,7 @@
                                 },
                                 {
                                     field: "NextScheduleString",
-                                    headerText: "[[[Next Scheduled Run]]]",
+                                    headerText: "@T["Next Scheduled Run"]",
                                     width: 100,
                                     headerTemplateID: "#next-schedule-header",
                                     allowSorting: false,
@@ -144,7 +151,7 @@
                                 },
                                 {
                                     field: "CreatedByDisplayName",
-                                    headerText: "[[[Owner]]]",
+                                    headerText: "@T["Owner"]",
                                     width: 100,
                                     headerTemplateID: "#owner-column",
                                     allowSorting: true,
@@ -152,7 +159,7 @@
                                 },
                                 {
                                     field: "Status",
-                                    headerText: "[[[Status]]]",
+                                    headerText: "@T["Status"]",
                                     width: 60,
                                     allowSorting: false,
                                     templateID: "#status-template",
@@ -193,41 +200,33 @@
                 <div class="details">
                     <a href="@Url.Action("Dashboards", "Dashboards")/{{:ItemId}}/{{:ItemCategoryName}}/{{:ItemName}}" target="_blank">
                         <div class="item-name">{{:Name}}<span class="{{toLowerCase:Status}} su su-schedule-status"></span></div><br />
-                        [[[Dashboard:]]] <span class="values">{{:ItemName}}</span> <br />
-                        [[[Last Run]]] <span class="values">{{:LastRunString}}</span><br />
-                        [[[Next Run]]] <span class="values">{{:NextScheduleString}}</span>
+                        @T["Dashboard"]: <span class="values">{{:ItemName}}</span> <br />
+                        @T["Last Run"] <span class="values">{{:LastRunString}}</span><br />
+                        @T["Next Run"] <span class="values">{{:NextScheduleString}}</span>
                     </a>
                 </div>
             </script>
             <script type="text/x-jsrender" id="dashboard-template">
                 <div class="item-dashboard grid-content" title="{{:ItemName}}" data-toggle="tooltip" data-placement="top">
                     {{if IsScheduledItemDeleted}}
-                    <span class="schedule-deleted-name">{{:DeletedItemName}}</span><span class="badge badge-secondary">Deleted</span>
-                    {{else MultiDashboardName}}
-                    {{if IsUnlisted && ItemCreatedId != @userId}}
-                    <span><a class="grid-content" href="@Url.Action("Dashboards", "Dashboards")/{{:ParentItemId}}/{{:ItemCategoryName}}/{{:MultiDashboardName}}?tab={{:ItemName}}&unlistedCode={{:UnlistedCode}}" " target="_blank">{{:ItemName}}</a></span>
-                    {{else}}
+                    <span class="schedule-deleted-name">{{:DeletedItemName}}</span><span class="badge badge-secondary">@T["Deleted"]</span>
+                    {{else MultiDashboardName}}                   
                     <span><a class="grid-content" href="@Url.Action("Dashboards", "Dashboards")/{{:ParentItemId}}/{{:ItemCategoryName}}/{{:MultiDashboardName}}?tab={{:ItemName}}" target="_blank">{{:ItemName}}</a></span>
-                    {{/if}}
-                    {{else}}
-                    {{if IsUnlisted && ItemCreatedId != @userId}}
-                    <span><a class="grid-content" href="@Url.Action("Dashboards", "Dashboards")/{{:ItemId}}/{{:ItemCategoryName}}/{{:ItemName}}?unlistedCode={{:UnlistedCode}}" target="_blank">{{:ItemName}}</a></span>
                     {{else}}
                     <span><a class="grid-content" href="@Url.Action("Dashboards", "Dashboards")/{{:ItemId}}/{{:ItemCategoryName}}/{{:ItemName}}" target="_blank">{{:ItemName}}</a></span>
-                    {{/if}}
                     {{/if}}
                 </div>
             </script>
             <script type="text/x-jsrender" id="status-template">
                 {{if Status=="Active"}}
                 <span class="active su su-schedule-status"></span>
-                {{:Status}}
+                @T["Active"]
                 {{else Status=="Inactive"}}
                 <span class="inactive su su-schedule-status"></span>
-                {{:Status}}
+                @T["Inactive"]
                 {{else}}
                 <span class="done su su-schedule-status"></span>
-                {{:Status}}
+                @T["Completed"]
                 {{/if}}
             </script>
             <script type="text/x-jsrender" id="schedule-template">
@@ -236,49 +235,49 @@
                 </div>
             </script>
             <script type="text/x-jsrender" id="item-name-header">
-                <div class="item-name">[[[Name]]]</div>
+                <div class="item-name">@T["Name"]</div>
             </script>
             <script type="text/x-jsrender" id="next-schedule-header">
-                <div title="[[[Next Scheduled Run]]]">[[[Next Scheduled Run]]]</div>
+                <div title="@T["Next Scheduled Run"]">@T["Next Scheduled Run"]</div>
             </script>
             <script type="text/x-jsrender" id="owner-column">
-                <div title="[[[Owner]]]">[[[Owner]]]</div>
+                <div title="@T["Owner"]">@T["Owner"]</div>
             </script>
             <script type="text/x-jsrender" id="options">
-                <div class="dropdown @(schemes != null && !schemes.ContextMenu ? "hide" : string.Empty)">
-                    <span class="dropdown-toggle option-icon" title="[[[Actions]]]" data-toggle="dropdown">
+                <div class="dropdown context-menu @(schemes != null && !schemes.ContextMenu ? "hide" : string.Empty)">
+                    <span class="dropdown-toggle option-icon" title="@T["Actions"]" data-toggle="dropdown">
                         <span class="su su-options"> </span>
                     </span>
                     <ul class="dropdown-menu" role="menu">
                         {{if !IsScheduledItemDeleted}}
                         <li class="menu-group @(schemes != null && !schemes.RunNow ? "hide" : string.Empty)">
-                            <a href="javascript:void(0);" title="[[[Run now]]]" class="on-demand-schedule" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}" onclick='manageSchedule("{{:Name}}", "{{:Id}}", "{{:ItemName}}", "{{:ItemCategoryName}}", "{{:ItemId}}", this.className,"{{:MultiDashboardName}}")'>
+                            <a href="javascript:void(0);" title="@T["Run now"]" class="on-demand-schedule" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}" onclick='manageSchedule("{{:Name}}", "{{:Id}}", "{{:ItemName}}", "{{:ItemCategoryName}}", "{{:ItemId}}", this.className,"{{:MultiDashboardName}}")'>
                                 <i class="su su-play" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}"></i>
-                                <span class="menu-text">[[[Run Now]]]</span>
+                                <span class="menu-text">@T["Run Now"]</span>
                             </a>
                         </li>
                         <li class="divider @(schemes != null && !schemes.RunNow ? "hide" : string.Empty)"></li>
                         {{/if}}
                         <li class="menu-group">
-                            <a href="javascript:void(0);" title="[[[Schedule-History]]]" class="schedule-history" data-category-name="{{:ItemCategoryName}}" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}" data-multiitem-name="{{:MultiDashboardName}}" onclick='manageSchedule("{{:Name}}", "{{:Id}}", "{{:ItemName}}", "{{:ItemCategoryName}}", "{{:ItemId}}", this.className, "{{:MultiDashboardName}}")'>
+                            <a href="javascript:void(0);" title="@T["Schedule-History"]" class="schedule-history" data-category-name="{{:ItemCategoryName}}" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}" data-multiitem-name="{{:MultiDashboardName}}" onclick='manageSchedule("{{:Name}}", "{{:Id}}", "{{:ItemName}}", "{{:ItemCategoryName}}", "{{:ItemId}}", this.className, "{{:MultiDashboardName}}")'>
                                 <i class="su su-run-history" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}"></i>
-                                <span class="menu-text">[[[Run History]]]</span>
+                                <span class="menu-text">@T["Run History"]</span>
                             </a>
                         </li>
                         <li class="divider"></li>
                         <li class="menu-group @(schemes != null && !schemes.Info ? "hide" : string.Empty)">
-                            <a href="javascript:void(0);" title="[[[Info]]]" class="item-info">
+                            <a href="javascript:void(0);" title="@T["Info"]" class="item-info">
                                 <i class="su su-info"></i>
-                                <span class="menu-text">[[[Info]]]</span>
+                                <span class="menu-text">@T["Info"]</span>
                             </a>
                         </li>
                         <li class="divider @(schemes != null && !schemes.Info ? "hide" : string.Empty)"></li>
                         {{if Status=="Active"}}
                         {{if !IsScheduledItemDeleted}}
                         <li class="menu-group @(schemes != null && !schemes.Disable ? "hide" : string.Empty)">
-                            <a href="javascript:void(0);" title="[[[Disable]]]" class="disable-schedule" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}" onclick='manageSchedule("{{:Name}}", "{{:Id}}", "{{:ItemName}}", "{{:ItemCategoryName}}", "{{:ItemId}}", this.className,"{{:MultiDashboardName}}")'>
+                            <a href="javascript:void(0);" title="@T["Disable"]" class="disable-schedule" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}" onclick='manageSchedule("{{:Name}}", "{{:Id}}", "{{:ItemName}}", "{{:ItemCategoryName}}", "{{:ItemId}}", this.className,"{{:MultiDashboardName}}")'>
                                 <i class="su su-disable" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}"></i>
-                                <span class="menu-text">[[[Disable]]]</span>
+                                <span class="menu-text">@T["Disable"]</span>
                             </a>
                         </li>
                         {{/if}}
@@ -286,9 +285,9 @@
                         {{else Status=="Inactive"}}
                         {{if !IsScheduledItemDeleted}}
                         <li class="menu-group @(schemes != null && !schemes.Enable ? "hide" : string.Empty)">
-                            <a href="javascript:void(0);" title="[[[Enable]]]" class="enable-schedule" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}" onclick='manageSchedule("{{:Name}}", "{{:Id}}", "{{:ItemName}}", "{{:ItemCategoryName}}", "{{:ItemId}}", this.className,"{{:MultiDashboardName}}")'>
+                            <a href="javascript:void(0);" title="@T["Enable"]" class="enable-schedule" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}" onclick='manageSchedule("{{:Name}}", "{{:Id}}", "{{:ItemName}}", "{{:ItemCategoryName}}", "{{:ItemId}}", this.className,"{{:MultiDashboardName}}")'>
                                 <i class="su su-enable" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}"></i>
-                                <span class="menu-text">[[[Enable]]]</span>
+                                <span class="menu-text">@T["Enable"]</span>
                             </a>
                         </li>
                         {{/if}}
@@ -296,11 +295,11 @@
 
                         {{if ~checkMobile()}}
                         {{if CanWrite}}
-                        <li title="[[[Edit]]]" class="@(schemes != null && !schemes.Edit ? "hide" : string.Empty)">
+                        <li title="@T["Edit"]" class="@(schemes != null && !schemes.Edit ? "hide" : string.Empty)">
 
-                            <a href="javascript:void(0);" title="[[[Edit]]]" class="edit-schedule" data-category-name="{{:ItemCategoryName}}" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}" data-multiitem-name="{{:MultiDashboardName}}" onclick='manageSchedule("{{:Name}}", "{{:Id}}", "{{:ItemName}}", "{{:ItemCategoryName}}", "{{:ItemId}}", this.className, "{{:MultiDashboardName}}", "{{:IsScheduledItemDeleted}}")'>
+                            <a href="javascript:void(0);" title="@T["Edit"]" class="edit-schedule" data-category-name="{{:ItemCategoryName}}" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}" data-multiitem-name="{{:MultiDashboardName}}" onclick='manageSchedule("{{:Name}}", "{{:Id}}", "{{:ItemName}}", "{{:ItemCategoryName}}", "{{:ItemId}}", this.className, "{{:MultiDashboardName}}", "{{:IsScheduledItemDeleted}}")'>
                                 <i class="su su-edit" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}"></i>
-                                <span class="menu-text">[[[Edit]]]</span>
+                                <span class="menu-text">@T["Edit"]</span>
                             </a>
                         </li>
                         {{/if}}
@@ -308,10 +307,10 @@
 
                         {{if ~checkMobile()}}
                         {{if CanDelete}}
-                        <li title="[[[Delete]]]" class="@(schemes != null && !schemes.Delete ? "hide" : string.Empty)">
-                            <a href="javascript:void(0);" title="[[[Delete]]]" class="remove-schedule" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}" onclick='manageSchedule("{{:Name}}", "{{:Id}}", "{{:ItemName}}", "{{:ItemCategoryName}}", "{{:ItemId}}", this.className,"{{:MultiDashboardName}}")'>
+                        <li title="@T["Delete"]" class="@(schemes != null && !schemes.Delete ? "hide" : string.Empty)">
+                            <a href="javascript:void(0);" title="@T["Delete"]" class="remove-schedule" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}" onclick='manageSchedule("{{:Name}}", "{{:Id}}", "{{:ItemName}}", "{{:ItemCategoryName}}", "{{:ItemId}}", this.className,"{{:MultiDashboardName}}")'>
                                 <i class="su su-delete" data-scheduleid="{{:Id}}" data-itemname="{{:ItemName}}" data-itemid="{{:ItemId}}"></i>
-                                <span class="menu-text">[[[Delete]]]</span>
+                                <span class="menu-text">@T["Delete"]</span>
                             </a>
                         </li>
                         {{/if}}
@@ -319,27 +318,32 @@
                     </ul>
                 </div>
             </script>
-            <div id="item-grid-container" data-grid-name="schedules" class="admin-page-container schedule-listing">
-                <div class="admin-page-header col-lg-12">
-                    <h1 class="page-title col-lg-6 no-margin">
-                        [[[SCHEDULES]]]
-                    </h1>
-                    @if (itemPermissions[ItemType.Schedule])
-                    {
-                        <button type="button" class="create-schedule pull-right primary-button app-btn-primary">[[[Create Schedule]]]</button>
-                    }
-                </div>
-
-                <div id="schedules-grid-container" class="col-lg-12 admin-page-body  @(isMobile ? "mobile" : "desktop")">
-                    <div id="search-area" class="pull-right">
-                        <input type="text" id="search-schedules" class="pull-left no-margin" placeholder="[[[Search schedules]]]" />
-                        <span class="su close-icon su-inner-close pull-left no-margin" id="clear-search" title="[[[Clear search]]]"></span>
-                        <span class="su su-search search-schedule pull-left no-margin" title="[[[Search schedules]]]"></span>
+            <div id="item-grid-container" data-grid-name="schedules" class="bi-page-container col-xs-12 schedule-listing grid-page-container">
+                <div class="bi-page-content col-md-12 no-padding">
+                    <div class="bi-page-header col-xs-12">
+                        <div class="bi-page-header-description col-xs-8 no-padding">
+                            <h1 class="h2 page-title">@T["SCHEDULES"]</h1>
+                            <h5 class="page-description">@T["Create and manage dashboard schedules to send out dashboard reports either at a specific date and time interval or when data changes."]</h5>
+                        </div>
+                        <div class="col-xs-4 no-padding bi-header-btn">
+                            @if (itemPermissions[ItemType.Schedule])
+                            {
+                                <button type="button" class="create-schedule pull-right primary-button app-btn-primary">@T["Create Schedule"]</button>
+                            }
+                        </div>
                     </div>
-                    <div id="scheduleGrid" class="schedule-grid">
+
+                    <div id="schedules-grid-container" class="col-xs-12 bi-page-body  @(isMobile ? "mobile" : "desktop")">
+                        <div id="search-area" class="pull-right">
+                            <input type="text" id="search-schedules" class="pull-left no-margin" placeholder="@T["Search schedules"]" />
+                            <span class="su close-icon su-inner-close pull-left no-margin" id="clear-search" title="@T["Clear search"]"></span>
+                            <span class="su su-search search-schedule pull-left no-margin" title="@T["Search schedules"]"></span>
+                        </div>
+                        <div id="scheduleGrid" class="schedule-grid">
+                        </div>
                     </div>
                 </div>
-
+                @await Html.PartialAsync("../Shared/_Footer", new ViewDataDictionary(ViewData) { { "appsettings", globalAppSettings } })
             </div>
         }
         else

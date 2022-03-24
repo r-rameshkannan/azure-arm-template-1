@@ -8,6 +8,9 @@
     var userId = ViewBag.UserId;
     var dashboardServerResourceUrl = globalAppSettings.SystemSettings.CDNLink.TrimEnd('/');
     var rootUrl = Context.Request.RouteValues["tenantName"] != null ? (Context.Request.PathBase + "/" + ServerAppConfig.TenantIdentifierPrefix + "/" + Context.Request.RouteValues["tenantName"]).TrimEnd('/') : Context.Request.PathBase.ToString();
+    var themeCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".css";
+    var themeMinCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".min.css";
+    var themeBaseColors = globalAppSettings.SystemSettings.AppTheme.BaseColors;
 }
 
 <!DOCTYPE html>
@@ -22,7 +25,11 @@
     <environment exclude="Development,CloudDevelopment">
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/comments-page.min.css" />
     </environment>
-
+    <style>
+          :root {
+              @themeBaseColors
+          }
+    </style>
 
     @await Html.PartialAsync("~/Views/Shared/_LoaderIcon.cshtml")
 
@@ -46,12 +53,12 @@
     var getItemWatchUrl = "@Url.Action("GetItemWatch", "Comments")";
     </script>
     <environment include="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeCss" />
         <link rel="stylesheet" asp-append-version="true" href="@ServerAppConfig.CustomFontUrl(globalAppSettings?.SystemSettings?.FontPreference, dashboardServerResourceUrl)" />
         <script asp-append-version="true" src="@dashboardServerResourceUrl/cdn/scripts/comments-page.js"></script>
     </environment>
     <environment exclude="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.min.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeMinCss" />
         <link rel="stylesheet" asp-append-version="true" href="@ServerAppConfig.CustomFontUrl(globalAppSettings?.SystemSettings?.FontPreference, dashboardServerResourceUrl)" />
         <script asp-append-version="true" src="@dashboardServerResourceUrl/cdn/scripts/comments-page.min.js"></script>
     </environment>
@@ -81,25 +88,25 @@
         <div class="header-section col-xs-12 no-padding">
             <div id="header-pane" class="col-xs-10 no-padding">
                 <span class="view-heading col-xs-10 no-padding" id="view-heading" style="display: none">
-                    [[[COMMENTS]]]
+                    @T["COMMENTS"]
                 </span>
             </div>
             <div class="col-xs-2 no-padding" id="close-comment">
-                <a href="javascript:void(0);" title="[[[Close]]]" class="PopupClose" style="display: none"><span class="su su-close"></span></a>
+                <a href="javascript:void(0);" title="@T["Close"]" class="PopupClose" style="display: none"><span class="su su-close"></span></a>
             </div>
         </div>
         <div id="comment_action_area" class="col-xs-12">
-            <input id="comment_action_slider" class="form-control" placeholder="[[[Write a comment]]]" type="text">
+            <input id="comment_action_slider" class="form-control" placeholder="@T["Write a comment"]" type="text">
         </div>
         <div id="comment_submit_container" class="comment-submit-container pull-left" style="display: none;">
             <textarea id="rte-post" class="form-control comment-area" maxlength="4000"></textarea>
-            <span class='message'>*[[[4000 characters maximum]]]</span>
+            <span class='message'>*@T["4000 characters maximum"]</span>
             <span class="error-message"></span>
             <div class="post-watch col-xs-12 no-right-padding no-left-padding">
 
                 <div class="col-xs-12 col-md-6 no-right-padding pull-right">
-                    <button class="secondary-button app-btn-secondary pull-right header-comment-close">[[[Cancel]]]</button>
-                    <input id="post-comment" class="primary-button app-btn-primary pull-right" value="[[[Post]]]" type="submit">
+                    <button class="secondary-button app-btn-secondary pull-right header-comment-close">@T["Cancel"]</button>
+                    <input id="post-comment" class="primary-button app-btn-primary pull-right" value="@T["Post"]" type="submit">
                 </div>
             </div>
         </div>
@@ -109,19 +116,19 @@
                 <div class="watch-txt-container">
                     @if (isItemWatched)
                     {
-                        <span id="watchItem" class="su su-notification-settings watch-action unwatch" title="[[[Unwatch]]]" data-html='false' data-toggle='tooltip'></span>
+                        <span id="watchItem" class="su su-notification-settings watch-action unwatch" title="@T["Unwatch"]" data-html='false' data-toggle='tooltip'></span>
                     }
                     else
                     {
-                        <span id="watchItem" class="su su-notification-settings watch-action watch" title="[[[Watch]]]" data-html='false' data-toggle='tooltip'></span>
+                        <span id="watchItem" class="su su-notification-settings watch-action watch" title="@T["Watch"]" data-html='false' data-toggle='tooltip'></span>
                     }
                 </div>
                 <span id="comment_count">0</span>
-                <span class="">[[[Comment(s)]]]</span>
+                <span class="">@T["Comment(s)"]</span>
             </div>
             <div id="commentSorting" class="col-xs-6 no-padding">
-                <span class="col-xs-3 sort-new sort-active no-padding">[[[Newest]]]</span>
-                <span class="col-xs-3 sort-old sort-inactive no-padding">[[[Oldest]]]</span>
+                <span class="col-xs-3 sort-new sort-active no-padding">@T["Newest"]</span>
+                <span class="col-xs-3 sort-old sort-inactive no-padding">@T["Oldest"]</span>
             </div>
         </div>
         <div id="parent-scroll-element">

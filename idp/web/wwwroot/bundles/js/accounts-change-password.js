@@ -105,21 +105,18 @@ $(document).ready(function () {
         errorElement: 'span',
         errorPlacement: function (error, element) {
             $(element).parents(".update-form-input-field").find('div.validation-holder').find('span').html(error.html());
-            $("body").ejWaitingPopup("hide");
-        }
-    });
-
-    $("#agreement").on("change", function () {
-        if ($("#agreement").is(":checked")) {
-            $(".proceed-button").removeAttr("disabled");
-        } else {
-            $(".proceed-button").attr("disabled", "disabled");
+            hideWaitingPopup('body');
         }
     });
 });
 
-
-
+$(document).on("change", "#agreement", function () {
+    if ($("#agreement").is(":checked")) {
+        $(".proceed-button").removeAttr("disabled");
+    } else {
+        $(".proceed-button").attr("disabled", "disabled");
+    }
+});
 
 function IsValidName(validationType, inputString) {
     var regex;
@@ -170,13 +167,13 @@ function showPasswordPolicy() {
 }
 
 function changePasswordValidation() {
-    $("body").ejWaitingPopup("show");
+    showWaitingPopup('body');
     return $("#update-password-form").valid();
 }
 
 
-$(document).on("ready", function () {
-    $(".show-hide-password").on("click", function () {
+$(function () {
+    $(document).on("click", ".show-hide-password", function () {
         if ($(this).siblings().find("input").is(":password")) {
             $(this).siblings().find("input").attr('type', 'text');
             $(this).removeClass('su-show').addClass('su-hide').attr("data-original-title", window.Server.App.LocalizationContent.ClicktoHide);
@@ -189,7 +186,7 @@ $(document).on("ready", function () {
         }
     });
 
-    $(".show-hide-password").bind("touch", function () {
+    $(document).on("touch", ".show-hide-password", function () {
         if ($(this).siblings().find("input").is(":password")) {
             $(this).siblings().find("input").attr('type', 'text');
             $(this).removeClass('su-show');

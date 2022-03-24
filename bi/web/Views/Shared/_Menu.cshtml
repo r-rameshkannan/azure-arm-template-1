@@ -39,6 +39,7 @@
     var manageSitesUrl = idPUrl + "/" + ServerAppConfig.TenantManagementHostName + "/sites";
     var allItemsCount = ViewBag.ItemsCount as Dictionary<ItemType, int>;
     var userPermissionItem = JsonConvert.SerializeObject(ViewBag.ItemAddOptions);
+    var userPermissionsDictionary = ViewBag.ItemAddOptions as Dictionary<ItemType, bool>;
     var hasOwnedDashboard = ViewBag.HasOwnedDashboard;
     if (allItemsCount == null && ServerAppConfig.IsUserBasedMenu)
     {
@@ -49,8 +50,8 @@
             ItemType.Schedule,
             ItemType.Slideshow
         };
-        userPermissionItem = JsonConvert.SerializeObject(_itemManagement.GetItemTypesWithCreateAccess(identityResponse.User.UserId));
-        allItemsCount = _itemManagement.GetAllItemsCountByItemTypeList(itemtypeList, identityResponse.User.UserId);
+        userPermissionItem = JsonConvert.SerializeObject(await _itemManagement.GetItemTypesWithCreateAccess(identityResponse.User.UserId));
+        allItemsCount = await _itemManagement.GetAllItemsCountByItemTypeList(itemtypeList, identityResponse.User.UserId);
     }
 }
 
@@ -78,23 +79,23 @@
 
             </li>
             @*<li class="hidden mobile-hidden @(currentUrlLocalPath == "/" || currentUrlLocalPath == "HttpRuntime.AppDomainAppVirtualPath/" ? "active" : string.Empty )">
-            <a class="sf-nav-link" href="@Url.Action("Index", "Home")">
-                <span class="menu-icon-container">
-                    <i class="su su-nav-datasource"></i>
-                </span>
-                <i class="su su-nav-home"></i>
-                <span class="menu-label">[[[Home]]]</span>
-            </a>
-        </li>*@
+                <a class="sf-nav-link" href="@Url.Action("Index", "Home")">
+                    <span class="menu-icon-container">
+                        <i class="su su-nav-datasource"></i>
+                    </span>
+                    <i class="su su-nav-home"></i>
+                    <span class="menu-label">@T["Home"]</span>
+                </a>
+            </li>*@
 
             @if (!ServerAppConfig.IsSelfHosted || (ServerAppConfig.IsSelfHosted && isItemPageRequested && itemPermissions != null && itemPermissions.ContainsKey(ItemType.Dashboard) && itemPermissions[ItemType.Dashboard]))
             {
-                <li class="sf-nav-item mobile-hidden" id="create-item" data-action="create-items">
-                    <a class="sf-nav-link" href="javascript:void(0)">
-                        <span class="menu-icon-container create-menu-icon">
-                            <i class="su su-add"></i>
-                        </span>
-                    </a>
+	        	<li class="sf-nav-item mobile-hidden" id="create-item" data-action="create-items">
+	                <a class="sf-nav-link" href="javascript:void(0)">
+	                    <span class="menu-icon-container create-menu-icon">
+	                        <i class="su su-add"></i>
+	                    </span>
+	                </a>
                 </li>
             }
 
@@ -110,7 +111,7 @@
                         </a>
                     </li>
                     <li class="sf-nav-administration-collapse-item dropup" ng-class="result.length < 9 ? 'menu-toggle' : ''" ng-if="$index > ($index + 1 == result.length ? menuCount + 1 : menuCount)">
-                        <a class="dropdown-toggle mobile-hidden" data-toggle="dropdown" ng-show="{{$index == 6 && items.Condition}}">
+                        <a class="dropdown-toggle mobile-hidden" data-toggle="dropdown" ng-show="{{$index == 5 && items.Condition}}">
                             <span class="menu-icon-container">
                                 <i class="su su-dots-menu"></i>
                             </span>
@@ -138,7 +139,7 @@
                         <span class="menu-icon-container">
                             <i class="su su-concierge-support"></i>
                         </span>
-                        <span class="menu-label">[[[Support]]]</span>
+                        <span class="menu-label">@T["Support"]</span>
                     </span>
                 </li>
             }
@@ -149,7 +150,7 @@
                     <span class="menu-icon-container">
                         <i class="su su-logout"></i>
                     </span>
-                    <span class="menu-label">[[[Log Out]]]</span>
+                    <span class="menu-label">@T["Log Out"]</span>
                 </a>
             </li>
         </ul>
@@ -175,11 +176,11 @@
                             if (isItemPageRequested && itemPermissions != null && itemPermissions.ContainsKey(ItemType.Dashboard) && itemPermissions[ItemType.Dashboard] && showImport)
                             {
                                 <li class="sub-menu-item-title">
-                                    <div>[[[Explore]]]</div>
+                                    <div>@T["Explore"]</div>
                                 </li>
                                 <li class="sub-menu-item">
                                     <a class="add-sample-button" href="javascript:void(0)">
-                                        [[[Sample Dashboards]]]
+                                        @T["Sample Dashboards"]
                                     </a>
                                 </li>
                                 <li class="sf-sub-menu-separator"></li>
@@ -188,44 +189,44 @@
                         @if (!ServerAppConfig.IsHideHelpLink)
                         {
                             <li class="sub-menu-item-title">
-                                <div>[[[Help]]]</div>
+                                <div>@T["Help"]</div>
                             </li>
                             <li class="sub-menu-item">
                                 <a class="online-help-link" href="@(ViewBag.helpSiteBaseUrl + ViewBag.helpSiteUrl)" target="_blank">
-                                    [[[Online Help]]]
+                                    @T["Online Help"]
                                 </a>
                             </li>
                             <li class="sub-menu-item">
                                 <a href="@(ViewBag.helpSiteBaseUrl + GlobalAppSettings.GetHelpSiteUrl(HelpSiteUrlNames.GetDashboardMobile))" target="_blank">
-                                    [[[Get the mobile app]]]
+                                    @T["Get the mobile app"]
                                 </a>
                             </li>
                             @*<li class="sub-menu-item">
-                                    <a href="@Url.Action("GetDiagnosticLogs", "Diagnostic")">
-                                        [[[Get diagnostic logs]]]
-                                    </a>
+                                <a href="@Url.Action("GetDiagnosticLogs", "Diagnostic")">
+                                    @T["Get diagnostic logs"]
+                                </a>
                             </li>*@
-                         }
+                        }
 
                         @if (!ServerAppConfig.IsSelfHosted)
                         {
                             <li class="sub-menu-item">
                                 <a href="https://www.@(GlobalAppSettings.BrandingDomain)/contact" target="_blank">
-                                    [[[Contact Us]]]
+                                    @T["Contact Us"]
                                 </a>
                             </li>
                             <li class="sf-sub-menu-separator"></li>
                             <li class="sub-menu-item-title">
-                                <div>[[[Legal]]]</div>
+                                <div>@T["Legal"]</div>
                             </li>
                             <li class="sub-menu-item">
                                 <a href="https://www.@(GlobalAppSettings.BrandingDomain)/privacy" target="_blank">
-                                    [[[Privacy Policy]]]
+                                    @T["Privacy Policy"]
                                 </a>
                             </li>
                             <li class="sub-menu-item">
                                 <a href="https://www.@(GlobalAppSettings.BrandingDomain)/terms-of-use" target="_blank">
-                                    [[[Terms of Use]]]
+                                    @T["Terms of Use"]
                                 </a>
                             </li>
                         }
@@ -236,7 +237,7 @@
                                 <li class="sf-sub-menu-separator"></li>
                             }
                             <li class="sub-menu-item-title">
-                                <div>[[[Version]]]</div>
+                                <div>@T["Version"]</div>
                             </li>
                             <li class="sub-menu-item">
                                 <span style="background: none;cursor: default;font-size: 12px;">@globalAppSettings.SystemSettings.ProductVersion</span>
@@ -254,7 +255,7 @@
                         @if (ServerAppConfig.IsSelfHosted)
                         {
                             <li class="sub-menu-item sub-menu-profile" id="user-sites">
-                                <div class="sub-menu-profile-text-padding">[[[Your Sites]]]</div>
+                                <div class="sub-menu-profile-text-padding">@T["Your Sites"]</div>
                                 <img class='loader-sites-gif' src="@dashboardServerResourceUrl/cdn/images/waitingpopup.gif" style="display:block; margin: auto; height:30px; width:30px;" />
                             </li>
                             <li id="more-sites-id">
@@ -262,13 +263,13 @@
                             <li class="sf-sub-menu-separator admin-privilege" style="display: none;"></li>
                             <li class="sub-menu-item sub-menu-profile admin-privilege" style="display: none;">
                                 <a rel="alternate" hreflang="en" href="@manageSitesUrl" target="_blank">
-                                    <div class="manage-site">[[[Manage sites (Admin access)]]]</div>
+                                    <div class="manage-site">@T["Manage sites (Admin access)"]</div>
                                 </a>
                             </li>
                             <li class="sf-sub-menu-separator"></li>
                         }
                         <li class="sub-menu-item sub-menu-profile">
-                            <div class="sub-menu-profile-text-padding">[[[Profile]]]</div>
+                            <div class="sub-menu-profile-text-padding">@T["Profile"]</div>
                             <a href="@Url.Action("ProfilePage", "User")">
                                 <div class="sub-menu-profile-hover">
                                     <div class="sub-menu-user-name"><div class="sub-menu-user-name-style">@displayName</div><div class="sub-menu-user-email-style">@(ServerAppConfig.IsAutoGeneratedMail(emailAddress) ? userName : emailAddress)</div></div>
@@ -281,19 +282,28 @@
                             <li class="sf-sub-menu-separator"></li>
                             <li class="sub-menu-item">
                                 <a class="request-concierge-support" href="@ServerAppConfig.AppSettings.Syncfusion.Support.CreateTicket" target="_blank">
-                                    [[[Create Incidents]]]
+                                    @T["Create Incidents"]
                                 </a>
                             </li>
                             <li class="sub-menu-item">
                                 <a href="@ServerAppConfig.AppSettings.Syncfusion.Support.ListTicket" target="_blank">
-                                    [[[My Incidents]]]
+                                    @T["My Incidents"]
                                 </a>
                             </li>
+                            if (Convert.ToBoolean(Context.Session.GetString("IsAdmin")) || userPermissionsDictionary[ItemType.Settings])
+                            {
+                                <li class="sf-sub-menu-separator"></li>
+                                <li class="sub-menu-item">
+                                    <a href="@(ServerAppConfig.AppSettings.EndPoints.TenantAppUrl.TrimEnd('/') + "/sites/" + globalAppSettings.SystemSettings.TenantId + "/subscription")" target="_blank">
+                                        [[[Subscription and Billing]]]
+                                    </a>
+                                </li>
+                            }
                         }
                         <li class="sf-sub-menu-separator"></li>
                         <li class="sub-menu-item">
                             <a href="@Url.Action("logout", "accounts")">
-                                [[[Logout]]]
+                                @T["Logout"]
                             </a>
                         </li>
                     </ul>
@@ -309,6 +319,7 @@
     var idpUrl = "@idPUrl";
     var dashboardPageUrl = "@Url.Action("Dashboards", "Dashboards")";
     var dataSourcesPageUrl = "@Url.Action("DataSources", "DataSources")";
+    var linkedDashboardsPageUrl = "@Url.Action("ViewLinkedDashboards", "DataSources")";
     var schedulePageUrl = "@Url.Action("Schedules", "Scheduler")";
     var PublishPageUrl = "@Url.Action("GetPublishedItems", "Publish")";
     var profilePageUrl = "@Url.Action("Profilepage", "User")";

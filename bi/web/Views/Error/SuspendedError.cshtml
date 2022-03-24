@@ -21,7 +21,7 @@
 <html class="dashboard-server">
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Site Suspended - @GlobalAppSettings.BrandingDisplayName</title>
+    <title>@T["Site Suspended"] - @GlobalAppSettings.BrandingDisplayName</title>
     <environment include="Development,CloudDevelopment">
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/layout.css" />
@@ -47,9 +47,21 @@
                 </div>
                 <div class="suspended-secondary-div">
                     <div class="suspended-page-title">
-                        [[[Suspended]]]
+                        @T["Suspended"]
                     </div>
-                    <div class="suspended-page-content">[[[Subscription to the Dashboards has been suspended. Please contact your System Administrator for more details.]]]</div>
+                    <div class="suspended-page-content">
+                        @T["Subscriptions to the dashboard have been suspended."]
+                        @if (!ServerAppConfig.IsSelfHosted)
+                        {
+                            <div>
+                                @Html.Raw(string.Format(T["If you are a subscription administrator for {0}, you can activate your suspended site {1}here{2}."].Value, globalAppSettings.SystemSettings.OrganizationName, "<a href='https://www." + GlobalAppSettings.BrandingDomain + "'/account/sites/cloud' class='redirect-link' target='_blank'>", "</a>"))
+                            </div> 
+                        }
+                        else
+                        {
+                            <div>@T["Please contact your System Administrator for more details."]</div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

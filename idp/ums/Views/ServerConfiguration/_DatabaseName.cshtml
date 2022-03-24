@@ -1,7 +1,7 @@
 ﻿@{
     var helpLinkData = ViewBag.TenantType == TenantType.BoldBIOnPremise ? "dashboards" : "reports";
     var dbnameHelp = ViewBag.TenantType == TenantType.BoldBIOnPremise ? "[[[This is where we store the BI tenants, dashboard resources, and data store configuration.]]]" : "[[[This is where we store the Bold Reports tenants, reports resources and their access permissions.]]]" ;
-    var sqlParameter = HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.MSSQL_Connection_Parameters);
+    var sqlParameter = await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.MSSQL_Connection_Parameters);
 }
 <div id="simple_tab_db_name">
     <div class="txt-holder database-name center-align">

@@ -2,19 +2,6 @@
 
 #look-and-feel-container {
     #look-and-feel-body {
-
-        .app-textbox-label, #woff-upload {
-            margin-top: 4px;
-        }
-
-        .dropdown {
-            padding-right: 12px;
-        }
-
-        .dropdown-toggle:focus {
-            outline: none !important;
-        }
-
         .add-new-font {
             padding: 5px 0px 0px 0px;
             font-size: $app-text-size;
@@ -23,6 +10,8 @@
                 color: $primary-color;
             }
         }
+
+        @include ej2NonFloat();
     }
 }
 
@@ -37,6 +26,7 @@
     }
 
     .font-label {
+        font-size:13px;
         margin-top: 8px;
         font-weight: 400;
         padding-right: 45px;

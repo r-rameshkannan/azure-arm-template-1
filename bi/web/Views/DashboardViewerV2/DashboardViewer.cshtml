@@ -46,8 +46,8 @@
     var multiTabUrl = ViewBag.MultiTabDashboardDetails != null ? Url.Action("Dashboards", "Dashboards") + "/" + ViewBag.MultiTabDashboardDetails.Id + "/" + ViewBag.MultiTabDashboardDetails.CategoryName + "/" + ViewBag.MultiTabDashboardDetails.Name : string.Empty;
     var granularPermissions = ViewBag.GranularPermissions as Dictionary<object, bool>;
     var isUsageAnalytics = ViewBag.IsUsageAnalytics != null;
-    var isUnlisted = itemDetail.IsUnlisted;
-    var unlistedCode = itemDetail.UnlistedCode;
+    var isViewNotFound = (ViewBag.ViewNotFound != null && ViewBag.ViewNotFound ) ? true : false;
+    var isCommentNotFound = (ViewBag.CommentNotFound != null && ViewBag.CommentNotFound) ? true : false;
 }
 <!DOCTYPE html>
 
@@ -85,7 +85,7 @@
 <script>
         @{
             var userName = "";
-            if (Context.User.Identity.IsAuthenticated && Context.User != null && Context.User.Identity != null && isUserAuthenticatedInCurrentTenant || embedConfig.IsEmbedCode)
+            if (Context.User.Identity.IsAuthenticated && Context.User != null && Context.User.Identity != null && isUserAuthenticatedInCurrentTenant || (embedConfig.IsEmbedCode && !isPublic))
             {
                 enableComment = (isSlideshow || !(embedConfig.HasDashboardComments || embedConfig.HasWidgetComments)) ? "false" : "true";
                 isUserAuthenticated = embedConfig.IsEmbedCode ? "false" : "true";
@@ -156,6 +156,7 @@
         var isUserAutosaveFilter = @Html.Raw(Json.Serialize(ViewBag.IsUserAutosaveFilter));
         var hasDefaultView = @Json.Serialize(ViewBag.HasDefaultView);
         var dashboardServerApiUrl = "@dashboardServerApiUrl";
+        var dashboardServerApiUrlForServerEmbed = "@dashboardServerApiUrlForServerEmbed";
         var filterQuery = @Html.Raw(Json.Serialize(filterQuery));
         var dashboardTheme = "@ViewBag.Theme";
         var isDefaultView =  @Json.Serialize(ViewBag.IsDefaultView);
@@ -174,10 +175,9 @@
         var serverAppPathBase = "@Context.Request.PathBase";
         var isUsageAnalytics = @Json.Serialize(isUsageAnalytics);
         var granularPermissions = @Html.Raw(JsonConvert.SerializeObject(granularPermissions));
-        var isUnlisted = @Json.Serialize(isUnlisted);
-        var unlistedCode = "@unlistedCode";
         var parentItemId = "@ViewBag.ParentItemId";
-        var dashboardServerApiUrlForServerEmbed = "@dashboardServerApiUrlForServerEmbed";
+        var isViewNotFound = @Html.Raw(Json.Serialize(isViewNotFound));
+        var isCommentNotFound = @Html.Raw(Json.Serialize(isCommentNotFound));
 </script>
     <style>
         #warning-alert, #success-alert {
@@ -222,7 +222,7 @@
                     <ul class="nav navbar-nav col-xs-12 no-padding no-margin">
                         <li class="@(enableComment.ToLower() == "true" && embedConfig.HasViews && embedConfig.HasDashboardComments ? "col-xs-4":"col-xs-6") icon">
                             <a href="javascript:void(0)" class="su su-nav-dashboard active">
-                                <span class="nav-menu-label">[[[Dashboard]]]</span>
+                                <span class="nav-menu-label">@T["Dashboard"]</span>
                             </a>
                         </li>
                         @if (enableComment.ToLower() == "true" && (!embedConfig.IsEmbedDashboard || embedConfig.HasDashboardComments))
@@ -231,13 +231,13 @@
                                 @if (ViewBag.IsDashboardCommented == "true")
                                 {
                                     <a href="javascript:void(0)" class="su su-with-comment server-comment">
-                                        <span class="nav-menu-label">[[[Comment]]]</span>
+                                        <span class="nav-menu-label">@T["Comment"]</span>
                                     </a>
                                 }
                                 else
                                 {
                                     <a href="javascript:void(0)" class="su su-without-comment server-comment">
-                                        <span class="nav-menu-label">[[[Comment]]]</span>
+                                        <span class="nav-menu-label">@T["Comment"]</span>
                                     </a>
                                 }
                             </li>
@@ -247,7 +247,7 @@
                         {
                             <li class="@(embedConfig.HasDashboardComments && enableComment.ToLower() == "true" ? "col-xs-4":"col-xs-6") icon" id="view-li">
                                 <a href="javascript:void(0)" class="su-view">
-                                    <span class="nav-menu-label">[[[Views]]]</span>
+                                    <span class="nav-menu-label">@T["Views"]</span>
                                 </a>
                             </li>
                         }
@@ -322,14 +322,14 @@
         <div class="pull-right" id="sample-data-notification" style="display:none">
             @if (itemDetail.CanWrite && permissions[ItemType.Datasource])
             {
-                <button id="sample-data-button" type="button" data-placement="bottom" title="[[[This dashboard contains sample data.]]]" data-toggle="tooltip" class="sample-data primary-button app-btn-primary" data-access-token="@ViewBag.AccessToken" data-dashboard-id="@itemDetail.Id" data-dashboard-name="@itemDetail.Name" data-dashboard-version="@ViewBag.VersionNumber" data-authorize-url="@dataServiceUrl/v1.0/connection/authorize?provider=@(provider)&service=@(service)&token=@(ViewBag.AccessToken)&server=@(new DashboardServerApiEndPoints(globalAppSettings, true).DashboardServerApiUrl())">
-                    [[[Connect Your Data]]]
+                <button id="sample-data-button" type="button" data-placement="bottom" title="@T["This dashboard contains sample data."]" data-toggle="tooltip" class="sample-data primary-button app-btn-primary" data-access-token="@ViewBag.AccessToken" data-dashboard-id="@itemDetail.Id" data-dashboard-name="@itemDetail.Name" data-dashboard-version="@ViewBag.VersionNumber" data-authorize-url="@dataServiceUrl/v1.0/connection/authorize?provider=@(provider)&service=@(service)&token=@(ViewBag.AccessToken)&server=@(new DashboardServerApiEndPoints(globalAppSettings).DashboardServerApiUrl())">
+                    @T["Connect Your Data"]
                 </button>
             }
             else
             {
-                <button type="button" data-placement="bottom" data-html="true" title="[[[This dashboard contains sample data. </br>You need permission to edit this dashboard and create a new data source to connect your data.]]]" data-toggle="tooltip" class="sample-data primary-button app-btn-primary disabled-template-button">
-                    [[[Connect Your Data]]]
+                <button type="button" data-placement="bottom" data-html="true"  title='@T["This dashboard contains sample data."]</br>@T["You need permission to edit this dashboard and create a new data source to connect your data."]' data-toggle="tooltip" class="sample-data primary-button app-btn-primary disabled-template-button">
+                    @T["Connect Your Data"]
                 </button>
             }
         </div>

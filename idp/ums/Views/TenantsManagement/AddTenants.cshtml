@@ -47,9 +47,9 @@
         new SelectListItem { Text = "https", Value = "https", Selected = siteProtocol == "https" }
     };
     var useSiteIdentifier = CloudAppConfig.UseSiteIdentifier;
-    var sqlParameter = HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.MSSQL_Connection_Parameters);
-    var postgresSQLParameter = HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.PostgreSQL_Connection_Parameters);
-    var mySQLParameter = HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.MySQL_Connection_Parameters);
+    var sqlParameter = await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.MSSQL_Connection_Parameters);
+    var postgresSQLParameter = await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.PostgreSQL_Connection_Parameters);
+    var mySQLParameter = await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.MySQL_Connection_Parameters);
 }
 
 <!DOCTYPE html>
@@ -113,6 +113,7 @@
         var reportDomain = "@reportDomain";
         var isSiteCreation = true;
         var isSimpleModeValue = "true";
+        var validateIsolationCodeUrl = "@Url.Action("IsValidIsolationCode", "TenantsManagement")";
     </script>
 </head>
 <body>
@@ -143,21 +144,27 @@
                                 <div class="circle"></div>
                                 <div class="hr-tag"> </div>
                             </div>
-                            <div class="selector-panel" id="selection-data-security">
-                                <div class="circle"></div>
-                                <div class="hr-tag"> </div>
+                            @if (ViewBag.IsBoldBIMultiTenant)
+                            {
+                                <div class="selector-panel" id="selection-data-security">
+                                    <div class="circle"></div>
+                                    <div class="hr-tag"> </div>
+                                </div>
+                            }
+                                <div class="selector-panel" id="selectionadmin">
+                                    <div class="circle"></div>
+                                </div>
                             </div>
-                            <div class="selector-panel" id="selectionadmin">
-                                <div class="circle"></div>
-                            </div>
-                        </div>
                         <div class="selector-content">
                             <span class="site-creation selectedContent">[[[SITE CREATION]]]</span>
                             <span class="select-database">[[[SELECT DATABASE]]]</span>
                             <span class="select-storage">[[[SELECT STORAGE]]]</span>
-                            <span class="get-data-security">[[[DATA SECURITY]]]</span>
-                            <span class="administrator">[[[ADMINISTRATOR]]]</span>
-                        </div>
+                            @if (ViewBag.IsBoldBIMultiTenant)
+                            {
+                                <span class="get-data-security">[[[DATA SECURITY]]]</span>
+                            }
+                                <span class="administrator">[[[ADMINISTRATOR]]]</span>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -213,24 +220,24 @@
                                         <select @(ViewBag.IsBoldBIMultiTenant && ViewBag.IsBoldReportsMultiTenant ? string.Empty : "disabled") id="tenant-type" name="tenanttype" data-width="100%">
 
 
-                                                @if (ViewBag.IsBoldBIMultiTenant && ViewBag.IsBoldReportsMultiTenant)
-                                                {
-                                                    <option value="@TenantType.BoldBIOnPremise" class="">Embedded BI</option>
-                                                    <option value="@TenantType.BoldReportsOnPremise" class="">Enterprise Reporting</option>
-                                                }
-                                                else if (ViewBag.IsBoldBIMultiTenant && !ViewBag.IsBoldReportsMultiTenant)
-                                                {
-                                                    <option value="@TenantType.BoldBIOnPremise" class="">Embedded BI</option>
-                                                }
-                                                else if (!ViewBag.IsBoldBIMultiTenant && ViewBag.IsBoldReportsMultiTenant)
-                                                {
-                                                    <option value="@TenantType.BoldReportsOnPremise" class="">Enterprise Reporting</option>
-                                                }
+                                            @if (ViewBag.IsBoldBIMultiTenant && ViewBag.IsBoldReportsMultiTenant)
+                                            {
+                                                <option value="@TenantType.BoldBIOnPremise" class="">Embedded BI</option>
+                                                <option value="@TenantType.BoldReportsOnPremise" class="">Enterprise Reporting</option>
+                                            }
+                                            else if (ViewBag.IsBoldBIMultiTenant && !ViewBag.IsBoldReportsMultiTenant)
+                                            {
+                                                <option value="@TenantType.BoldBIOnPremise" class="">Embedded BI</option>
+                                            }
+                                            else if (!ViewBag.IsBoldBIMultiTenant && ViewBag.IsBoldReportsMultiTenant)
+                                            {
+                                                <option value="@TenantType.BoldReportsOnPremise" class="">Enterprise Reporting</option>
+                                            }
 
                                         </select>
                                     </div>
                                     <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12 no-padding site-name">
-                                       
+
                                         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 txt-holder center-align input-alignment no-padding">
                                             <input type="text" id="tenant-name" name="tenantname" placeholder="[[[Site name]]]">
                                             <span class="startup-validation validation-txt-errors" id="tenant-name-validation-error"></span>
@@ -254,7 +261,7 @@
                                         
                                     </div>
                                     <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12 no-padding site-url-identifier hide">
-                                        
+
                                         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 txt-holder site-identifier-div center-align input-alignment no-padding">
                                             <input type="text" id="tenant-identifier" name="tenantidentifier" class="form-text" placeholder="[[[Site identifier]]]" />
                                             <div id="site-identifier-check" class="material-checkbox selfhosted center-align site-identifier-check hide">

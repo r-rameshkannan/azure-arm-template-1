@@ -9,6 +9,9 @@
     var dashboardServerResourceUrl = globalAppSettings.SystemSettings.CDNLink.TrimEnd('/');
     var rootUrl = Context.Request.RouteValues["tenantName"] != null ? (Context.Request.PathBase + "/" + ServerAppConfig.TenantIdentifierPrefix + "/" + Context.Request.RouteValues["tenantName"]).TrimEnd('/') : Context.Request.PathBase.ToString();
     var settingsPagePermission = ViewBag.GranularPermissions as Dictionary<object, bool>;
+    var themeCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".css";
+    var themeMinCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".min.css";
+    var themeBaseColors = globalAppSettings.SystemSettings.AppTheme.BaseColors;
 }
 
 <!DOCTYPE html>
@@ -19,16 +22,20 @@
 
 
     <environment include="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/save-view.css" />
         <link rel="stylesheet" asp-append-version="true" href="@ServerAppConfig.CustomFontUrl(globalAppSettings?.SystemSettings?.FontPreference, dashboardServerResourceUrl)" />
     </environment>
     <environment exclude="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.min.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeMinCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/save-view.min.css" />
         <link rel="stylesheet" asp-append-version="true" href="@ServerAppConfig.CustomFontUrl(globalAppSettings?.SystemSettings?.FontPreference, dashboardServerResourceUrl)" />
     </environment>
-
+    <style>
+          :root {
+              @themeBaseColors
+          }
+    </style>
     @if (ViewBag.ViewerType == "v2")
     {
         <environment include="Development,CloudDevelopment">
@@ -50,7 +57,7 @@
 
     }
 
-<script type="text/javascript">
+    <script type="text/javascript">
         var rootUrlAction = "@rootUrl";
         var addViewUrl = { "web": "@Url.Action("onfiltersave", "DashboardViews")", "api": "/items/views/add" };
         var getSavedViewUrl = { "web": "@Url.Action("GetViews", "DashboardViews")", "api": "/items/views/get-by-item-id" };
@@ -63,21 +70,21 @@
         catch (e) {
             sameOrigin = false;
         }
-</script>
+    </script>
 </head>
 <body id="save-view-dialog" class="no-margin">
     <div id="save-view-container" class="dialog">
         <div class="col-md-12 dialog-header">
             <span class="su su-view Head-icon"></span>
-            <span class="PopupTitle">[[[Save View]]]</span>
-            <a href="javascript:void(0);" title="[[[Close]]]" class="PopupClose" onclick="closeSaveViewPopup()"><span class="su su-close"></span></a>
+            <span class="PopupTitle">@T["Save View"]</span>
+            <a href="javascript:void(0);" title="@T["Close"]" class="PopupClose" onclick="closeSaveViewPopup()"><span class="su su-close"></span></a>
         </div>
         <span id="user-name" type="hidden" value="@ViewBag.userName"></span>
         <span id="user-id" type="hidden" value="@ViewBag.userId"></span>
         <form name="save-view-form" id="save-view-form" class="dialog-body col-xs-12 no-padding" onsubmit="$('#save-button').trigger('click'); return false;">
             <div>
                 <div class="col-xs-12 padding20 no-bottom-padding" id="item-name-division">
-                    <div class="col-xs-3 no-padding text-right text-label">[[[Name]]]<span class="mandatory">*</span></div>
+                    <div class="col-xs-3 no-padding text-right text-label">@T["Name"]<span class="mandatory">*</span></div>
                     <div class="col-xs-1 no-padding"></div>
                     <div class="col-xs-8 no-padding">
                         <input type="text" id="view-name" name="viewnewname" maxlength="255" class="form-control site-orgname-fields text" />
@@ -85,7 +92,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 padding20 no-bottom-padding" id="default-view-division">
-                    <div class="col-xs-3 no-padding text-right text-label">[[[Mark as Default]]]</div>
+                    <div class="col-xs-3 no-padding text-right text-label">@T["Mark as Default"]</div>
                     <div class="col-xs-1 no-padding"></div>
                     <div class="col-xs-8 no-padding switch-padding">
 
@@ -108,10 +115,10 @@
                                 {
                                     <div class="tool-tip col-xs-1">
                                         <span class="dropdown-toggle" data-toggle="dropdown"><span class="su su-info" title=""></span></span>
-                                        <div class="dropdown-menu" role="menu">[[[Based on your Dashboard Settings, these filters will be applied by default when next time render the Dashboard]]]. 
+                                        <div class="dropdown-menu" role="menu">@T["Based on your Dashboard Settings, these filters will be applied by default when next time render the Dashboard"]. 
                                             @if (!@ServerAppConfig.IsHideHelpLink)
                                             {
-                                                <span>[[[Learn more about]]]<a target = "_blank" href = "@(helpSiteBaseUrl + defaultViewHelpSiteUrl)" >[[[ default views.]]]</a></span>
+                                                 <span>@Html.Raw(string.Format(T["Learn more about {0}default views{1}."].Value, "<a target = '_blank' href = '"+ (helpSiteBaseUrl + defaultViewHelpSiteUrl) + "' >","</a>"))</span>
                                             }
                                         </div>
                                     </div>
@@ -121,10 +128,10 @@
                                     <div class="tool-tip col-xs-1">
                                         <span class="dropdown-toggle" data-toggle="dropdown"><span class="su su-info" title=""></span></span>
                                         <div class="dropdown-menu default-msg" role="menu">
-                                            [[[If enabled, the current view will be set as your default view for this dashboard]]]. 
+                                            @T["If enabled, the current view will be set as your default view for this dashboard."] 
                                             @if (!@ServerAppConfig.IsHideHelpLink)
                                             {
-                                                <span>[[[Learn more about]]]<a target="_blank" href="@(helpSiteBaseUrl + defaultViewHelpSiteUrl)">[[[ default views.]]]</a></span>
+                                                <span>@Html.Raw(string.Format(T["Learn more about {0}default views{1}."].Value, "<a target = '_blank' href = '"+ (helpSiteBaseUrl + defaultViewHelpSiteUrl) + "' >","</a>"))</span>
                                             }
                                         </div>
                                     </div>
@@ -137,10 +144,11 @@
                                     <div class="tool-tip col-xs-1">
                                         <span class="dropdown-toggle" data-toggle="dropdown"><span class="su su-info" title=""></span></span>
                                         <div class="dropdown-menu default-msg" role="menu">
-                                            [[[If enabled, the current view will be set as your default view for this dashboard]]]. 
+                                            @T["If enabled, the current view will be set as your default view for this dashboard."]
                                             @if (!@ServerAppConfig.IsHideHelpLink)
                                             {
                                                 <span>[[[Learn more about]]]<a target="_blank" href="@(helpSiteBaseUrl + defaultViewHelpSiteUrl)">[[[ default views.]]]</a></span>
+                                                <span>@Html.Raw(string.Format(T["Learn more about {0}default views{1}."].Value, "<a target = '_blank' href = '"+ (helpSiteBaseUrl + defaultViewHelpSiteUrl) + "' >","</a>"))</span>
                                             }
                                         </div>
                                     </div>
@@ -149,7 +157,7 @@
                                 {
                                     <div class="tool-tip col-xs-1">
                                         <span class="dropdown-toggle" data-toggle="dropdown"><span class="su su-info" title=""></span></span>
-                                        <div class="dropdown-menu" role="menu">[[[Default views are disabled by the system administrator. Please contact your system administrator to enable them.]]]</div>
+                                        <div class="dropdown-menu" role="menu">@T["Default views are disabled by the system administrator. Please contact your system administrator to enable them."]</div>
                                     </div>
                                 }
                             }
@@ -160,8 +168,8 @@
         </form>
         <div class="col-xs-12 dialog-footer no-right-padding no-left-padding" id="action-button-division">
             <div class="rightAlign">
-                <input type="button" title="" id="save-button" class="btn primary-button app-btn-primary" value=[[[Save]]] />
-                <input type="button" id="cancel-button" title="" class="btn secondary-button app-btn-secondary" value="[[[Cancel]]]" onclick="closeSaveViewPopup()" />
+                <input type="button" title="" id="save-button" class="btn primary-button app-btn-primary" value=@T["Save"] />
+                <input type="button" id="cancel-button" title="" class="btn secondary-button app-btn-secondary" value="@T["Cancel"]" onclick="closeSaveViewPopup()" />
             </div>
         </div>
     </div>

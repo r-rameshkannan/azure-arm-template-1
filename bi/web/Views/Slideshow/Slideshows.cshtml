@@ -3,7 +3,7 @@
 @{
     var globalAppSettings = _globalAppSettings;
 
-    ViewBag.Title = "[[[Slideshow]]] - " + globalAppSettings.SystemSettings.OrganizationName;
+    ViewBag.Title = T["Slideshow"].Value + " - " + globalAppSettings.SystemSettings.OrganizationName;
     var culture = ViewBag.Culture;
     var userId = _identityResponse.User.UserId;
     ViewBag.HelpSiteUrl = GlobalAppSettings.GetHelpSiteUrl(HelpSiteUrlNames.ManageSlideshows);
@@ -41,6 +41,7 @@
                     url: "@Url.Action("GetAllSlideshows", "Slideshow")",
                     adaptor: new ej.UrlAdaptor()
                 });
+                GridLocalization();
                 $("#slideshowGrid")
                     .ejGrid({
                         dataSource: data,
@@ -58,6 +59,7 @@
                             $('[data-toggle="tooltip"]').tooltip();
                             showOrHideGridPager("#slideshowGrid");
                             if (args.model.currentViewData.length === 0) {
+                                this.getContentTable().find("tbody .emptyrecord").html(window.Server.App.Localization.NoSlideShow);
                                 rowBound();
                             }
                         },
@@ -73,7 +75,7 @@
                         columns: [
                             {
                                 field: "Name",
-                                headerText: "[[[Name]]]",
+                                headerText: "@T["Name"]",
                                 templateID: "#slideshow-template",
                                 headerTemplateID: "#item-name-header",
                                 type: "string",
@@ -83,7 +85,7 @@
                             },
                             {
                                 field: "CreatedByDisplayName",
-                                headerText: "[[[Owner]]]",
+                                headerText: "@T["Owner"]",
                                 width: 100,
                                 headerTemplateID: "#owner-column",
                                 allowSorting: true,
@@ -91,7 +93,7 @@
                             },
                             {
                                 field: "CreatedDate",
-                                headerText: "[[[Created Date]]]",
+                                headerText: "@T["Created Date"]",
                                 width: 70,
                                 allowSorting: false,
                                 allowFiltering: false
@@ -123,81 +125,87 @@
             <a class="item-name grid-content" title="{{:Name}}" data-toggle="tooltip" href="{{:~slideshowUrl(Id, Name)}}" target="_blank">{{:Name}}</a>
         </script>
         <script type="text/x-jsrender" id="item-name-header">
-            <div class="item-name">[[[Name]]]</div>
+            <div class="item-name">@T["Name"]</div>
         </script>
         <script type="text/x-jsrender" id="owner-column">
-            <div title="[[[Owner]]]">[[[Owner]]]</div>
+            <div title="@T["Owner"]">@T["Owner"]</div>
         </script>
         <script type="text/x-jsrender" id="options">
-            <div class="dropdown @(schemes != null && !schemes.ContextMenu ? "hide" : string.Empty)">
-                <span class="dropdown-toggle option-icon" title="[[[Actions]]]" data-toggle="dropdown">
+            <div class="dropdown context-menu @(schemes != null && !schemes.ContextMenu ? "hide" : string.Empty)">
+                <span class="dropdown-toggle option-icon" title="@T["Actions"]" data-toggle="dropdown">
                     <span class="su su-options"> </span>
                 </span>
                 <ul class="dropdown-menu" role="menu">
                     <li class="menu-group @(schemes != null && !schemes.Open ? "hide" : string.Empty)">
-                        <a href="{{:~slideshowUrl(Id, Name)}}" title="[[[Open]]]" target="_blank">
+                        <a href="{{:~slideshowUrl(Id, Name)}}" title="@T["Open"]" target="_blank">
                             <i class="su su-open"><i class="su su-open path1"></i></i>
-                            <span class="menu-text">[[[Open]]]</span>
+                            <span class="menu-text">@T["Open"]</span>
                         </a>
                     </li>
                     <li class="menu-group @(schemes != null && !schemes.Info ? "hide" : string.Empty)">
-                        <a href="javascript:void(0);" class="item-info" title="[[[Info]]]">
+                        <a href="javascript:void(0);" class="item-info" title="@T["Info"]">
                             <i class="su su-info"></i>
-                            <span class="menu-text">[[[Info]]]</span>
+                            <span class="menu-text">@T["Info"]</span>
                         </a>
                     </li>
                     <li class="menu-group @(schemes != null && !schemes.GetLink ? "hide" : string.Empty)">
-                        <a href="javascript:void(0);" class="get-slideshow-link option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}" data-url="{{:~slideshowUrl(Id, Name)}}" title="[[[Get Link]]]">
+                        <a href="javascript:void(0);" class="get-slideshow-link option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}" data-url="{{:~slideshowUrl(Id, Name)}}" title="@T["Get Link"]">
                             <i class="su su-link"></i>
-                            <span class="menu-text">[[[Get Link]]]</span>
+                            <span class="menu-text">@T["Get Link"]</span>
                         </a>
                     </li>
                     {{if CanWrite}}
-                    <li title="[[[Edit]]]" class="@(schemes != null && !schemes.Edit ? "hide" : string.Empty)">
-                        <a href="javascript:void(0);" class="edit-slideshow" data-item-id="{{:Id}}" title="[[[Edit]]]">
+                    <li title="@T["Edit"]" class="@(schemes != null && !schemes.Edit ? "hide" : string.Empty)">
+                        <a href="javascript:void(0);" class="edit-slideshow" data-item-id="{{:Id}}" title="@T["Edit"]">
                             <i class="su su-edit"></i>
-                            <span class="menu-text">[[[Edit]]]</span>
+                            <span class="menu-text">@T["Edit"]</span>
                         </a>
                     </li>
                     {{/if}}
                     {{if CreatedById==@(userId) || @(Convert.ToBoolean(Context.Session.GetString("IsAdmin")).ToString().ToLower()) == true || @(granularPermissions[ItemType.Slideshow].ToString().ToLower()) == true}}
                     <li class="menu-group @(schemes != null && !schemes.Share ? "hide" : string.Empty)">
-                        <a href="javascript:void(0);" class="item-permissions" data-item-id="{{:Id}}" title="[[[Sharing Permissions]]]">
+                        <a href="javascript:void(0);" class="item-permissions" data-item-id="{{:Id}}" title="@T["Sharing Permissions"]">
                             <i class="su su-manage-permission"></i>
-                            <span class="menu-text">[[[Sharing Permissions]]]</span>
+                            <span class="menu-text">@T["Sharing Permissions"]</span>
                         </a>
                     </li>
                     {{/if}}
                     {{if CanDelete}}
-                    <li title="[[[Delete]]]" class="@(schemes != null && !schemes.Delete ? "hide" : string.Empty)">
-                        <a href="javascript:void(0);" class="slideshow-delete" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}" title="[[[Delete]]]">
+                    <li title="@T["Delete"]" class="@(schemes != null && !schemes.Delete ? "hide" : string.Empty)">
+                        <a href="javascript:void(0);" class="slideshow-delete" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}" title="@T["Delete"]">
                             <i class="su su-delete"></i>
-                            <span class="menu-text">[[[Delete]]]</span>
+                            <span class="menu-text">@T["Delete"]</span>
                         </a>
                     </li>
                     {{/if}}
                 </ul>
             </div>
         </script>
-        <div id="item-grid-container" data-grid-name="slideshows" class="admin-page-container slideshows-listing">
-            <div class="admin-page-header col-lg-12">
-                <h1 class="page-title col-lg-6 no-margin">
-                    [[[SLIDESHOWS]]]
-                </h1>
-                @if (itemPermissions[ItemType.Slideshow])
-                {
-                    <button type="button" class="create-presentation pull-right primary-button app-btn-primary">[[[Create Slideshow]]]</button>
-                }
-            </div>
-            <div id="slideshows-grid-container" class="col-lg-12 admin-page-body">
-                <div id="search-area" class="pull-right">
-                    <input type="text" id="search-slideshows" class="pull-left no-margin" placeholder="[[[Search Slideshow]]]" />
-                    <span class="su close-icon su-inner-close pull-left no-margin" id="clear-search" title="[[[Clear search]]]"></span>
-                    <span class="su su-search search-slideshows pull-left no-margin" title="[[[Search Slideshow]]]"></span>
+        <div id="item-grid-container" data-grid-name="slideshows" class="bi-page-container slideshows-listing grid-page-container">
+            <div class="bi-page-content col-md-12 no-padding">
+                <div class="bi-page-header col-xs-12">
+                    <div class="bi-page-header-description col-xs-8 no-padding">
+                        <h1 class="h2 page-title">@T["SLIDESHOWS"]</h1>
+                        <h5 class="page-description">@T["Create and manage slideshows to present a collection of dashboards that switch at regular intervals."]</h5>
+                    </div>
+                    <div class="col-xs-4 no-padding bi-header-btn">
+                        @if (itemPermissions[ItemType.Slideshow])
+                        {
+                            <button type="button" class="create-presentation pull-right primary-button app-btn-primary">@T["Create Slideshow"]</button>
+                        }
+                    </div>
                 </div>
-                <div id="slideshowGrid" class="slide-show-grid">
+                <div id="slideshows-grid-container" class="col-xs-12 bi-page-body">
+                    <div id="search-area" class="pull-right">
+                        <input type="text" id="search-slideshows" class="pull-left no-margin" placeholder="@T["Search Slideshow"]" />
+                        <span class="su close-icon su-inner-close pull-left no-margin" id="clear-search" title="@T["Clear search"]"></span>
+                        <span class="su su-search search-slideshows pull-left no-margin" title="@T["Search Slideshow"]"></span>
+                    </div>
+                    <div id="slideshowGrid" class="slide-show-grid">
+                    </div>
                 </div>
             </div>
+            @await Html.PartialAsync("../Shared/_Footer", new ViewDataDictionary(ViewData) { { "appsettings", globalAppSettings } })
         </div>
     }
     else

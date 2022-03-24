@@ -436,10 +436,6 @@
     "inputFile": "wwwroot/Scripts/Administration/Storage.js"
   },
   {
-    "outputFile": "wwwroot/Styles/scss/themes/_light.css",
-    "inputFile": "wwwroot/Styles/scss/themes/_light.scss"
-  },
-  {
     "outputFile": "wwwroot/Styles/scss/pages/Admin/credentials.css",
     "inputFile": "wwwroot/Styles/scss/pages/Admin/credentials.scss"
   },
@@ -494,5 +490,9 @@
   {
     "outputFile": "wwwroot/Styles/scss/pages/PinboardEmbed.css",
     "inputFile": "wwwroot/Styles/scss/pages/PinboardEmbed.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/scss/pages/administration/embed-config.css",
+    "inputFile": "wwwroot/Styles/scss/pages/administration/embed-config.scss"
   }
 ]

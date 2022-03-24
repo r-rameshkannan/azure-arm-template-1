@@ -376,5 +376,17 @@
     "BoldBiUrl": "https://dev.mysql.com/doc/connector-odbc/en/connector-odbc-configuration-connection-parameters.html",
     "RedirectOnPremiseId": 10004,
     "RedirectCloudId": ""
+  },
+  {
+    "UrlName": "UnlistedDashboards",
+    "BoldBiUrl": "/embedded-bi/managing-resources/manage-dashboards/unlisted-dashboards/",
+    "RedirectOnPremiseId": "79",
+    "RedirectCloudId": "2053"
+  },
+  {
+    "UrlName": "EmbedConfig",
+    "BoldBiUrl": "/boldbi/samples/SDK Samples/C#/ASP.NET Core",
+    "RedirectOnPremiseId": 80,
+    "RedirectCloudId": 2052
   }
 ] 

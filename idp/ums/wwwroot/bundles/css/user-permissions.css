@@ -128,29 +128,36 @@
     text-align: center !important; } }
 
 .e-grid:not(.item-grid) {
-  border-color: #eeeeee; }
+  border-color: #e6e6e6; }
   .e-grid:not(.item-grid) .e-gridheader {
-    background: var(--surface);
-    border-color: #eeeeee; }
+    background: var(--background);
+    color: var(--colorText);
+    border-bottom-color: #e6e6e6;
+    border-top-color: #e6e6e6; }
     .e-grid:not(.item-grid) .e-gridheader .e-headercell {
       padding-left: 15px;
+      padding-right: 15px;
       padding-top: 5px;
-      background: var(--surface); }
+      background: var(--background); }
       .e-grid:not(.item-grid) .e-gridheader .e-headercell .e-headercelldiv, .e-grid:not(.item-grid) .e-gridheader .e-headercell .e-headercelldiv * {
         color: var(--colorText);
-        font-size: 12px;
+        font-size: 13px;
+        letter-spacing: 0.3px;
+        font-weight: 600;
         overflow: hidden;
         text-overflow: ellipsis; }
   .e-grid:not(.item-grid) .e-gridcontent {
-    background: var(--surface);
+    background: #fff;
     color: var(--colorText);
     font-size: 12px; }
     .e-grid:not(.item-grid) .e-gridcontent tr {
-      height: 35px; }
+      height: 40px; }
       .e-grid:not(.item-grid) .e-gridcontent tr.e-hover td {
-        background: #eeeeee; }
+        background: #eeeeee;
+        color: var(--colorText); }
       .e-grid:not(.item-grid) .e-gridcontent tr td {
-        padding-left: 15px; }
+        padding-left: 15px;
+        font-size: 13px; }
         .e-grid:not(.item-grid) .e-gridcontent tr td.e-rowcell {
           padding-left: 15px;
           overflow: hidden;
@@ -177,12 +184,13 @@
           overflow: hidden;
           text-overflow: ellipsis; }
         .e-grid:not(.item-grid) .e-gridcontent tr td .option-icon {
-          border: 1px solid var(--surface);
           border-radius: 5px;
+          border: none;
           cursor: pointer;
           padding: 4px 2px;
           position: absolute;
-          top: -12px !important; }
+          top: -12px !important;
+          left: 5px; }
         .e-grid:not(.item-grid) .e-gridcontent tr td .grid-directory-icon {
           padding: 0 0 0 15px;
           color: #808080;
@@ -193,15 +201,13 @@
           padding: 10px; }
         .e-grid:not(.item-grid) .e-gridcontent tr td.e-active {
           background: #dbe9ff;
-          color: #333 !important; }
+          color: var(--colorText); }
           .e-grid:not(.item-grid) .e-gridcontent tr td.e-active a {
             color: var(--colorPrimary); }
           .e-grid:not(.item-grid) .e-gridcontent tr td.e-active .grid-directory-icon {
-            color: #333 !important; }
-          .e-grid:not(.item-grid) .e-gridcontent tr td.e-active .dropdown .dropdown-menu {
-            background: var(--surface); }
-          .e-grid:not(.item-grid) .e-gridcontent tr td.e-active .dropdown .option-icon {
-            border: 1px solid #333 !important; }
+            color: var(--colorText); }
+          .e-grid:not(.item-grid) .e-gridcontent tr td.e-active .dropdown.open .option-icon, .e-grid:not(.item-grid) .e-gridcontent tr td.e-active .dropup.open .option-icon {
+            border: 1px solid #333; }
     .e-grid:not(.item-grid) .e-gridcontent tr a.delete-user, .e-grid:not(.item-grid) .e-gridcontent tr .delete-permission, .e-grid:not(.item-grid) .e-gridcontent tr .delete-group-permission, .e-grid:not(.item-grid) .e-gridcontent tr .permission-delete {
       display: none !important; }
     .e-grid:not(.item-grid) .e-gridcontent tr.e-hover a.delete-user, .e-grid:not(.item-grid) .e-gridcontent tr.e-hover .delete-permission, .e-grid:not(.item-grid) .e-gridcontent tr.e-hover .delete-group-permission, .e-grid:not(.item-grid) .e-gridcontent tr.e-hover .permission-delete {
@@ -213,48 +219,60 @@
       .e-grid:not(.item-grid) .e-gridcontent tr.e-hover a.delete-user .su-close, .e-grid:not(.item-grid) .e-gridcontent tr.e-hover .delete-permission .su-close, .e-grid:not(.item-grid) .e-gridcontent tr.e-hover .delete-group-permission .su-close, .e-grid:not(.item-grid) .e-gridcontent tr.e-hover .permission-delete .su-close {
         color: var(--danger);
         font-size: 10px; }
+    .e-grid:not(.item-grid) .e-gridcontent .dropdown {
+      position: absolute;
+      right: 35px; }
+      .e-grid:not(.item-grid) .e-gridcontent .dropdown .dropdown-menu {
+        left: -172px;
+        width: 190px; }
   .e-grid:not(.item-grid) .e-pager {
-    background: var(--surface);
-    border-color: #eeeeee;
+    background: var(--background);
+    border-color: #e6e6e6;
     color: var(--colorPrimary);
-    display: table;
-    height: 40px; }
+    display: block;
+    height: 45px;
+    padding: 0px; }
     .e-grid:not(.item-grid) .e-pager .e-pagercontainer, .e-grid:not(.item-grid) .e-pager .e-parentmsgbar {
       display: table-cell;
-      vertical-align: middle; }
+      vertical-align: middle;
+      padding: 14px 12px 14px 20px; }
     .e-grid:not(.item-grid) .e-pager .e-pagercontainer {
-      background: var(--surface);
-      border: none; }
+      background: var(--background);
+      border: none;
+      height: 17px; }
       .e-grid:not(.item-grid) .e-pager .e-pagercontainer .e-icon, .e-grid:not(.item-grid) .e-pager .e-pagercontainer .e-link {
         background: transparent;
         border: none;
         float: left;
-        font-size: 12px; }
+        font-size: 12px;
+        padding: 0px; }
       .e-grid:not(.item-grid) .e-pager .e-pagercontainer .e-icon {
         font-family: "Server" !important;
         font-size: 17px;
-        margin-top: -4px; }
+        margin-top: -4px;
+        color: #4d4d4d; }
+        .e-grid:not(.item-grid) .e-pager .e-pagercontainer .e-icon:hover {
+          color: #1a1a1a; }
       .e-grid:not(.item-grid) .e-pager .e-pagercontainer .e-mediaback:before {
-        content: ""; }
+        content: ""; }
       .e-grid:not(.item-grid) .e-pager .e-pagercontainer .e-mediaforward:before {
-        content: ""; }
+        content: ""; }
       .e-grid:not(.item-grid) .e-pager .e-pagercontainer .e-arrowheadleft-2x:before {
-        content: ""; }
+        content: ""; }
       .e-grid:not(.item-grid) .e-pager .e-pagercontainer .e-arrowheadright-2x:before {
-        content: ""; }
+        content: ""; }
       .e-grid:not(.item-grid) .e-pager .e-pagercontainer .e-numericcontainer {
         float: left;
-        margin-top: 2px; }
+        margin-top: 0px; }
         .e-grid:not(.item-grid) .e-pager .e-pagercontainer .e-numericcontainer .e-link {
           background: transparent;
           color: var(--colorPrimary); }
         .e-grid:not(.item-grid) .e-pager .e-pagercontainer .e-numericcontainer .e-currentitem {
-          color: #808080; }
+          color: var(--colorText); }
     .e-grid:not(.item-grid) .e-pager .e-parentmsgbar {
-      color: #808080;
+      color: var(--colorText);
       font-size: 12px;
-      float: none;
-      padding-top: 0; }
+      float: none; }
   .e-grid:not(.item-grid) .e-dialog-wrap[id$='_stringDlg_wrapper'] {
     border-radius: 4px; }
     .e-grid:not(.item-grid) .e-dialog-wrap[id$='_stringDlg_wrapper'] .e-dlgcontainer {
@@ -290,8 +308,9 @@
           background: #007aff;
           color: var(--colorOnPrimary); }
         .e-grid:not(.item-grid) .e-dialog-wrap[id$='_stringDlg_wrapper'] .e-dlgcontainer .e-dlgBtns .e-filter:disabled {
-          background: #f9f9f9;
-          color: #808080; }
+          background: #eeeeee;
+          border: 1px solid #cccccc;
+          color: #999999; }
       .e-grid:not(.item-grid) .e-dialog-wrap[id$='_stringDlg_wrapper'] .e-dlgcontainer .e-dlgBtns .e-clear {
         background: var(--colorSecondary);
         border: 0;
@@ -314,8 +333,9 @@
           background: #f9f9f9;
           color: var(--colorOnSecondary); }
         .e-grid:not(.item-grid) .e-dialog-wrap[id$='_stringDlg_wrapper'] .e-dlgcontainer .e-dlgBtns .e-clear:disabled {
-          background: #f9f9f9;
-          color: #808080; }
+          background: #eeeeee;
+          border: 1px solid #cccccc;
+          color: #999999; }
   .e-grid:not(.item-grid) .e-excelfilter .e-menu-wrap .e-menu li:hover, .e-grid:not(.item-grid) .e-excelfilter .e-menu-wrap .e-menu li.e-mhover {
     background: #eeeeee; }
     .e-grid:not(.item-grid) .e-excelfilter .e-menu-wrap .e-menu li:hover .e-menulink, .e-grid:not(.item-grid) .e-excelfilter .e-menu-wrap .e-menu li.e-mhover .e-menulink {
@@ -352,8 +372,9 @@
         background: #007aff;
         color: var(--colorOnPrimary); }
       .e-grid:not(.item-grid) .e-excelfilter .e-btncontainer input[id$='_OkBtn']:disabled {
-        background: #f9f9f9;
-        color: #808080; }
+        background: #eeeeee;
+        border: 1px solid #cccccc;
+        color: #999999; }
     .e-grid:not(.item-grid) .e-excelfilter .e-btncontainer input[id$='_CancelBtn'] {
       background: var(--colorSecondary);
       border: 0;
@@ -375,8 +396,9 @@
         background: #f9f9f9;
         color: var(--colorOnSecondary); }
       .e-grid:not(.item-grid) .e-excelfilter .e-btncontainer input[id$='_CancelBtn']:disabled {
-        background: #f9f9f9;
-        color: #808080; }
+        background: #eeeeee;
+        border: 1px solid #cccccc;
+        color: #999999; }
 
 .items-mobile-grid {
   padding: 10px; }

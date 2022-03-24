@@ -32,6 +32,7 @@
 <DB_TableName>BOLDBI_GroupPermission</DB_TableName>
 <DB_TableName>BOLDBI_DashboardWidget</DB_TableName>
 <DB_TableName>BOLDBI_DataNotification</DB_TableName>
+<DB_TableName>BOLDBI_EmailActivityLog</DB_TableName>
 <DB_TableName>BOLDBI_Comment</DB_TableName>
 <DB_TableName>BOLDBI_DeploymentDashboards</DB_TableName>
 <DB_TableName>BOLDBI_CustomExpression</DB_TableName>

@@ -25,7 +25,7 @@
                     <a href="@url/{{:ItemTypeString}}/{{:Name}}" title="">
                         <i class="su su-download"></i>
                         <span>
-                            [[[Download]]]
+                            @T["Download"]
                         </span>
                     </a>
                 </li>
@@ -42,15 +42,15 @@
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td class="card-header">[[[Name]]]:</td>
+                        <td class="card-header">@T["Name"]:</td>
                         <td class="card-field"> {{:Name}}</td>
                     </tr>
                     <tr>
-                        <td class="card-header">[[[Description]]]:</td>
+                        <td class="card-header">@T["Description"]:</td>
                         <td class="card-field"> {{:Description}}</td>
                     </tr>
                     <tr>
-                        <td class="card-header">[[[Owner]]]:</td>
+                        <td class="card-header">@T["Owner"]:</td>
                         <td class="card-field"> {{:CreatedByDisplayName}}</td>
                     </tr>
                 </tbody>
@@ -78,14 +78,14 @@
 </script>
 
 <script id="expand-temp" type="text/x-jsrender">
-    <a class="expand-collapse" data-value="expand-all" title="[[[Expand All]]]">[[[Expand All]]]</a>
+    <a class="expand-collapse" data-value="expand-all" title="@T["Expand All"]">@T["Expand All"]</a>
 </script>
 
 <script id="search-temp" type="text/x-jsrender">
-    <div id="search-area" title="[[[Search]]]" class="pull-right no-margin">
-        <input id="search-items" class="pull-left no-margin" placeholder="[[[Search data sources]]]" style="display: none;" autocomplete="off" type="text">
-        <span class="su close-icon su-inner-close pull-left no-margin clear-search" id="clear-search" title="[[[Clear search]]]"></span>
-        <span class="su su-search search-item pull-left no-margin remove-background" title="[[[Search data sources]]]"></span>
+    <div id="search-area" title="@T["Search"]" class="pull-right no-margin">
+        <input id="search-items" class="pull-left no-margin" placeholder="@T["Search data sources"]" style="display: none;" autocomplete="off" type="text">
+        <span class="su close-icon su-inner-close pull-left no-margin clear-search" id="clear-search" title="@T["Clear search"]"></span>
+        <span class="su su-search search-item pull-left no-margin remove-background" title="@T["Search data sources"]"></span>
     </div>
 </script>
 

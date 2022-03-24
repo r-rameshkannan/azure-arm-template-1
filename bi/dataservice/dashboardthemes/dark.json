@@ -516,6 +516,43 @@
         "checkedBorder": "#0450cc"
       }
     },
+	"textfilter": {
+      "widgetHeader": {
+        "title": {
+          "fontSettings": {
+            "autoFontSettings": true,
+            "fontSize": "",
+            "fontWeight": "",
+            "fontFamily": "",
+            "fontSrc": ""
+          }
+        },
+        "subTitle": {
+          "fontSettings": {
+            "autoFontSettings": true,
+            "fontSize": "",
+            "fontWeight": "",
+            "fontFamily": "",
+            "fontSrc": ""
+          }
+        }
+      },
+      "placeHolderTextColor": "#e5ebf8",
+      "borderColor": "#a7b2c7",
+      "boxShadow": "#0000001a",
+	  "background": "",
+	  "font": {
+          "color": "#e5ebf8",
+          "fontSettings": {
+            "autoFontSettings": true,
+            "fontSize": "",
+            "fontWeight": "",
+            "fontFamily": "",
+            "fontSrc": ""
+			}
+		},  
+    },
+	
     "dategroup": {
       "widgetHeader": {
         "title": {
@@ -1644,7 +1681,17 @@
       },
       "markerColor": "#212634"
     },
-	"scatter": {
+    "rte": {
+      "content": {
+        "fontSettings": {
+          "autoFontSettings": true,
+          "fontWeight": "",
+          "fontFamily": "",
+          "fontSrc": ""
+        }
+       }
+    },
+    "scatter": {
       "widgetHeader": {
         "title": {
           "fontSettings": {

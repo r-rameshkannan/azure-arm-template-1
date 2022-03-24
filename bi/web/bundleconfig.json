@@ -9,12 +9,14 @@
       "wwwroot/Styles/Fonts/font-Server.css",
       "wwwroot/Styles/scss/global.css",
       "wwwroot/Styles/scss/pages/NewMaster.css",
+      "wwwroot/Styles/scss/pages/Layout.css",
       "wwwroot/Styles/scss/pages/general/navigation.css",
       "wwwroot/Styles/scss/pages/Dialogs.css",
       "wwwroot/Styles/scss/pages/Accounts/footer.css",
       "wwwroot/Styles/scss/pages/notification/notification-banner.css",
       "wwwroot/Styles/scss/pages/notification/user-notification.css",
-      "wwwroot/Styles/scss/pages/Components/Toast.css"
+      "wwwroot/Styles/scss/pages/Components/Toast.css",
+      "wwwroot/Styles/scss/pages/general/create-item-menu.css"
     ]
   },
   {
@@ -103,7 +105,7 @@
     "inputFiles": [
       "wwwroot/Styles/EssentialJS/ej.theme.min.css",
       "wwwroot/Styles/EssentialJS/ej.widgets.core.min.css",
-      "wwwroot/Styles/Bootstrap/bootstrap.min.css",      
+      "wwwroot/Styles/Bootstrap/bootstrap.min.css",
       "wwwroot/Styles/Fonts/font-Server.css",
       "wwwroot/Styles/scss/pages/NewMaster.css"
     ]
@@ -112,7 +114,7 @@
     "outputFileName": "wwwroot/cdn/css/scheduleiframe.css",
     "inputFiles": [
       "wwwroot/Styles/Bootstrap/custom-bootstrap.css",
-      "wwwroot/Styles/Bootstrap/bootstrap-select.css",      
+      "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/Fonts/font-Server.css",
       "wwwroot/Styles/scss/pages/NewMaster.css"
     ]
@@ -150,7 +152,7 @@
     "outputFileName": "wwwroot/cdn/css/add-datasource.css",
     "inputFiles": [
       "wwwroot/Styles/Bootstrap/bootstrap.min.css",
-      "wwwroot/Styles/Bootstrap/bootstrap-select.css",      
+      "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/Fonts/font-Server.css",
       "wwwroot/Styles/scss/pages/NewMaster.css",
       "wwwroot/Styles/scss/pages/DataSource.css"
@@ -160,7 +162,7 @@
     "outputFileName": "wwwroot/cdn/css/update-datasource.css",
     "inputFiles": [
       "wwwroot/Styles/Bootstrap/bootstrap.min.css",
-      "wwwroot/Styles/Bootstrap/bootstrap-select.css",      
+      "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/Fonts/font-Server.css",
       "wwwroot/Styles/scss/pages/NewMaster.css",
       "wwwroot/Styles/scss/pages/UpdateDataSource.css"
@@ -253,6 +255,40 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/cdn/scripts/view-linked-dashboards.js",
+    "inputFiles": [
+      "wwwroot/Scripts/jQuery/jquery.easing-1.3.min.js",
+      "wwwroot/Scripts/jQuery/jquery.globalize.min.js",
+      "wwwroot/Scripts/jQuery/jsrender.min.js",
+      "wwwroot/Scripts/EssentialJS/common/ej.core.min.js",
+      "wwwroot/Scripts/EssentialJS/common/ej.data.min.js",
+      "wwwroot/Scripts/EssentialJS/common/ej.draggable.min.js",
+      "wwwroot/Scripts/EssentialJS/common/ej.globalize.min.js",
+      "wwwroot/Scripts/EssentialJS/common/ej.scroller.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.grid.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.pager.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.waitingpopup.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.radiobutton.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.dropdownlist.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.dialog.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.button.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.autocomplete.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.checkbox.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.datepicker.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.datetimepicker.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.editor.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.toolbar.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.menu.min.js",
+      "wwwrootScripts/EssentialJS/ej.tooltip.min.js",
+      "wwwroot/Scripts/Bootstrap/bootstrap.min.js",
+      "wwwroot/Scripts/Bootstrap/bootstrap-select.min.js",
+      "wwwroot/Scripts/DataSourceDesigner/ConnectionDialog.js",
+      "wwwroot/Scripts/DataSourceDesigner/MergeDataSourceDialog.js",
+      "wwwroot/Scripts/DataSource/ViewLinkedDashboards.js",
+      "wwwroot/Scripts/Items/items.info.js"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/cdn/scripts/edit-datasource.js",
     "inputFiles": [
       "wwwroot/Scripts/jQuery/jquery-1.10.2.min.js",
@@ -283,7 +319,7 @@
     "outputFileName": "wwwroot/cdn/css/add-widget.css",
     "inputFiles": [
       "wwwroot/Styles/Bootstrap/bootstrap.min.css",
-      "wwwroot/Styles/Bootstrap/bootstrap-select.css",      
+      "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/Fonts/font-server.css",
       "wwwroot/Styles/scss/pages/NewMaster.css",
       "wwwroot/Styles/scss/pages/Dialogs.css",
@@ -431,7 +467,7 @@
     "outputFileName": "wwwroot/cdn/css/add-files.css",
     "inputFiles": [
       "wwwroot/Styles/Bootstrap/bootstrap.min.css",
-      "wwwroot/Styles/Bootstrap/bootstrap-select.css",      
+      "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/Fonts/font-Server.css",
       "wwwroot/Styles/scss/pages/NewMaster.css",
       "wwwroot/Styles/scss/pages/Dialogs.css",
@@ -443,7 +479,7 @@
     "outputFileName": "wwwroot/cdn/css/edit-files.css",
     "inputFiles": [
       "wwwroot/Styles/Bootstrap/bootstrap.min.css",
-      "wwwroot/Styles/Bootstrap/bootstrap-select.css",      
+      "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/Fonts/font-Server.css",
       "wwwroot/Styles/scss/pages/NewMaster.css",
       "wwwroot/Styles/scss/pages/Dialogs.css",
@@ -521,7 +557,7 @@
   {
     "outputFileName": "wwwroot/cdn/css/edit-category.css",
     "inputFiles": [
-      "wwwroot/Styles/Bootstrap/bootstrap.min.css",     
+      "wwwroot/Styles/Bootstrap/bootstrap.min.css",
       "wwwroot/Styles/Fonts/font-server.css",
       "wwwroot/Styles/scss/pages/NewMaster.css",
       "wwwroot/Styles/scss/pages/CategoryDialog.css",
@@ -625,7 +661,7 @@
     "outputFileName": "wwwroot/cdn/css/add-dashboards.css",
     "inputFiles": [
       "wwwroot/Styles/Bootstrap/bootstrap.min.css",
-      "wwwroot/Styles/Bootstrap/bootstrap-select.css",      
+      "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/Fonts/font-server.css",
       "wwwroot/Styles/scss/pages/NewMaster.css",
       "wwwroot/Styles/scss/pages/Items.css",
@@ -648,7 +684,7 @@
     "outputFileName": "wwwroot/cdn/css/edit-dashboards.css",
     "inputFiles": [
       "wwwroot/Styles/Bootstrap/bootstrap.min.css",
-      "wwwroot/Styles/Bootstrap/bootstrap-select.css",      
+      "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/Fonts/font-server.css",
       "wwwroot/Styles/scss/pages/NewMaster.css",
       "wwwroot/Styles/scss/pages/Items.css",
@@ -751,7 +787,6 @@
       "wwwroot/Scripts/Bootstrap/bootstrap.min.js",
       "wwwroot/Scripts/Bootstrap/bootstrap-select.min.js",
       "wwwroot/Scripts/AngularJS/ej.widget.angular.min.js",
-      "wwwroot/Scripts/Permission/Permission.js",
       "wwwroot/Scripts/EssentialJS/ej.tooltip.min.js",
       "wwwroot/Scripts/EssentialJS/ej.uploadbox.min.js"
     ]
@@ -769,7 +804,8 @@
       "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/scss/pages/Permission.css",
       "wwwroot/Styles/scss/pages/Newmaster.css",
-      "wwwroot/Styles/scss/pages/Components/Buttons.css"
+      "wwwroot/Styles/scss/pages/Components/Buttons.css",
+      "wwwroot/Styles/scss/pages/Components/Radiobutton.css"
     ]
   },
   {
@@ -794,7 +830,8 @@
       "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/scss/pages/Permission.css",
       "wwwroot/Styles/scss/pages/Newmaster.css",
-      "wwwroot/Styles/scss/pages/Components/Buttons.css"
+      "wwwroot/Styles/scss/pages/Components/Buttons.css",
+      "wwwroot/Styles/scss/pages/Components/Radiobutton.css"
 
     ]
   },
@@ -810,9 +847,9 @@
       "wwwroot/Scripts/EssentialJS/ej.waitingpopup.min.js",
       "wwwroot/Scripts/Bootstrap/bootstrap-select.min.js",
       "wwwroot/Scripts/AngularJS/ej.widget.angular.min.js",
-      "wwwroot/Scripts/Permission/GroupPermission.js",
       "wwwroot/Scripts/EssentialJS/ej.tooltip.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.uploadbox.min.js"
+      "wwwroot/Scripts/EssentialJS/ej.uploadbox.min.js",
+      "wwwroot/Scripts/Permission/Permission.js"
     ]
   },
   {
@@ -851,8 +888,7 @@
       "wwwroot/Scripts/EssentialJS/ej.menu.min.js",
       "wwwroot/Scripts/Bootstrap/bootstrap.min.js",
       "wwwroot/Scripts/Bootstrap/bootstrap-select.min.js",
-      "wwwroot/Scripts/AngularJS/ej.widget.angular.min.js",
-      "wwwroot/Scripts/Permission/GroupPermission.js"
+      "wwwroot/Scripts/AngularJS/ej.widget.angular.min.js"
     ]
   },
   {
@@ -1000,7 +1036,8 @@
       "wwwroot/Styles/scss/pages/Grid.css",
       "wwwroot/Styles/scss/pages/UserList.css",
       "wwwroot/Styles/scss/pages/LimitUserCreation.css",
-      "wwwroot/Styles/scss/pages/ActiveDirectoryUserImport.css"
+      "wwwroot/Styles/scss/pages/ActiveDirectoryUserImport.css",
+      "wwwroot/Styles/scss/pages/SynchronizationDialog.css"
     ]
   },
   {
@@ -1040,7 +1077,8 @@
       "wwwroot/Styles/scss/pages/Components/PageWrapper.css",
       "wwwroot/Styles/scss/pages/Grid.css",
       "wwwroot/Styles/scss/pages/LimitUserCreation.css",
-      "wwwroot/Styles/scss/pages/ActiveDirectory.css"
+      "wwwroot/Styles/scss/pages/ActiveDirectory.css",
+      "wwwroot/Styles/scss/pages/SynchronizationDialog.css"
     ]
   },
   {
@@ -1080,7 +1118,8 @@
       "wwwroot/Styles/scss/pages/Components/PageWrapper.css",
       "wwwroot/Styles/scss/pages/Grid.css",
       "wwwroot/Styles/scss/pages/LimitUserCreation.css",
-      "wwwroot/Styles/scss/pages/AuthenticationGroupImport.css"
+      "wwwroot/Styles/scss/pages/AuthenticationGroupImport.css",
+      "wwwroot/Styles/scss/pages/SynchronizationDialog.css"
     ]
   },
   {
@@ -1167,7 +1206,8 @@
       "wwwroot/Styles/scss/pages/Components/PageWrapper.css",
       "wwwroot/Styles/scss/pages/Grid.css",
       "wwwroot/Styles/scss/pages/LimitUserCreation.css",
-      "wwwroot/Styles/scss/pages/UserImportDatabase.css"
+      "wwwroot/Styles/scss/pages/UserImportDatabase.css",
+      "wwwroot/Styles/scss/pages/SynchronizationDialog.css"
     ]
   },
   {
@@ -1209,7 +1249,8 @@
       "wwwroot/Styles/scss/pages/Components/PageWrapper.css",
       "wwwroot/Styles/scss/pages/UsersGroupsSync.css",
       "wwwroot/Styles/scss/pages/LimitUserCreation.css",
-      "wwwroot/Styles/scss/pages/Grid.css"
+      "wwwroot/Styles/scss/pages/Grid.css",
+      "wwwroot/Styles/scss/pages/SynchronizationDialog.css"
     ]
   },
   {
@@ -1219,7 +1260,8 @@
       "wwwroot/Styles/scss/pages/Components/PageWrapper.css",
       "wwwroot/Styles/scss/pages/ImportDatabaseUserSync.css",
       "wwwroot/Styles/scss/pages/LimitUserCreation.css",
-      "wwwroot/Styles/scss/pages/Grid.css"
+      "wwwroot/Styles/scss/pages/Grid.css",
+      "wwwroot/Styles/scss/pages/SynchronizationDialog.css"
     ]
   },
   {
@@ -1442,8 +1484,10 @@
       "wwwroot/Styles/scss/pages/Components/Switch.css",
       "wwwroot/Styles/scss/pages/Components/PageWrapper.css",
       "wwwroot/Styles/scss/pages/Admin/SystemSettings.css",
+      "wwwroot/Styles/scss/pages/Admin/send-test-mail.css",
       "wwwroot/Styles/scss/pages/Components/RadioButton.css",
-      "wwwroot/Styles/Editor/easymde.min.css"
+      "wwwroot/Styles/Editor/easymde.min.css",
+      "wwwroot/Styles/scss/pages/Grid.css"
     ]
   },
   {
@@ -1466,6 +1510,7 @@
       "wwwroot/Scripts/EssentialJS/ej.checkbox.min.js",
       "wwwroot/Scripts/EssentialJS/ej.datepicker.min.js",
       "wwwroot/Scripts/EssentialJS/ej.datetimepicker.min.js",
+      "wwwroot/Scripts/EssentialJS/ej.daterangepicker.min.js",
       "wwwroot/Scripts/EssentialJS/ej.editor.min.js",
       "wwwroot/Scripts/EssentialJS/ej.toolbar.min.js",
       "wwwroot/Scripts/EssentialJS/ej.menu.min.js",
@@ -1478,7 +1523,14 @@
       "wwwroot/Scripts/User/UserImportDatabase.js",
       "wwwroot/Scripts/Editor/easymde.min.js",
       "wwwroot/Scripts/EssentialJS/ej.tooltip.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.uploadbox.min.js"
+      "wwwroot/Scripts/EssentialJS/ej.uploadbox.min.js",
+      "wwwroot/scripts/administration/send-test-mail.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/cdn/scripts/emailActivityLog.js",
+    "inputFiles": [
+      "wwwroot/Scripts/Administration/EmailActivityLog.js"
     ]
   },
   {
@@ -1784,7 +1836,12 @@
       "wwwroot/Scripts/AngularJS/ej.widget.angular.min.js",
       "wwwroot/Scripts/jQuery/jquery.validate.min.js",
       "wwwroot/Scripts/Group/EditGroup.js",
-      "wwwroot/Scripts/CustomAttribute/custom-attribute.js"
+      "wwwroot/Scripts/CustomAttribute/custom-attribute.js",
+      "wwwroot/Scripts/Items/items.share-permission.js",
+      "wwwroot/Scripts/Password/PasswordPolicy.js",
+      "wwwroot/Scripts/Password/ShowHidePassword.js",
+      "wwwroot/Scripts/User/AddUser.js"
+
     ]
   },
   {
@@ -1793,43 +1850,6 @@
       "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/scss/pages/Grid.css",
       "wwwroot/Styles/scss/pages/GroupManagement.css"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/cdn/scripts/editgroup.js",
-    "inputFiles": [
-      "wwwroot/Scripts/Bootstrap/bootstrap.min.js",
-      "wwwroot/Scripts/Bootstrap/bootstrap-select.min.js",
-      "wwwroot/Scripts/AngularJS/ej.widget.angular.min.js",
-      "wwwroot/Scripts/jQuery/jquery.validate.min.js",
-      "wwwroot/Scripts/Items/items.share-permission.js",
-      "wwwroot/Scripts/Group/EditGroup.js",
-      "wwwroot/Scripts/EssentialJS/common/ej.core.min.js",
-      "wwwroot/Scripts/EssentialJS/common/ej.draggable.min.js",
-      "wwwroot/Scripts/EssentialJS/common/ej.globalize.min.js",
-      "wwwroot/Scripts/EssentialJS/common/ej.scroller.min.js",
-      "wwwroot/Scripts/EssentialJS/common/ej.globalize.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.dialog.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.button.min.js",
-      "wwwroot/Scripts/jQuery/jquery.easing-1.3.min.js",
-      "wwwroot/Scripts/jQuery/jquery.globalize.min.js",
-      "wwwroot/Scripts/jQuery/jsrender.min.js",
-      "wwwroot/Scripts/EssentialJS/common/ej.data.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.grid.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.pager.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.waitingpopup.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.radiobutton.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.dropdownlist.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.autocomplete.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.checkbox.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.datepicker.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.datetimepicker.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.editor.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.toolbar.min.js",
-      "wwwroot/Scripts/EssentialJS/ej.menu.min.js",
-      "wwwroot/Scripts/Password/PasswordPolicy.js",
-      "wwwroot/Scripts/Password/ShowHidePassword.js",
-      "wwwroot/Scripts/User/AddUser.js"
     ]
   },
   {
@@ -2024,7 +2044,7 @@
   },
   {
     "outputFileName": "wwwroot/cdn/css/customexpressioneditor.css",
-    "inputFiles": [     
+    "inputFiles": [
       "wwwroot/Styles/Fonts/font-server.css",
       "wwwroot/Styles/Bootstrap/bootstrap.min.css",
       "wwwroot/Styles/Bootstrap/bootstrap-select.css",
@@ -2267,7 +2287,7 @@
       "wwwroot/Styles/Bootstrap/bootstrap.min.css",
       "wwwroot/Styles/Fonts/font-server.css",
       "wwwroot/Styles/scss/pages/NewMaster.css",
-      "wwwroot/Styles/scss/pages/HomepageAddItem.css",      
+      "wwwroot/Styles/scss/pages/HomepageAddItem.css",
       "wwwroot/Styles/EssentialJS/ej.widgets.core.min.css"
     ]
   },
@@ -2351,7 +2371,7 @@
     "outputFileName": "wwwroot/cdn/css/create-datasource.css",
     "inputFiles": [
       "wwwroot/Styles/Bootstrap/bootstrap.min.css",
-      "wwwroot/Styles/Bootstrap/bootstrap-select.css",      
+      "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/Fonts/font-server.css",
       "wwwroot/Styles/scss/pages/NewMaster.css"
     ]
@@ -2403,15 +2423,15 @@
       "wwwroot/Scripts/Bootstrap/custom-bootstrap.min.js",
       "wwwroot/Scripts/jQuery/jquery.signalR-2.1.2.min.js",
       "wwwroot/Scripts/Dashboards/DesignerNotification.js",
-      "wwwroot/Scripts/Dashboards/DashboardDesigner.js",
-      "wwwroot/Scripts/Core/Server.Common.js"
+      "wwwroot/Scripts/Core/Server.Common.js",
+      "wwwroot/Scripts/Dashboards/DashboardDesigner.js"
     ]
   },
   {
     "outputFileName": "wwwroot/cdn/css/multi-tabbed-dashboard.css",
     "inputFiles": [
       "wwwroot/Styles/EssentialJS2/fusion-theme-compatability/ej.theme.css",
-      "wwwroot/Styles/Fonts/font-server.css",      
+      "wwwroot/Styles/Fonts/font-server.css",
       "wwwroot/Styles/scss/pages/multi-tabbed-dashboard/multi-tabbed-dashboard.css"
     ]
   },
@@ -2571,7 +2591,7 @@
     "inputFiles": [
       "wwwroot/Styles/EssentialJS/ej.theme.min.css",
       "wwwroot/Styles/EssentialJS/ej.widgets.core.min.css",
-      "wwwroot/Styles/Fonts/font-Server.css",      
+      "wwwroot/Styles/Fonts/font-Server.css",
       "wwwroot/Styles/scss/pages/Slideshow/SlideshowPreview.css"
     ]
   },
@@ -2804,7 +2824,14 @@
   {
     "outputFileName": "wwwroot/cdn/scripts/create-item-menu.js",
     "inputFiles": [
-      "wwwroot/Scripts/Items/CreateItemMenu.js"
+      "wwwroot/Scripts/Items/CreateItemMenu.js",
+      "wwwroot/Scripts/Items/DraftItem.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/cdn/scripts/draft-item.js",
+    "inputFiles": [
+      "wwwroot/Scripts/Items/DraftItem.js"
     ]
   },
   {
@@ -2889,7 +2916,7 @@
   },
   {
     "outputFileName": "wwwroot/cdn/css/embed-login.css",
-    "inputFiles": [     
+    "inputFiles": [
       "wwwroot/Styles/scss/pages/LoaderBlue.css",
       "wwwroot/Styles/scss/pages/EmbedLogin.css"
     ]
@@ -2915,7 +2942,8 @@
   {
     "outputFileName": "wwwroot/cdn/css/default-pages.css",
     "inputFiles": [
-      "wwwroot/Styles/scss/pages/default/default.css"
+      "wwwroot/Styles/scss/pages/default/default.css",
+      "wwwroot/Styles/scss/pages/Components/Buttons.css"
     ]
   },
   {
@@ -2974,7 +3002,8 @@
     "outputFileName": "wwwroot/cdn/css/publish-dashboard.css",
     "inputFiles": [
       "wwwroot/Styles/scss/pages/publishdashboard/publish-dashboard.css",
-      "wwwroot/Styles/scss/pages/publishdashboard/external-sites.css"
+      "wwwroot/Styles/scss/pages/publishdashboard/external-sites.css",
+      "wwwroot/Styles/scss/pages/Components/RadioButton.css"
     ]
   },
   {
@@ -3093,6 +3122,12 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/cdn/css/theme/dark.css",
+    "inputFiles": [
+      "wwwroot/Styles/scss/apptheme/darktheme.css"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/cdn/css/privacysettings.css",
     "inputFiles": [
       "wwwroot/Styles/scss/pages/PrivacySettings.css",
@@ -3111,6 +3146,27 @@
       "wwwroot/Styles/Bootstrap/bootstrap.min.css",
       "wwwroot/Styles/Bootstrap/bootstrap-select.css",
       "wwwroot/Styles/scss/pages/PinboardEmbed.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/cdn/css/admin-menu.css",
+    "inputFiles": [
+      "wwwroot/Styles/scss/pages/Admin/AdminMenu.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/cdn/css/embed-config.css",
+    "inputFiles": [
+      "wwwroot/Styles/Bootstrap/bootstrap-select.css",
+      "wwwroot/Styles/scss/pages/Administration/embed-config.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/cdn/scripts/embed-config.js",
+    "inputFiles": [
+      "wwwroot/Scripts/jQuery/jquery-ui.min.js",
+      "wwwroot/Scripts/Bootstrap/bootstrap-select.min.js",
+      "wwwroot/Scripts/Administration/embed.config.js"
     ]
   }
 ]

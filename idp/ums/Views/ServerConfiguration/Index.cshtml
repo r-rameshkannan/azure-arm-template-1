@@ -11,10 +11,10 @@
     var productName = ViewBag.TenantType == TenantType.BoldBIOnPremise ? "Embedded" : "On-Premise";
     var helpLinkData = ViewBag.TenantType == TenantType.BoldBIOnPremise ? "Embedded BI" : "Enterprise Reporting";
     var pathbase = Context.Request.PathBase;
-    var serverUserHelp = $"[[[Please refer to <a target='_blank' href='{HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.IdDatabaseConfiguration, ViewBag.TenantType)}'>this</a> documentation to know about what are the permissions need to be assigned to allow {helpLinkData} to connect and use the database.]]]";
-    var sqlParameter = HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.MSSQL_Connection_Parameters);
-    var postgresSQLParameter = HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.PostgreSQL_Connection_Parameters);
-    var mySQLParameter = HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.MySQL_Connection_Parameters);
+    var serverUserHelp = $"[[[Please refer to <a target='_blank' href='{await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.IdDatabaseConfiguration, ViewBag.TenantType)}'>this</a> documentation to know about what are the permissions need to be assigned to allow {helpLinkData} to connect and use the database.]]]";
+    var sqlParameter = await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.MSSQL_Connection_Parameters);
+    var postgresSQLParameter = await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.PostgreSQL_Connection_Parameters);
+    var mySQLParameter = await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.MySQL_Connection_Parameters);
 
 }
 <!DOCTYPE html>
@@ -25,10 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
     <meta name="has-drm-configuration" content="@hasDRMConfiguration">
     <meta name="has-db-configuration" content="@hasDbConfiguration">
-    <meta name="IdStorageConfiguration" content="@HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.IdStorageConfiguration)" />
-    <meta name="AdminCreation" content="@HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.AdminCreation)" />
-    <meta name="ServerStorageConfiguration" content="@HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.ServerStorageConfiguration)" />
-    <meta name="ServerDataStoreConfiguration" content="@HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.ServerDataStoreConfiguration)" />
+    <meta name="IdStorageConfiguration" content="@await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.IdStorageConfiguration)" />
+    <meta name="AdminCreation" content="@await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.AdminCreation)" />
+    <meta name="ServerStorageConfiguration" content="@await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.ServerStorageConfiguration)" />
+    <meta name="ServerDataStoreConfiguration" content="@await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.ServerDataStoreConfiguration)" />
 
     <title>[[[Welcome to ]]]@displayName</title>
     @if (CloudAppConfig.IsSelfHosted)
@@ -70,6 +70,8 @@
         var blobExist = "@Url.Action("IsBlobExists", "ServerConfiguration")";
         var updateLicenseKeyUrl = "@Url.Action("ApplyLicenseKey", "ServerConfiguration")";
         var validateLicenseKeyUrl = "@Url.Action("ValidateLicenseKey", "ServerConfiguration")";
+         var autoDeploymentUrl = "@Url.Action("PostAutoDeploy", "ServerConfiguration")";
+         var startUpUrl = "@Url.Action("Startup", "ServerConfiguration")";
 
         var storageType = "@ViewBag.StorageType";
 
@@ -95,6 +97,7 @@
         var isSiteCreation = false;
         var isSimpleModeValue = "true";
         var actionType = "";
+		var isDockerOrk8s = ("@ViewBag.IsDockerOrK8s".toLowerCase() === "true");
 
         $(document).ready(function () {
             $(document).click(function (e) {
@@ -122,14 +125,14 @@
                                 <span class="second-content">[[[Administrators have complete control over the application.]]]</span>
                                 @if (!CloudAppConfig.IsHideHelpLink)
                                 {
-                                    <a id="help-link" href="@(HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.IdDatabaseConfiguration))" target="_blank">[[[Need help?]]]</a>
+                                    <a id="help-link" href="@(await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.IdDatabaseConfiguration))" target="_blank">[[[Need help?]]]</a>
                                 }
                             </div>
                             <div class="welcome-content">
                                 <span class="first-content">[[[See Clearly. Act Boldly.]]]</span>
                                 @if (!CloudAppConfig.IsHideHelpLink)
                                 {
-                                    <a href="@(HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.SetupHelp))" target="_blank">[[[Need setup help?]]]</a>
+                                    <a href="@(await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.SetupHelp))" target="_blank">[[[Need setup help?]]]</a>
                                 }
                             </div>
                         </div>
@@ -144,13 +147,13 @@
                                 <button type="button" id="online-license" license-service-url="@ViewBag.GetSubscruptionUrl" class="proceed-button content-display">[[[Log in to activate account]]]</button>
                             </div>
                             <div class="col-xs-12 align-center">
-                                <span class="link-header">Behind a firewall? <a id="offline-license" class="link-decoration" data-offlinelicense-url="@HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.Downloads)" data-tenant-type="@((int)ViewBag.TenantType)">Upload your license file.</a></span>
+                                <span class="link-header">Behind a firewall? <a id="offline-license" class="link-decoration" data-offlinelicense-url="@await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.Downloads)" data-tenant-type="@((int)ViewBag.TenantType)">Upload your license file.</a></span>
                             </div>
                             <div class="divider-container col-xs-12">
                                 <hr class="connect-line-left"><div class="content text-body">or Connect with</div><hr class="connect-line-right">
                             </div>
                             <div class="col-xs-12  align-center">
-                                <span class="link-header">Don’t have an account? <a class="link-decoration" target="_blank" href="@HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.Pricing)">Sign Up</a></span>
+                                <span class="link-header">Don’t have an account? <a class="link-decoration" target="_blank" href="@await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.Pricing)">Sign Up</a></span>
                             </div>
                         </div>
                     </div>
@@ -165,7 +168,7 @@
                             <div class="col-xs-12 upload-content no-padding">
                                 <div id="upload-section" class="col-xs-12 no-padding">
                                     <div id="file-lable" class="col-xs-12">
-                                        <label id="upload-lable">Select the License Key file</label>
+                                        <label id="upload-lable">[[[Select the License Key file]]]</label>
                                     </div>
                                     <div class="upload-btn-wrapper col-xs-12 no-padding">
                                         <input type="text" id="file-name" class="col-xs-8" placeholder="[[[choose file]]]" readonly="readonly" />
@@ -176,27 +179,27 @@
                                     </div>
                                     <div id="license-details" class="col-xs-12">
                                         <div id="customer-email-container" class="col-xs-12 no-padding display-none">
-                                            <label class="col-xs-4 no-padding license-detail-lable">Email</label>
+                                            <label class="col-xs-4 no-padding license-detail-lable">[[[Email]]]</label>
                                             <p id="customer-email" class="col-xs-8 no-padding"></p>
                                         </div>
                                         <div id="subscription-id-container" class="col-xs-12 no-padding display-none">
-                                            <label class="col-xs-4 no-padding  license-detail-lable">Subscription Id</label>
+                                            <label class="col-xs-4 no-padding  license-detail-lable">[[[Subscription Id]]]</label>
                                             <p id="subscription-id" class="col-xs-8 no-padding"></p>
                                         </div>
                                         <div id="subscription-name-container" class="col-xs-12 no-padding display-none">
-                                            <label class="col-xs-4 no-padding  license-detail-lable">Subscription Name</label>
+                                            <label class="col-xs-4 no-padding  license-detail-lable">[[[Subscription Name]]]</label>
                                             <p id="subscription-name" class="col-xs-8 no-padding"></p>
                                         </div>
                                         <div id="plan-name-container" class="col-xs-12 no-padding display-none">
-                                            <label class="col-xs-4 no-padding  license-detail-lable">Plan Name</label>
+                                            <label class="col-xs-4 no-padding  license-detail-lable">[[[Plan Name]]]</label>
                                             <p id="plan-name" class="col-xs-8 no-padding"></p>
                                         </div>
                                         <div id="tenant-status-container" class="col-xs-12 no-padding display-none">
-                                            <label class="col-xs-4 no-padding  license-detail-lable">Tenant Status</label>
+                                            <label class="col-xs-4 no-padding  license-detail-lable">[[[Tenant Status]]]</label>
                                             <p id="tenant-status" class="col-xs-8 no-padding">Licensed</p>
                                         </div>
                                         <div id="expiry-date-container" class="col-xs-12 no-padding display-none">
-                                            <label class="col-xs-4 no-padding  license-detail-lable">Expiry Date</label>
+                                            <label class="col-xs-4 no-padding  license-detail-lable">[[[Expiry Date]]]</label>
                                             <p id="expiry-date" class="col-xs-8 no-padding"></p>
                                         </div>
                                     </div>
@@ -231,3 +234,4 @@
     </div>
 </body>
 </html>
+@await Html.PartialAsync("_AutoDeploymentError")

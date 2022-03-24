@@ -11,36 +11,36 @@
     var isMobile = new DeviceDetection(Context).IsMobile;
 }
 
-<nav id="admin-nav" class="@(isMobile ? "mobile-profile-menu" : string.Empty)">
+<nav id="bi-side-nav-bar" class="no-margin profile-nav-bar @(isMobile ? "mobile-profile-menu" : string.Empty)">
     <ul>
-        <li>
-            <a id="site-settings-link" class="admin-menu-item @(currentUrl.IndexOf(profilePageUrl, StringComparison.CurrentCultureIgnoreCase) > -1 || currentUrl.Equals(profilePageUrl, StringComparison.CurrentCultureIgnoreCase) ? "active" : string.Empty)" href="@profilePageUrl" role="tab">
+        <li class="admin-menu-item @(currentUrl.IndexOf(profilePageUrl, StringComparison.CurrentCultureIgnoreCase) > -1 || currentUrl.Equals(profilePageUrl, StringComparison.CurrentCultureIgnoreCase) ? "active" : string.Empty)">
+            <a id="site-settings-link" href="@profilePageUrl" role="tab">
                 <i class="su su-user-1"></i>
-                <span>[[[My Profile]]]</span>
+                <span>@T["My Profile"]</span>
             </a>
         </li>
-        <li>
-            <a id="dashboard-settings-link" class="admin-menu-item @(currentUrl.IndexOf(myPremissionPageUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@myPremissionPageUrl" role="tab">
+        <li  class="admin-menu-item @(currentUrl.IndexOf(myPremissionPageUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+            <a id="dashboard-settings-link" href="@myPremissionPageUrl" role="tab">
                 <i class="su su-manage-permission"></i>
-                <span>[[[My Permissions]]]</span>
+                <span>@T["My Permissions"]</span>
             </a>
         </li>
         @if (!isMobile)
         {
-            <li>
-                <a id="active-directory-settings-link" class="admin-menu-item @(currentUrl.IndexOf(connectedAccountPageUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@connectedAccountPageUrl" role="tab">
+            <li  class="admin-menu-item @(currentUrl.IndexOf(connectedAccountPageUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                <a id="active-directory-settings-link" href="@connectedAccountPageUrl" role="tab">
                     <i class="su su-link"></i>
-                    <span>[[[Connected Accounts]]]</span>
+                    <span>@T["Connected Accounts"]</span>
                 </a>
             </li>
         }
 
         @if (ServerAppConfig.EnablePublishModule)
         {
-            <li>
-                <a id="connected-sites-settings-link" class="admin-menu-item @(currentUrl.IndexOf(connectedSitesPageUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@connectedSitesPageUrl" role="tab">
+            <li class="admin-menu-item @(currentUrl.IndexOf(connectedSitesPageUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                <a id="connected-sites-settings-link" href="@connectedSitesPageUrl" role="tab">
                     <i class="su su-connected"></i>
-                    <span>[[[Connected Sites]]]</span>
+                    <span>@T["Connected Sites"]</span>
                 </a>
             </li>
         }

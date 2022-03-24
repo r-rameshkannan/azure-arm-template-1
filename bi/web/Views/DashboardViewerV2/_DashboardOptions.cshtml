@@ -22,6 +22,7 @@
         var permissionStyle = "@dashboardServerResourceUrl/cdn/css/share-permission.css?v=@ServerAppConfig.ProductVersion";
         var dashboardOptionScript = "@dashboardServerResourceUrl/cdn/scripts/designer/dashboard-options.js?v=@ServerAppConfig.ProductVersion";
         var dashboardOptionStyle = "@dashboardServerResourceUrl/cdn/css/designer/dashboard-options.css?v=@ServerAppConfig.ProductVersion";
+
         </script>
     </environment>
     <environment exclude="Development,CloudDevelopment">
@@ -30,6 +31,7 @@
         var permissionStyle = "@dashboardServerResourceUrl/cdn/css/share-permission.min.css?v=@ServerAppConfig.ProductVersion";
         var dashboardOptionScript = "@dashboardServerResourceUrl/cdn/scripts/designer/dashboard-options.min.js?v=@ServerAppConfig.ProductVersion";
         var dashboardOptionStyle = "@dashboardServerResourceUrl/cdn/css/designer/dashboard-options.min.css?v=@ServerAppConfig.ProductVersion";
+
         </script>
     </environment>
 <head>
@@ -126,6 +128,6 @@
         <span id="message-content"></span>
     </div>
     <div class="close-div">
-        <span id="close-content">[[[Close]]]</span>
+        <span id="close-content">@T["Close"]</span>
     </div>
 </div>

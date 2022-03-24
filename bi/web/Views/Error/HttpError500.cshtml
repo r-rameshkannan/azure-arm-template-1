@@ -39,7 +39,7 @@
 <html class="dashboard-server">
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>[[[Internal Server Error]]] @(!canShowOrgName ? string.Empty : " - " + organisationName + ".")</title>
+    <title>@T["Internal Server Error"] @(!canShowOrgName ? string.Empty : (" - " + organisationName))</title>
     <environment include="Development,CloudDevelopment">
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/layout.css" />
@@ -72,54 +72,62 @@
                 <div class="error-image-center-2">
                     <img src="@cdnLink/cdn/images/static/error-pages/v1/500.svg" class="error-image-2">
                 </div>
-                <div class="error-type">[[[Internal Server Error (500)]]]</div>
+                <div class="error-type">@T["Internal Server Error (500)"]</div>
                 <div class="error-text">
-                    @if (string.IsNullOrWhiteSpace(errorMessage))
-                    {
-                        <span>[[[Sorry! The server has encountered an internal error and was unable to complete your request.]]]</span>
-                    }
-                    else
-                    {
-                        <span>[[[Sorry! The server has encountered an internal error and was unable to complete your request.]]]</span>
-                    }
+                        <span>@T["Sorry! The server has encountered an internal error and was unable to complete your request."]</span>
+
                 </div>
                 @if (!string.IsNullOrWhiteSpace(errorMessage))
                 {
                     <div id="deploy-error-container">
                         <textarea type="text" id="deploy-error-box" disabled>@errorMessage</textarea>
-                        <span class="su su-copy text focus" id="deploy-error-copy" data-toggle="tooltip" title="[[[Click to copy]]]"></span>
+                        <span class="su su-copy text focus" id="deploy-error-copy" data-toggle="tooltip" title="@T["Click to copy"]"></span>
                     </div>
                 }
-            <div class="take-me-back-to-home-page">
-                @if (isDeploymentError)
-                {
-                    <span class="error-page-cursor">
-                        <a class="error-to-beck-text-color" href="@ServerAppConfig.InternalAppIdpUrl/ums/sites">[[[Go to sites page]]]</a>
-                    </span>
-                }
-                else
-                {
-                    <span class="error-page-cursor">
-                        <a class="error-to-beck-text-color" href="@homePageUrl">[[[Go to home page]]]</a>
-                    </span>
-                }
-
-                @if (isAdminUser && ServerAppConfig.IsSelfHosted)
-                {
-                    <span class="error-text-color"> or </span><span class="error-page-cursor">
-                        <a class="error-to-beck-text-color" href="https://www.@(GlobalAppSettings.BrandingDomain)/support" target="_blank">[[[Create a support]]]</a>
-                    </span>
-                    <span class="error-text-color"> ticket with application logs by referring to this</span><span class="error-page-cursor">
-                        <a class="error-to-beck-text-color" href="@(ServerAppConfig.AppSettings.Documentation.BaseUri + @errorandDebugHelpSiteUrl)" target="_blank">[[[link.]]]</a>
-                    </span>
-                }
-                @if (!ServerAppConfig.IsSelfHosted)
-                {
-                    <span class="error-text-color"> or </span><span class="error-page-cursor">
-                        <a class="error-to-beck-text-color" href="https://www.@(GlobalAppSettings.BrandingDomain)/support" target="_blank">[[[Create a support]]]</a>
-                    </span>
-                }
-            </div>
+                <div class="take-me-back-to-home-page">
+                   @if (isDeploymentError)
+                    {
+                       @if (isAdminUser && ServerAppConfig.IsSelfHosted)
+                        {
+                            @Html.Raw(string.Format(T["{0}Go to sites page{1} or {2}Create a support{3} ticket with application logs by referring to this {4}link{5}."].Value,
+                            "<span class='error-page-cursor'><a class='error-to-beck-text-color' href='"+ ServerAppConfig.InternalAppIdpUrl + "/ums/sites'>",
+                            "</a></span><span class='error-text-color'>",
+                            "</span><span class='error-page-cursor'><a class='error-to-beck-text-color' href='https://www." +(GlobalAppSettings.BrandingDomain)+ "/support' target='_blank'>", 
+                            "</a></span><span class='error-text-color'>", 
+                            "</span><span class='error-page-cursor'><a class='error-to-beck-text-color' href='"+ (ServerAppConfig.AppSettings.Documentation.BaseUri + errorandDebugHelpSiteUrl) + "' target='_blank'>", 
+                            "</a></span>"))
+                        }
+                        @if (!ServerAppConfig.IsSelfHosted)
+                        {
+                            @Html.Raw(string.Format(T["{0}Go to sites page{1} or {2}Create a support{3}"].Value,
+                            "<span class='error-page-cursor'><a class='error-to-beck-text-color' href='"+ ServerAppConfig.InternalAppIdpUrl + "/ums/sites'>",
+                            "</a></span><span class='error-text-color'>",
+                            "</span><span class='error-page-cursor'><a class='error-to-beck-text-color' href='https://www." +(GlobalAppSettings.BrandingDomain)+ "/support' target='_blank'>",
+                            "</a></span>"));
+                        }
+                    }
+                    else
+                    {
+                       @if (isAdminUser && ServerAppConfig.IsSelfHosted)
+                        { 
+                            @Html.Raw(string.Format(T["{0}Go to home page{1} or {2}Create a support{3} ticket with application logs by referring to this {4}link{5}."].Value,
+                            "<span class='error-page-cursor'><a class='error-to-beck-text-color' href='"+ homePageUrl + "'>",
+                            "</a></span><span class='error-text-color'>",
+                            "</span><span class='error-page-cursor'><a class='error-to-beck-text-color' href='https://www." +(GlobalAppSettings.BrandingDomain)+ "/support' target='_blank'>", 
+                            "</a></span><span class='error-text-color'>", 
+                            "</span><span class='error-page-cursor'><a class='error-to-beck-text-color' href='"+ (ServerAppConfig.AppSettings.Documentation.BaseUri + errorandDebugHelpSiteUrl) + "' target='_blank'>", 
+                            "</a></span>"))
+                        }
+                        @if (!ServerAppConfig.IsSelfHosted)
+                        {
+                            @Html.Raw(string.Format(T["{0}Go to home page{1} or {2}Create a support{3}"].Value,
+                            "<span class='error-page-cursor'><a class='error-to-beck-text-color' href='"+ homePageUrl + "'>",
+                            "</a></span><span class='error-text-color'>",
+                            "</span><span class='error-page-cursor'><a class='error-to-beck-text-color' href='https://www." +(GlobalAppSettings.BrandingDomain)+ "/support' target='_blank'>",
+                            "</a></span>"));
+                        }
+                    }
+                </div>
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@ var timeOut;
 var searchId;
 var isSafari = navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1;
 var clearSearch = false;
+var toastTimeout;
 
 var keyCode = {
     Tab: 9,
@@ -191,6 +192,13 @@ $(document).ready(function () {
         }
         $(this).parent().find("div.lazyload").remove();
     }
+
+    if (typeof (isLicenseExpiredUrl) !== "undefined") {
+        $.ajax({
+            type: "POST",
+            url: isLicenseExpiredUrl,
+        });
+    }
 });
 
 $(document).on("keyup", "textarea", function (event) {
@@ -226,6 +234,34 @@ function convertToBoolean(value) {
     }
 }
 
+function parseURL(str) {
+    var o = parseURL.options,
+        m = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+        uri = {},
+        i = 14;
+
+    while (i--) uri[o.key[i]] = m[i] || "";
+
+    uri[o.q.name] = {};
+    uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+        if ($1) uri[o.q.name][$1] = $2;
+    });
+
+    return uri;
+};
+
+parseURL.options = {
+    strictMode: true,
+    key: ["source", "protocol", "authority", "userInfo", "user", "password", "host", "port", "relative", "path", "directory", "file", "query", "anchor"],
+    q: {
+        name: "queryKey",
+        parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+    },
+    parser: {
+        strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+        loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+    }
+};
 //Handles Ajax error
 function handleAjaxError() {
 }
@@ -443,16 +479,16 @@ function DateCustomFormat(formatString, dateValue, isTimeFormat) {
     }
 
     else {
-    h = (hhh = dateObject.getHours());
-    if (h == 0) h = 24;
-    if (h > 12) h -= 12;
-    hh = h < 10 ? ("0" + h) : h;
-    AMPM = (ampm = hhh < 12 ? "am" : "pm").toUpperCase();
-    mm = (m = dateObject.getMinutes()) < 10 ? ("0" + m) : m;
-    ss = (s = dateObject.getSeconds()) < 10 ? ("0" + s) : s;
-    datetime = formatString.replace("hhh", hhh).replace("hh", hh).replace("h", h).replace("mm", mm).replace("m", m).replace("ss", ss).replace("s", s).replace("ampm", ampm).replace("AMPM", AMPM);
-}
-return datetime;
+        h = (hhh = dateObject.getHours());
+        if (h == 0) h = 24;
+        if (h > 12) h -= 12;
+        hh = h < 10 ? ("0" + h) : h;
+        AMPM = (ampm = hhh < 12 ? "am" : "pm").toUpperCase();
+        mm = (m = dateObject.getMinutes()) < 10 ? ("0" + m) : m;
+        ss = (s = dateObject.getSeconds()) < 10 ? ("0" + s) : s;
+        datetime = formatString.replace("hhh", hhh).replace("hh", hh).replace("h", h).replace("mm", mm).replace("m", m).replace("ss", ss).replace("s", s).replace("ampm", ampm).replace("AMPM", AMPM);
+    }
+    return datetime;
 }
 
 function isNumberKey(evt) {
@@ -474,8 +510,10 @@ function validateUserName(userName) {
 }
 
 function isValidUrl(url) {
-    var regexExpression = /^(?!(ftp|https?):\/\/)([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9][a-zA-Z0-9-]+(\.[a-z]{2,6})?(:\d{1,5})?(\/[a-zA-Z0-9]+[a-zA-Z0-9]*(\.[a-z]{2,8})?)*?$/gm;
-    if (!regexExpression.test(url)) {
+    var regexExpression = /^(?!(ftp|https?):\/\/)([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9][a-zA-Z0-9-]+(\.[a-z]{2,6})?(:\d{1,5})?(!\/[a-zA-Z0-9-]+[a-zA-Z0-9-]*(\.[a-z]{2,8})?)*?$/gm;
+    var ipAddressRegexExpression = /^(?:(?:2[0-4]\d|25[0-5]|1\d{2}|[1-9]?\d)\.){3}(?:2[0-4]\d|25[0-5]|1\d{2}|[1-9]?\d)(?:\:(?:\d|[1-9]\d{1,3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5]))?$/;
+
+    if (!regexExpression.test(url) && !url.match(ipAddressRegexExpression)) {
         return false;
     } else {
         return true;
@@ -538,7 +576,7 @@ function IsValidContactNumber(contactNumber) {
 }
 
 function onCloseMessageBox() {
-    $("#messageBox").ejDialog("close");
+    document.getElementById("messageBox").ej2_instances[0].hide();
 }
 
 function onMessageDialogClose() {
@@ -549,9 +587,9 @@ function onMessageDialogClose() {
 
 function messageBox(messageIcon, messageHeader, messageText, type, successCallback, errorCallback, width, height, maxHeight, cssClass) {
     $("#messageBox").find(".message-content").text("");
-    $(".message-box-btn-holder").html("");
+    $(".e-footer-content").html("");
     $(".message-box-close").html("");
-    $("#messageBox").find(".message-header").html("<span class='su " + messageIcon + "'></span> <span class='modal-title' data-toggle='tooltip' data-placement='bottom' data-container='body' title='" + messageHeader + "'  >" + messageHeader + "</h2>");
+    $("#messageBox").find(".e-dlg-header").html("<span class='su " + messageIcon + "'></span> <span class='modal-title' data-toggle='tooltip' data-placement='bottom' data-container='body' title='" + messageHeader + "'  >" + messageHeader + "</h2>");
     $("#messageBox").find(".message-content").html(messageText);
     $("#messageBox").find(".message-content").removeClass("text-left");
     if (type == "error") {
@@ -579,7 +617,7 @@ function messageBox(messageIcon, messageHeader, messageText, type, successCallba
             });
         }
         $(".message-box-close").html(closeIcon);
-        $(".message-box-btn-holder").append(errorButton, successButton);
+        $(".e-footer-content").append(errorButton, successButton);
         $("#messageBox").unbind("keydown");
     }
     else {
@@ -602,7 +640,7 @@ function messageBox(messageIcon, messageHeader, messageText, type, successCallba
             });
         }
         $(".message-box-close").html(closeIcon);
-        $(".message-box-btn-holder").append(successButton);
+        $(".e-footer-content").append(successButton);
         $("#messageBox").on("keydown", function (event) {
             switch (event.keyCode) {
                 case 13:
@@ -613,23 +651,18 @@ function messageBox(messageIcon, messageHeader, messageText, type, successCallba
     }
 
     $('[data-toggle="tooltip"]').tooltip();
-    $("#messageBox").ejDialog("open");
+    document.getElementById("messageBox").ej2_instances[0].show();
     $("#messageBox").focus();
-    var sizeobj = $("#messageBox").data("ejDialog");
+    var sizeobj = document.getElementById("messageBox").ej2_instances[0];
     setTimeout(function () {
         if (width != undefined)
-            sizeobj.option("width", width);
-        if (window.innerWidth > 1040) {
-            if (height == undefined)
-                var contentHeight = $("#messageBox").find(".modal-content").length > 0 ? $("#messageBox").find(".modal-content").height() : $("#messageBox").find(".message-content").height();
-            height = contentHeight + 135 + "px";
-        }
-        sizeobj.option("height", height);
+            sizeobj.width = width;
+        sizeobj.height = height;
         if (maxHeight != undefined)
-            sizeobj.option("maxHeight", maxHeight);
+            sizeobj.setMaxHeight(maxHeight);
     }, 50);
     if (cssClass != null && cssClass != undefined) {
-        sizeobj.option("cssClass", cssClass);
+        sizeobj.cssClass = cssClass;
     }
 }
 
@@ -689,8 +722,9 @@ function GridLocalization() {
 $(document).on("keyup", "#SearchCategory, #search-groups, #search-group-users, #ad-user-import, #userSearchKey,#groupSearchKey, #ad-group-import, #searchItems, #search-schedules, #search-users, #search-ad-users, #search-ad-groups, #search-user-permission, #search-group-permission, #search-database-users,#search-tree, #search-home-page, #search-items, .search-user-holder, .tree-view-search-holder, #search-tenants, #search-app-users, #add-user-search,#search-tenant-users,#add-tenant-search", function (e) {
     var element = "#" + this.id;
     if ($(element).val() != "") {
-        if (element == "#search-home-page") {
+        if (element == "#search-home-page" || element == "#search-tenant-users") {
             $(element).parent().siblings("span.close-icon").css("display", "block");
+            $(element).parent().siblings("span.search-icon").css("display", "none");
         }
         else {
             $(element).siblings("span.close-icon").css("display", "block");
@@ -704,7 +738,8 @@ $(document).on("keyup", "#SearchCategory, #search-groups, #search-group-users, #
             $(element).siblings("span.search-application").css("display", "none");
         }
     } else {
-        if (element == "#search-home-page") {
+        if (element == "#search-home-page" || element == "#search-tenant-users") {
+            $(element).parent().siblings("span.close-icon").css("display", "none");
             $(element).parent().siblings("span.su-search").css("display", "block");
         }
         else {
@@ -893,20 +928,26 @@ function PerformSearch(currentId) {
 }
 
 function SuccessAlert(header, content, duration) {
-    window.top.$("#success-alert").css("display", "table");
+    clearTimeout(toastTimeout);
+    window.top.$('#success-alert').css("display", "none");
     window.top.$("#message-header").html(header);
     window.top.$("#message-content").html(content);
-    setTimeout(function () {
+    window.top.$("#success-alert").css("display", "table");
+    
+    toastTimeout = setTimeout(function () {
         window.top.$('#success-alert').fadeOut()
     }, duration);
 }
 
 function WarningAlert(header, content, duration) {
-    parent.$("#warning-alert").css("display", "table");
+    clearTimeout(toastTimeout);
+    parent.$('#warning-alert').css("display", "none");
     parent.$("#warning-alert #message-header").html(header);
     parent.$(" #warning-alert #message-content").html(content);
+    parent.$("#warning-alert").css("display", "table");
+    
     if (duration != null && duration != "") {
-        setTimeout(function () {
+        toastTimeout = setTimeout(function () {
             parent.$('#warning-alert').fadeOut()
         }, duration);
     }
@@ -1021,7 +1062,7 @@ $(document).ready(function (e) {
     function setClientLocaleCookie(name, exdays) {
         var value = {
             Locale: navigator.language,
-            TimeZoneOffset: new Date().getTimezoneOffset()
+            TimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
         };
         var exdate = new Date();
         exdate.setDate(exdate.getDate() + exdays++);
@@ -1092,11 +1133,74 @@ function getCurrentPageNumber(pageSize, selectedRecordsCount, totalRecordsCount,
     }
 }
 
-if (typeof (isLicenseExpiredUrl) !== "undefined") {
-    $.ajax({
-        type: "POST",
-        url: isLicenseExpiredUrl,
-    });
+function copyToClipboard(inputId, buttonId) {
+    if (typeof (navigator.clipboard) != 'undefined') {
+        var value = "";
+        if (inputId === "#subscription-id-bi" || inputId == "#subscription-id-reports") {
+            value = $(inputId).text();
+        }
+        else {
+            value = $(inputId).val();
+        }
+        var copyText = $(inputId);
+        copyText.attr("type", "text").select();
+        navigator.clipboard.writeText(value)
+        if (buttonId == "#api-copy-client-secret" || buttonId == "#copy-client-secret") {
+            copyText.attr("type", "password");
+        }
+    }
+    else {
+        var copyText = $(inputId);
+        copyText.attr("type", "text").select();
+        document.execCommand("copy");
+        if (buttonId == "#api-copy-client-secret" || buttonId == "#copy-client-secret") {
+            copyText.attr("type", "password");
+        }    }
+    setTimeout(function () {
+        $(buttonId).attr("data-original-title", window.TM.App.LocalizationContent.Copied);
+        $(buttonId).tooltip('show');
+    }, 200);
+    setTimeout(function () {
+        $(buttonId).attr("data-original-title", window.TM.App.LocalizationContent.ClickToCopy);
+        $(buttonId).tooltip();
+    }, 3000);
 }
 
 
+function bindEj2Data(id, value) {
+    document.getElementById(id).ej2_instances[0].value = value;
+    document.getElementById(id).ej2_instances[0].dataBind();
+}
+
+function isJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+function ValidateIsolationCode(code, id) {
+    var isValid = false;
+
+    $.ajax({
+        type: "POST",
+        url: validateIsolationCodeUrl,
+        data: { code: code },
+        success: function (result) {
+            isValid = result.Status;
+            if (result.Status) {
+                $("#isolation-code-validation").html("");
+                $(id).closest('div').removeClass("e-error");
+                $("#update-isolation-code").attr("disabled", false);
+            } else {
+                $("#isolation-code-validation").html(window.TM.App.LocalizationContent.IsolationCodeValidator);
+                $(id).closest('div').addClass("e-error");
+                $("#update-isolation-code").attr("disabled", true);
+            }
+        }
+    });
+
+    return isValid;
+}

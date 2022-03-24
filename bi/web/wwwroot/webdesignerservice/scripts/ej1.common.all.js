@@ -1,6 +1,6 @@
 /*!
 *  filename: ej1.common.all.js
-*  version : 4.2.69
+*  version : 5.1.55
 *  Copyright Syncfusion Inc. 2001 - 2017. All rights reserved.
 *  Use of this code is subject to the terms of our license.
 *  A copy of the current license can be obtained at any time by e-mailing
@@ -12934,6 +12934,8 @@ window.BoldBIDashboard = window.SyncfusionBoldBIDashboard = window.SyncfusionBol
 
             target: null,
 
+            appendTo: null,
+
             showImage: true,
 
             htmlAttributes: {},
@@ -13029,6 +13031,12 @@ window.BoldBIDashboard = window.SyncfusionBoldBIDashboard = window.SyncfusionBol
                     case "showOnInit": this._setVisibility(options[option]); break;
                     case "showImage": this._showImage(options[option]); this._setContentPosition(); break;
                     case "target": this.model.target = options[option]; this._setTarget(); this.refresh(); break;
+                    case "appendTo": this.model.appendTo = options[option]; this._setTarget();
+                        if (!BoldBIDashboard.isNullOrUndefined(this.model.appendTo) && this.model.appendTo != "document" && this.model.appendTo != "window")
+                            this.maindiv.appendTo(bbdesigner$(this.model.appendTo));
+                        else
+                            bbdesigner$('body').append(this.maindiv);
+                        this.refresh(); break;
                     case "template":
                         this.maindiv.empty();
                         if (options[option]) {
@@ -13046,12 +13054,14 @@ window.BoldBIDashboard = window.SyncfusionBoldBIDashboard = window.SyncfusionBol
             }
         },
         _setTarget: function () {
-            if (this.model.target == "document") 
+            if (this.model.target == "document")
                 this.targetElement = bbdesigner$(document);
             else if (this.model.target == "window")
                 this.targetElement = bbdesigner$(window);
+            else if (!BoldBIDashboard.isNullOrUndefined(this.model.appendTo) || !BoldBIDashboard.isNullOrUndefined(this.model.target))
+                this.targetElement = !BoldBIDashboard.isNullOrUndefined(this.model.target) ? bbdesigner$(this.model.target) : !BoldBIDashboard.isNullOrUndefined(this.model.appendTo) ? bbdesigner$(this.model.appendTo) : bbdesigner$(this.model.target);
             else
-                this.targetElement = this.model.target ? bbdesigner$(this.model.target) : this.element;
+                this.targetElement = this.element;
         },
         _destroy: function () {
             this.maindiv.remove();
@@ -13081,7 +13091,10 @@ window.BoldBIDashboard = window.SyncfusionBoldBIDashboard = window.SyncfusionBol
                     this._generateTextTag(this.model.text);
                 }
             }
-            bbdesigner$('body').append(this.maindiv);
+            if (!BoldBIDashboard.isNullOrUndefined(this.model.appendTo) && this.model.appendTo != "document" && this.model.appendTo != "window")
+                this.maindiv.appendTo(bbdesigner$(this.model.appendTo));
+            else
+                bbdesigner$('body').append(this.maindiv);
             this._setVisibility(this.model.showOnInit);
             this._addAttr(this.model.htmlAttributes);
         },
@@ -13102,7 +13115,16 @@ window.BoldBIDashboard = window.SyncfusionBoldBIDashboard = window.SyncfusionBol
 
 
         _setPanelPosition: function () {
-            var location = BoldBIDashboard.util.getOffset(this.targetElement);
+             var location = BoldBIDashboard.util.getOffset(this.targetElement);
+            if (this.model.appendTo != null && bbdesigner$(this.model.appendTo).length > 0) {
+                if ((this.targetElement.css("position") == "relative" || this.targetElement.css("position") == "absolute") && this.targetElement[0] === bbdesigner$(this.model.appendTo)[0]) {
+                    location = { left: 0, top: 0 };
+                }
+                else {
+                    location.left -= this.targetElement.offsetParent().offset().left;
+                    location.top -= this.targetElement.offsetParent().offset().top;
+                }
+            }
             this.maindiv.css({
                 "position": "absolute",
                 "left": Math.ceil(location.left) + "px",
@@ -20222,6 +20244,8 @@ BoldBIDashboard.Dialog.Locale["default"] = BoldBIDashboard.Dialog.Locale["en-US"
             popupHeight: "152px",
 
             popupWidth: "auto",
+			
+			popupTarget: "body",
 
             maxPopupHeight: null,
 
@@ -20495,11 +20519,11 @@ BoldBIDashboard.Dialog.Locale["default"] = BoldBIDashboard.Dialog.Locale["en-US"
             if (bbdesigner$.isArray(index)) items = index;
             else if (typeof index == "string") {
                 if ((mode && (this.model.multiSelectMode == "visualmode" || this.model.multiSelectMode == "delimiter" || this.model.showCheckbox))) {
-                    items = index.split(this.model.delimiterChar);
+                    items = this._getUpdatedListData(index);
                     if (items.length == 0) items = [index];
                 }
                 else if (!mode) {
-                    items = index.split(this.model.delimiterChar);
+                    items = this._getUpdatedListData(index);
                     if (items.length == 0) items = [index];
                 }
                 else items = [index];
@@ -20667,13 +20691,27 @@ BoldBIDashboard.Dialog.Locale["default"] = BoldBIDashboard.Dialog.Locale["en-US"
             return selected;
         },
         getItemDataByValue: function (value) {
-            var listitems = this._toArray(value, false);
+           var listitems = this._toArray(value, false);
+           var rawList  = (!BoldBIDashboard.isNullOrUndefined(this.resultList)) ? this._rawList.concat(this.resultList): this._rawList;
             var k, m, selected = [], field = (this.model.fields && this.model.fields.value) ? this.model.fields["value"] : "value";
-            for (k = 0; k < listitems.length; k++) {
-                for (m = 0; m < this._rawList.length; m++) {
-                    if (this._rawList[m][field] == listitems[k])
-                        selected.push(this._rawList[m]);
+            if ( listitems.length > 0 && (rawList.indexOf(listitems[0]) > -1 || rawList.indexOf(Number(listitems[0])) > -1)) {
+               for (k = 0; ((k < listitems.length) && ( rawList.indexOf(listitems[k]) > -1 || rawList.indexOf(Number(listitems[k])) > -1)); k++) {
+                   selected.push({ text: listitems[k], value: listitems[k] });
+                   }
+            }
+            else {
+            if ( rawList.length > 0 && BoldBIDashboard.isNullOrUndefined(rawList[0][field]) ) {
+                var textField = (this.model.fields && this.model.fields.text) ? this.model.fields["text"] : "text";
+                if (!BoldBIDashboard.isNullOrUndefined(rawList[0][textField])) {
+                    field = textField;
                 }
+            }
+            for (k = 0; k < listitems.length; k++) {
+                for (m = 0; m < rawList.length; m++) {
+                    if (rawList[m][field] == listitems[k] || rawList[m][field] == Number(listitems[k]))
+                        selected.push(rawList[m]);
+                }
+            }
             }
             return selected;
         },
@@ -20732,14 +20770,47 @@ BoldBIDashboard.Dialog.Locale["default"] = BoldBIDashboard.Dialog.Locale["en-US"
         },
 
         _removeText: function (currentValue) {
-            var eleVal = this.element[0].value.split(this.model.delimiterChar), hidVal = this._visibleInput[0].value.split(this.model.delimiterChar),
-            index = bbdesigner$.inArray(currentValue, hidVal);
-            if (index >= 0) {
-                eleVal.splice(index, 1);
-                hidVal.splice(index, 1);
-            }
+            this.removeVal = true;
+            var eleVal = this._getUpdatedListData(this.element[0].value);
+            var hidVal = this._getUpdatedListData(this._visibleInput[0].value);
+            var listData = this.getItemDataByValue(currentValue)[0];
+            var textField = (this.model.fields && this.model.fields.text) ? this.model.fields["text"] : "text";
+            if(bbdesigner$.inArray(currentValue, eleVal)>=0) eleVal.splice(bbdesigner$.inArray(currentValue, eleVal), 1);
+            if(!BoldBIDashboard.isNullOrUndefined(listData[textField]) && bbdesigner$.inArray(this._decode(listData[textField]).toString(), hidVal)>=0) hidVal.splice(bbdesigner$.inArray(this._decode(listData[textField]).toString(), hidVal), 1);
+            if(bbdesigner$.inArray(currentValue, this._valueContainer)>=0) this._valueContainer.splice(bbdesigner$.inArray(currentValue, this._valueContainer), 1);
+            if(!BoldBIDashboard.isNullOrUndefined(listData[textField]) && bbdesigner$.inArray(listData[textField].toString(), this._textContainer)>=0) this._textContainer.splice(bbdesigner$.inArray(listData[textField].toString(), this._textContainer), 1);
             this.element[0].value = eleVal.join(this.model.delimiterChar);
             this._visibleInput[0].value = hidVal.join(this.model.delimiterChar);
+            this.removeVal = false;
+        },
+        _getUpdatedListData: function (elementValue) {
+            var listValues = elementValue;
+            var dataSource = this.getListData();
+            var count = 0, initialPosition = 0, dataPosition;
+            var listData = [];
+            var updatedData = [];
+            var listText = '';
+            var compareVal = this.model.fields.text;
+            if (!this.removeVal) {
+                compareVal = (this.model.fields.value) ? this.model.fields.value : compareVal;
+            }
+            while (count < dataSource.length) {
+                listText = this._decode(dataSource[count][compareVal]);
+                if (listValues.indexOf(listText) !== -1) {
+                    listValues = listValues.replace(listText, initialPosition);
+                    listData.push(listText);
+                    initialPosition++;
+                } else if (listValues === "") break;
+                count++;
+            }
+            listValues = listValues.split(this.model.delimiterChar);
+            count = 0;
+            while (count < initialPosition) {
+                dataPosition = listValues.indexOf("" + count);
+                updatedData[dataPosition] = listData[count];
+                count++;
+            }
+            return updatedData;
         },
         _addText: function (currentValue) {
             if (this._checkContains(this._hiddenValue)) return false;
@@ -20873,6 +20944,7 @@ BoldBIDashboard.Dialog.Locale["default"] = BoldBIDashboard.Dialog.Locale["en-US"
                     case "minPopupWidth": this.model.minPopupWidth = options[option]; this._setListWidth(); break;
                     case "maxPopupHeight": this.model.maxPopupHeight = options[option]; this._setListHeight(options[option]); break;
                     case "maxPopupWidth": this.model.maxPopupWidth = options[option]; this._setListWidth(); break;
+					case "popupTarget": this.model.popupTarget = options[option]; this._renderPopupPanelWrapper(); break;
                     case "cssClass": this._changeSkin(options[option]); break;
                     case "showCheckbox": this.model.showCheckbox = options[option];
                         var _text = this.model.text;
@@ -21285,7 +21357,7 @@ BoldBIDashboard.Dialog.Locale["default"] = BoldBIDashboard.Dialog.Locale["en-US"
             if (oldWrapper)
                 bbdesigner$(oldWrapper).remove();
             this.popupPanelWrapper = BoldBIDashboard.buildTag("div#" + this._id + "_popup_wrapper");
-            bbdesigner$('body').append(this.popupPanelWrapper);
+			bbdesigner$(this.model.popupTarget).append(this.popupPanelWrapper);
             this.popupListWrapper = BoldBIDashboard.buildTag("div.e-ddl-popup e-box e-widget  e-popup#" + this._id + "_popup_list_wrapper", "", { display: "none", overflow: "hidden" });
 			this.popupListWrapper.width("auto");
 			bbdesigner$(this.popupListWrapper).css({'border-width':'1px'});
@@ -22059,7 +22131,7 @@ BoldBIDashboard.Dialog.Locale["default"] = BoldBIDashboard.Dialog.Locale["en-US"
                         this._hiddenValue = this._getAttributeValue(this.listitems[i]) || this._currentText;
                         this._activeItem = i;
                         this.activeItem = this._getActiveItem();
-                        this._removeText(this._currentText);
+                        this._removeText(this._hiddenValue);
                         this._removeListHidden(this._hiddenValue);
                         var _nodes = this._selectedIndices;
                         if (bbdesigner$.inArray(i, _nodes) > -1) {
@@ -22392,7 +22464,7 @@ BoldBIDashboard.Dialog.Locale["default"] = BoldBIDashboard.Dialog.Locale["en-US"
             this.removeID = true;
             this._chooseSelectionType();
             this._maintainHiddenValue();
-            this._removeText(this._currentText);
+            this._removeText(this._hiddenValue);
             this._removeListHidden(this._hiddenValue);
             this.activeItem.removeClass('e-active');
             if (!this._isSingleSelect()) {
@@ -25020,7 +25092,7 @@ BoldBIDashboard.Dialog.Locale["default"] = BoldBIDashboard.Dialog.Locale["en-US"
                 "aria-expanded": true
             });
             var _ListItemsContainer = this.element.children("li");
-            this._listSize = _ListItemsContainer.size();
+			this._listSize = _ListItemsContainer.length;
             _ListItemsContainer.unbind("contextmenu", bbdesigner$.proxy(this._OnMouseContext, this));
             _ListItemsContainer.unbind("click", bbdesigner$.proxy(this._OnMouseClick, this));
             _ListItemsContainer.unbind("touchstart mouseenter", bbdesigner$.proxy(this._OnMouseEnter, this));
@@ -25028,7 +25100,7 @@ BoldBIDashboard.Dialog.Locale["default"] = BoldBIDashboard.Dialog.Locale["en-US"
             _ListItemsContainer.bind("touchstart mouseenter", bbdesigner$.proxy(this._OnMouseEnter, this));
             _ListItemsContainer.bind("touchend mouseleave", bbdesigner$.proxy(this._OnMouseLeave, this));
             _ListItemsContainer.bind("click", bbdesigner$.proxy(this._OnMouseClick, this));
-            _ListItemsContainer.bind("contextmenu", bbdesigner$.proxy(this._OnMouseContext, this));            
+            _ListItemsContainer.bind("contextmenu", bbdesigner$.proxy(this._OnMouseContext, this));
             if (proxy.model.showCheckbox) proxy.element.find(".listcheckbox").BoldBIDashboardCheckBox({ enabled: proxy.model.enabled });
             return this;
         },

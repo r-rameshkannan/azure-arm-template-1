@@ -23,7 +23,12 @@
     var userName = ViewBag.UserName;
     var isUsageAnalytics = false;
     var enableComment = "false";
+    var emailAddress = Context.Session.GetString("emailaddress") != null ? Context.Session.GetString("emailaddress") : string.Empty;
     var isSlideshow = false;
+    var isViewNotFound = (ViewBag.ViewNotFound != null && ViewBag.ViewNotFound) ? true : false;
+    var isCommentNotFound = (ViewBag.CommentNotFound != null && ViewBag.CommentNotFound) ? true : false;
+    var isPublic = globalAppSettings.SystemSettings.IsMarkItemsPublic && ViewBag.MultiDashboardDetails.IsPublic;
+
 }
 <html>
     <head>
@@ -52,10 +57,11 @@
 
         <script>
             @{
-                if (Context.User.Identity.IsAuthenticated && Context.User != null && Context.User.Identity != null && isUserAuthenticatedInCurrentTenant)
+                if (Context.User.Identity.IsAuthenticated && Context.User != null && Context.User.Identity != null && isUserAuthenticatedInCurrentTenant || (embedConfig.IsEmbedCode && !isPublic))
                 {
                     enableComment = (isSlideshow || !(embedConfig.HasDashboardComments || embedConfig.HasWidgetComments)) ? "false" : "true";
                     isUserAuthenticated = embedConfig.IsEmbedCode ? "false" : "true";
+                    userName = embedConfig.IsEmbedCode ? embedConfig.UserInfo.Email.ToString() : emailAddress.ToLower();
                 }
                 else
                 {
@@ -115,6 +121,9 @@
             var parentItemId = "@ViewBag.ParentItemId";
             var dashboardServerApiUrl = "@dashboardServerApiUrl";
             var dashboardServerApiUrlForServerEmbed = "@dashboardServerApiUrlForServerEmbed";
+            var isViewNotFound = @Html.Raw(Json.Serialize(isViewNotFound));
+            var isCommentNotFound = @Html.Raw(Json.Serialize(isCommentNotFound));
+            var cdnLink = "@dashboardServerResourceUrl";
         </script>
         @await Html.PartialAsync("~/Views/Shared/_LoaderIcon.cshtml")
     </head>
@@ -193,7 +202,7 @@
                 <span id="message-content"></span>
             </div>
             <div class="close-div">
-                <span id="close-content">[[[Close]]]</span>
+                <span id="close-content">@T["Close"]</span>
             </div>
         </div>
 
@@ -242,14 +251,14 @@
                         <ul class="nav navbar-nav col-xs-12 no-padding no-margin">
                             <li class="@(enableComment.ToLower() == "true" && embedConfig.HasViews && embedConfig.HasDashboardComments ? "col-xs-4":"col-xs-6") icon">
                                 <a href="javascript:void(0)" class="su su-nav-dashboard active">
-                                    <span class="nav-menu-label">[[[Dashboard]]]</span>
+                                    <span class="nav-menu-label">@T["Dashboard"]</span>
                                 </a>
                             </li>
                             @if (enableComment.ToLower() == "true" && (!embedConfig.IsEmbedDashboard || embedConfig.HasDashboardComments))
                             {
                                 <li class="@(embedConfig.HasViews ? "col-xs-4":"col-xs-6") icon" id="comment-li">
                                     <a href="javascript:void(0)" class="su su-without-comment server-comment">
-                                        <span class="nav-menu-label">[[[Comment]]]</span>
+                                        <span class="nav-menu-label">@T["Comment"]</span>
                                     </a>
                                 </li>
                             }
@@ -258,7 +267,7 @@
                             {
                                 <li class="@(embedConfig.HasDashboardComments && enableComment.ToLower() == "true" ? "col-xs-4":"col-xs-6") icon" id="view-li">
                                     <a href="javascript:void(0)" class="su-view">
-                                        <span class="nav-menu-label">[[[Views]]]</span>
+                                        <span class="nav-menu-label">@T["Views"]</span>
                                     </a>
                                 </li>
                             }

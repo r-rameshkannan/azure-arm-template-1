@@ -28,12 +28,12 @@
         }
     }
 }
-<div role="tabpanel" class="tab-pane" id="default-authentication-settings-tab">
-    <div id="defaultauthentication-page-body" class="col-lg-12 col-md-12 col-sm-12 admin-page-body no-padding">
+<div role="tabpanel" class="tab-pane col-xs-12 no-padding" id="default-authentication-settings-tab">
+    <div id="defaultauthentication-page-body" class="col-lg-12 col-md-12 col-sm-12 admin-page-body">
         @if (ViewBag.DefaultAuthenticationSettings.ProviderName.Count == 0)
         {
             <div id="no-auth">
-                <p class="no-auth-msg">You have to configure or enable one of the following identity providers to set a default authentication.</p>
+                <p class="no-auth-msg no-padding">You have to configure or enable one of the following identity providers to set a default authentication.</p>
                 <div class="options-padding">
                     @if (CloudAppConfig.IsSelfHosted && !GlobalAppSettings.IsAzureApplication && EnvironmentHelper.IsWindows())
                     {
@@ -76,77 +76,29 @@
         }
         else
         {
-            <form id="default-setting" name="defaultsettingsForm" class="auth-settings-form col-lg-12 col-md-12 col-sm-12 no-padding" method="post" enctype="multipart/form-data" autocomplete="off">
-                <div class="col-md-12 form-group">
-                    <br />
-                    <div class="col-md-12 no-padding no-margin enable-defaultauthentication-label">
-                        @Html.Label("enable-defaultauthentication", "[[[Enable Default Authentication]]]", new { @class = "app-textbox-label col-md-3 no-margin" })
-                        <div class="col-md-9 form-input-field pull-left switch-align">
-                            <span class="material-switch text-left">
-                                @if ((bool)ViewBag.DefaultAuthenticationSettings.IsDefaultAuthenticationEnabled)
-                                {
-                                    <input type="checkbox" id="enable-defaultauthentication" name="defaultauthenticationIsEnabled" ng-model="defaultauthenticationIsEnabled" ng-init="defaultauthenticationIsEnabled=true" ng-click="hideValidationMessage(defaultauthenticationIsEnabled, 'defaultauthentication')" ng-checked=true />
-                                }
-                                else
-                                {
-                                    <input type="checkbox" id="enable-defaultauthentication" name="defaultauthenticationIsEnabled" ng-model="defaultauthenticationIsEnabled" ng-init="defaultauthenticationIsEnabled=false" ng-click="hideValidationMessage(defaultauthenticationIsEnabled, 'defaultauthentication')" />
-                                }
-                                <label for="enable-defaultauthentication" class="label-primary"></label>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 form-group">
-                    <div class="col-md-12 no-padding no-margin">
-                        <label class="app-textbox-label col-md-3 no-margin">[[[Default Authentication Provider ]]]</label>
-                        <div class="col-md-5 no-margin form-input-field">
-                            <select id="login-provider-type" class="selectpicker method-type provider-list">
-                                @for (var provider = 0; provider < ViewBag.DefaultAuthenticationSettings.ProviderName.Count; provider++)
-                                {
-                                    if (ViewBag.DefaultAuthenticationSettings.ProviderName[provider] == ViewBag.DefaultAuthenticationSettings.EnabledProviderName)
-                                    {
-                                        <option class="" value="@((int)ViewBag.DefaultAuthenticationSettings.ProviderName[provider])" selected="selected">[[[@GetProviderName(ViewBag.DefaultAuthenticationSettings.ProviderName[provider])]]]</option>
-                                    }
-                                    else
-                                    {
-                                        <option class="" value="@((int)ViewBag.DefaultAuthenticationSettings.ProviderName[provider])">[[[@GetProviderName(ViewBag.DefaultAuthenticationSettings.ProviderName[provider])]]]</option>
-                                    }
-                                }
+    <form id="default-setting" name="defaultsettingsForm" class="auth-settings-form col-xs-12 no-padding" method="post" enctype="multipart/form-data" autocomplete="off">
+        <div class="col-xs-12 no-padding margin-bottom">
+            <div class="material-switch inline-align">
+                <input type="checkbox" id="enable-defaultauthentication" ng-model="defaultauthenticationIsEnabled" ng-click="hideValidationMessage(defaultauthenticationIsEnabled, 'defaultauthentication')" />
+                <label for="enable-defaultauthentication" class="label-primary"></label>
+            </div>
+            <div class="app-textbox-label inline-align">
+                [[[Enable Default Authentication]]]
+            </div>
+        </div>
 
-                                @if (ViewBag.DefaultAuthenticationSettings.EnabledProviderName == 0)
-                                {
-                                    <option class="" value="0" selected="selected">[[[None]]]</option>
-                                }
-                                else
-                                {
-                                    <option class="" value="0">[[[None]]]</option>
-                                }
-
-                                @*@if (!(bool)ViewBag.OAuthSettings.IsDefaultAuthentication && !(bool)ViewBag.OpenIDSettings.IsDefaultAuthentication)
-                                {
-                                    <option class="no-margin-dropdown-ul" id="none-default">[[[None]]]</option>
-                                }
-                                @if ((bool)ViewBag.OAuthSettings.IsDefaultAuthentication)
-                                {
-                                    <option class="no-margin-dropdown-ul">OAuth 2.0</option>
-                                }
-                                @if ((bool)ViewBag.OpenIDSettings.IsEnabled)
-                                {
-                                    <option class="no-margin-dropdown-ul">OpenID Connect</option>
-                                }
-                                @if ((bool)ViewBag.AzureADSettings.IsEnabled)
-                                {
-                                    <option class="no-margin-dropdown-ul">Azure AD</option>
-                                }
-                                @if ((bool)ViewBag.OAuthSettings.IsEnabled && !(bool)ViewBag.OAuthSettings.IsDefaultAuthentication)
-                                {
-                                    <option class="no-margin-dropdown-ul">OAuth 2.0</option>
-                                }*@
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </form>
+        <div class="col-md-12 no-padding margin-bottom">
+            <label class="app-textbox-label col-xs-12 no-padding">[[[Default Authentication Provider ]]]</label>
+            <div class="col-md-5 no-padding margin-bottom admin-settings-drop-down">
+                <select id="login-provider-type" class="">
+                    @for (var provider = 0; provider < ViewBag.DefaultAuthenticationSettings.ProviderName.Count; provider++)
+                    {
+                        <option class="" value="@((int)ViewBag.DefaultAuthenticationSettings.ProviderName[provider])">@GetProviderName(ViewBag.DefaultAuthenticationSettings.ProviderName[provider])</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </form>
         }
     </div>
 </div>

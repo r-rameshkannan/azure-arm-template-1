@@ -1,12 +1,15 @@
 ﻿@{
     var globalAppSettings = _globalAppSettings;
 
-    ViewBag.Title = "[[[User Notification Preference]]] - " + globalAppSettings.SystemSettings.OrganizationName;
+    ViewBag.Title = T["User Notification Preference"].Value + " - " + globalAppSettings.SystemSettings.OrganizationName;
     ViewBag.MessageBox = false;
     var notificationAdminSettings = globalAppSettings.SystemSettings.NotificationAdministration;
     var defaultNotificationSettings = globalAppSettings.SystemSettings.DefaultNotificationSettings;
     ViewBag.HelpSiteUrl = GlobalAppSettings.GetHelpSiteUrl(HelpSiteUrlNames.Notifications);
     var dashboardServerResourceUrl = globalAppSettings.SystemSettings.CDNLink.TrimEnd('/');
+    var model = ViewBag.GranularPermissions as Dictionary<object, bool>;
+    var scopeList = ServerAppConfig.SettingsScopesList;
+    var canShowAdminMenu = _identityResponse.IsAdmin || model[SettingsScopes.All] || model.Select(x => x).Where(x => scopeList.Contains(x.Key.ToString()) && x.Value == true).Count() > 1 || (model.Select(x => x).Where(x => scopeList.Contains(x.Key.ToString()) && x.Value == true).Count() == 1 && (model[PermissionEntity.UsersandGroups] || model[PermissionEntity.SpecificGroup] || model[PermissionEntity.AllGroups])) || model[PermissionEntity.UsersandGroups];
 }
 
 @section scripts{
@@ -23,138 +26,148 @@
 @section MainSection{
 
     @await Html.PartialAsync("_AdminMenu")
-    <div id="notification-settings-container" class="col-xs-12 admin-page-container">
-        <div id="notification-settings-header" class="col-xs-12 admin-page-header">
-            <hgroup>
+<script>
+        var notificationSettings = @Html.Raw(Json.Serialize(ViewBag.Notification));
+</script>
+<div id="notification-settings-container" class="bi-page-container @(canShowAdminMenu ? string.Empty : "admin-panel-full-width")">
+    <div class="bi-page-content col-xs-12 no-padding">
+        <div id="notification-settings-header" class="col-xs-12 bi-page-header">
+            <hgroup class="bi-page-header-description">
                 <h1 class="h2 page-title">
-                    [[[NOTIFICATION SETTINGS]]]
+                    @T["Notification Settings"]
                 </h1>
                 <h5 class="page-description">
-                    [[[Configure how your users will receive notifications for comments on dashboards.]]]
+                    @T["Configure how your users will receive notifications for comments on dashboards."]
                 </h5>
             </hgroup>
         </div>
-        <div id="notification-settings-body" class="admin-page-body">
+        <div id="notification-settings-body" class="bi-page-body col-xs-12">
             <div class="row input-field-wrapper">
                 <div class="col-xs-8 field-container-notification bottom-width ">
-                    <div class="col-xs-6">
-                    </div>
-                    <div class="col-xs-3 text-center notification-header">
-                        <strong class="tool-tip-padding">[[[Default Settings]]]</strong>
-                        <div class="tool-tip col-xs-1">
-                            <span class="dropdown-toggle" data-toggle="dropdown" id="help-text-default"><span id="error_icon" class="su su-info" title=""></span></span>
-                            <div class="dropdown-menu" role="menu" id="help-text-message">[[[These are the default notification settings applied for new users. Users can change their own notification settings anytime from their profile page.]]]</div>
+                    <div class="notifications-info mail-notification-settings-container" ng-controller="MailNotificationSettingsController">
+                        <div class="notifications-head">
+                            <h3 class="notification-header no-margin">@T["Email Notifications"]</h3>
+                            <h5 class="notification-header-description">
+                                @T["Users will be notified of activities through email"]
+                            </h5>
                         </div>
-                    </div>
-                    <div class="col-xs-3 text-center notification-header">
-                        <strong class="tool-tip-padding">[[[Allow]]]</strong>
-                        <div class="tool-tip col-xs-1">
-                            <span class="dropdown-toggle" data-toggle="dropdown"><span class="su su-info" title=""></span></span>
-                            <div class="dropdown-menu" role="menu">[[[These are the master notification settings. Enabling or disabling any settings here will override the default and user settings.]]]</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row input-field-wrapper">
-                    <div class="col-xs-8 field-container-notification">
-                        <label class="col-xs-5 app-textbox-label">
-                            [[[System notifications]]]
-                        </label>
-                        <div class="tool-tip-description col-xs-1">
-                            <span class="dropdown-toggle" data-toggle="dropdown"><span class="su su-info" title=""></span></span>
-                            <div class="dropdown-menu" role="menu">[[[System notifications will appear in the bottom left once the user logs in to the application.]]]</div>
-                        </div>
-                        <div class="col-xs-3 text-center switch-align">
-                            <span class="material-switch text-left">
-                                <input id="enable-system-notification" name="enable_system" type="checkbox" @(defaultNotificationSettings.EnableSystemNotification == NotificationPreferenceOption.Enable ? "checked" : string.Empty) />
-                                <label for="enable-system-notification" class="label-primary"></label>
-                            </span>
-                        </div>
-                        <div class="col-xs-3 text-center switch-align">
-                            <span class="material-switch text-left">
-                                <input type="checkbox" id="restrict-system-notification" @(notificationAdminSettings.EnableSystemNotification ? "checked" : string.Empty) />
-                                <label for="restrict-system-notification" class="label-primary"></label>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row input-field-wrapper">
-                    <div class="col-xs-8 field-container-notification">
-                        <label class="col-xs-5 app-textbox-label">
-                            [[[Mail notifications]]]
-                        </label>
-                        <div class="tool-tip-description col-xs-1">
-                            <span class="dropdown-toggle" data-toggle="dropdown"><span class="su su-info" title=""></span></span>
-                            <div class="dropdown-menu" role="menu">[[[Users will be notified of comments through email.]]]</div>
-                        </div>
-                        <div class="col-xs-3 text-center switch-align">
-                            <span class="material-switch text-left">
-                                <input id="enable-mail-notification" name="enable_system" type="checkbox" @(defaultNotificationSettings.EnableMailNotification == NotificationPreferenceOption.Enable ? "checked" : string.Empty) />
-                                <label for="enable-mail-notification" class="label-primary"></label>
-                            </span>
-                        </div>
-                        <div class="col-xs-3 text-center switch-align">
-                            <span class="material-switch text-left">
-                                <input type="checkbox" id="restrict-mail-notification" @(notificationAdminSettings.EnableMailNotification ? "checked" : string.Empty) />
-                                <label for="restrict-mail-notification" class="label-primary"></label>
-                            </span>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="row input-field-wrapper">
-                    <div class="col-xs-8 field-container-notification">
-                        <label class="col-xs-5 app-textbox-label">
-                            [[[Autowatch comments of created items]]]
-                        </label>
-                        <div class="tool-tip-description col-xs-1">
-                            <span class="dropdown-toggle" data-toggle="dropdown"><span class="su su-info" title=""></span></span>
-                            <div class="dropdown-menu" role="menu">[[[Enabling this will send notifications for comments on all the dashboards users have created.]]]</div>
-                        </div>
-                        <div class="col-xs-3 text-center switch-align">
-                            <span class="material-switch text-left">
-                                <input id="enable-autowatch-created" name="enable_system" type="checkbox" @(defaultNotificationSettings.EnableAutoWatchOfCommentsOfCreatedItems == NotificationPreferenceOption.Enable ? "checked" : string.Empty) />
-                                <label for="enable-autowatch-created" class="label-primary"></label>
-                            </span>
-                        </div>
-                        <div class="col-xs-3 text-center switch-align">
-                            <span class="material-switch text-left">
-                                <input id="restrict-autowatch-created" name="enable_autowatch_created" type="checkbox" @(notificationAdminSettings.EnableAutoWatchOfCommentsOfCreatedItems ? "checked" : string.Empty) />
-                                <label for="restrict-autowatch-created" class="label-primary"></label>
-                            </span>
+                        <div>
+                            <ul id="mail-notification-settings" class="notifications-listCollection">
+                                <li class="notifications-list">
+                                    @Html.CheckBox("EnableMailNotificationOnDashboardCreatedByUser", new { @class = "material-checkbox", ng_model = "NotificationSettings.MailNotificationSettings.EnableNotificationForDashboardOwner", ng_change = "updateCheckAllMailNotificatiionSettingsOnChange()" })
+                                    <label for="EnableMailNotificationOnDashboardCreatedByUser">
+                                        <span>
+                                            @T["Notify the owner when someone comments on the dashboard"]
+                                        </span>
+                                    </label>
+                                </li>
+                                <li class="notifications-list">
+                                    @Html.CheckBox("EnableMailNotificationOnDashboardSharedWithUser", new { @class = "material-checkbox", ng_model = "NotificationSettings.MailNotificationSettings.EnableNotificationForAccessibleUser", ng_change = "updateCheckAllMailNotificatiionSettingsOnChange()" })
+                                    <label for="EnableMailNotificationOnDashboardSharedWithUser">
+                                        <span>@T["Notify users who have access to the dashboard when someone comments on it"]</span>
+                                    </label>
+                                </li>
+                                <li class="notifications-list">
+                                    @Html.CheckBox("EnableMailNotificationWhenMentionedInComment", new { @class = "material-checkbox", ng_model = "NotificationSettings.MailNotificationSettings.EnableNotificationOnUserMention", ng_change = "updateCheckAllMailNotificatiionSettingsOnChange()" })
+                                    <label for="EnableMailNotificationWhenMentionedInComment">
+                                        <span>@T["Notify the user when they are mentioned in a comment"]</span>
+                                    </label>
+                                </li>
+                                <li class="notifications-list">
+                                    @Html.CheckBox("EnableMailNotificationWhenWatchEnabled", new { @class = "material-checkbox", ng_model = "NotificationSettings.MailNotificationSettings.EnableNotificationWhenWatchEnabled", ng_change = "updateCheckAllMailNotificatiionSettingsOnChange()" })
+                                    <label for="EnableMailNotificationWhenWatchEnabled">
+                                        <span>@T["Notify the user about comments when they have watch enabled for the dashboard"]</span>
+                                    </label>
+                                </li>
+                                <li class="notifications-list">
+                                    @Html.CheckBox("EnableMailNotificationForScheduleExportAndDataAlert", new { @class = "material-checkbox", ng_model = "NotificationSettings.MailNotificationSettings.EnableUserScheduleNotification", ng_change = "updateCheckAllMailNotificatiionSettingsOnChange()" })
+                                    <label for="EnableMailNotificationForScheduleExportAndDataAlert">
+                                        <span>@T["Enable data alert and scheduled export email notification"]</span>
+                                    </label>
+                                </li>
+                                <li class="notifications-list">
+                                    @Html.CheckBox("EnableMailNotificationForUserProfileEdit", new { @class = "material-checkbox", ng_model = "NotificationSettings.MailNotificationSettings.EnableUserProfileNotification", ng_change = "updateCheckAllMailNotificatiionSettingsOnChange()" })
+                                    <label for="EnableMailNotificationForUserProfileEdit">
+                                        <span>@T["Notify the user when their profile is edited"]</span>
+                                    </label>
+                                </li>
+                                <li class="notifications-list">
+                                    @Html.CheckBox("EnableMailNotificationForSharedResource", new { @class = "material-checkbox", ng_model = "NotificationSettings.MailNotificationSettings.EnableResourceShareNotification", ng_change = "updateCheckAllMailNotificatiionSettingsOnChange()" })
+                                    <label for="EnableMailNotificationForSharedResource">
+                                        <span>@T["Notify the user when a resource is shared with them"]</span>
+                                    </label>
+                                </li>
+                                <li class="notifications-list ">
+                                    @Html.CheckBox("EnableUserSynchronizationNotification", new { @class = "material-checkbox", ng_model = "NotificationSettings.MailNotificationSettings.EnableUserSynchronizationNotification", ng_change = "updateCheckAllMailNotificatiionSettingsOnChange()" })
+                                    <label for="EnableUserSynchronizationNotification">
+                                        <span>@T["User synchronization notification"]</span>
+                                    </label>
+                                </li>
+                            </ul>
                         </div>
 
                     </div>
-                </div>
-                <div class="row input-field-wrapper">
-                    <div class="col-xs-8 field-container-notification">
-                        <label class="col-xs-5 app-textbox-label">
-                            [[[Autowatch comments of accessible items]]]
-                        </label>
-                        <div class="tool-tip-description col-xs-1">
-                            <span class="dropdown-toggle" data-toggle="dropdown"><span class="su su-info" title=""></span></span>
-                            <div class="dropdown-menu" role="menu">[[[Enabling this will send notifications for comments on all the dashboards users have access to.]]]</div>
+                    <div ng-controller="SystemNotificationSettingsController">
+                        <div class="notifications-info system-notification-settings-container">
+                            <div class="notifications-head">
+                                <h3 class="notification-header">@T["System Notifications"]</h3>
+                                <h5 class="notification-header-description">
+                                    @T["System notifications will appear in the bottom left once the user logs into the application"]
+                                </h5>
+                            </div>
+                            <ul id="system-notification-settings" class="notifications-listCollection">
+                                <li class="notifications-list">
+                                    @Html.CheckBox("EnableSystemNotificationOnDashboardCreatedByUser", new { @class = "material-checkbox", ng_model = "NotificationSettings.SystemNotificationSettings.EnableNotificationForDashboardOwner", ng_change = "updateCheckAllSystemNotificatiionSettingsOnChange()" })
+                                    <label for="EnableSystemNotificationOnDashboardCreatedByUser">
+                                        <span>@T["Notify the owner when someone comments on the dashboard"]</span>
+                                    </label>
+                                </li>
+                                <li class="notifications-list">
+                                    @Html.CheckBox("EnableSystemNotificationOnDashboardSharedWithUser", new { @class = "material-checkbox", ng_model = "NotificationSettings.SystemNotificationSettings.EnableNotificationForAccessibleUser", ng_change = "updateCheckAllSystemNotificatiionSettingsOnChange()" })
+                                    <label for="EnableSystemNotificationOnDashboardSharedWithUser">
+                                        <span>@T["Notify users who have access to the dashboard when someone comments on it"]</span>
+                                    </label>
+                                </li>
+                                <li class="notifications-list">
+                                    @Html.CheckBox("EnableSystemNotificationWhenMentionedInComment", new { @class = "material-checkbox", ng_model = "NotificationSettings.SystemNotificationSettings.EnableNotificationOnUserMention", ng_change = "updateCheckAllSystemNotificatiionSettingsOnChange()" })
+                                    <label for="EnableSystemNotificationWhenMentionedInComment">
+                                        <span>@T["Notify the user when they are mentioned in a comment"]</span>
+                                    </label>
+                                </li>
+                                <li class="notifications-list">
+                                    @Html.CheckBox("EnableSystemNotificationWhenWatchEnabled", new { @class = "material-checkbox", ng_model = "NotificationSettings.SystemNotificationSettings.EnableNotificationWhenWatchEnabled", ng_change = "updateCheckAllSystemNotificatiionSettingsOnChange()" })
+                                    <label for="EnableSystemNotificationWhenWatchEnabled">
+                                        <span>@T["Notify the user about comments when they have watch enabled for the dashboard"]</span>
+                                    </label>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="col-xs-3 text-center switch-align">
-                            <span class="material-switch text-left">
-                                <input type="checkbox" id="enable-autowatch-access" @(defaultNotificationSettings.EnableAutoWatchOfCommentsOfAccessibleItems == NotificationPreferenceOption.Enable ? "checked" : string.Empty) />
-                                <label for="enable-autowatch-access" class="label-primary"></label>
-                            </span>
-                        </div>
-                        <div class="col-xs-3 text-center switch-align">
-                            <span class="material-switch text-left">
-                                <input id="restrict-autowatch-access" name="enable_system" type="checkbox" @(notificationAdminSettings.EnableAutoWatchOfCommentsOfAccessibleItems ? "checked" : string.Empty) />
-                                <label for="restrict-autowatch-access" class="label-primary"></label>
-                            </span>
+                        <div class="disable-preference-container notifications-info">
+                            <div class="notifications-listCollection">
+                                <div class="disable-user-preference notifications-list notifications-head">
+                                    @Html.CheckBox("DisableUserPreference", new { @class = "material-checkbox", ng_model = "NotificationSettings.DisableUserPreference" })
+                                    <label for="DisableUserPreference">
+                                        <span class="notification-header">@T["Disable User Preference"]</span>
+                                    </label>
+                                    <h5 class="notification-header-description">
+                                        @T["Users cannot modify their notification preference"]
+                                    </h5>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="admin-page-actions col-xs-12 col-md-12">
-            <a href="@Url.Action("dashboards", "dashboards")" class="secondary-button app-btn-secondary pull-right" id="cancel-notification-settings" title="">[[[Cancel]]]</a>
-            <input type="button" title="" data-url="@Url.Action("savenotificationsettings", "administration")" id="update-notification-settings" class="primary-button app-btn-primary pull-right" value="[[[Save]]]" />
+        <div class="bi-page-footer col-xs-12">
+            <div class="bi-page-actions col-xs-12 col-md-12">
+                <a href="@Url.Action("dashboards", "dashboards")" class="secondary-button app-btn-secondary pull-right" id="cancel-notification-settings" title="">@T["Cancel"]</a>
+                <input type="button" title="" data-url="@Url.Action("savenotificationsettings", "administration")" id="update-notification-settings" class="primary-button app-btn-primary pull-right" value="@T["Save"]" />
+            </div>
         </div>
     </div>
+    @await Html.PartialAsync("../Shared/_Footer", new ViewDataDictionary(ViewData) { { "appsettings", globalAppSettings } })
+</div>
     <environment include="Development,CloudDevelopment">
         <script asp-append-version="true" src="~/js/localizationcontent.js?v=@ServerAppConfig.ProductVersion&c=@System.Globalization.CultureInfo.CurrentCulture"></script>
     </environment>

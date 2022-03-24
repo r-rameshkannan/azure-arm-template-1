@@ -20,18 +20,16 @@
 label {
   font-weight: normal; }
 
-a, a:hover {
-  text-decoration: none !important; }
-
-a:focus {
-  text-decoration: underline !important; }
+a, a:hover, a:focus {
+  text-decoration: none !important;
+  color: var(--colorPrimary); }
 
 input[type=button], input[type=submit], button[type=submit] {
   padding: 0px !important; }
 
 input.form-control:not(.input-block-level), .btn-group.form-control .btn.dropdown-toggle, .form-control.StripeElement {
   box-shadow: none !important;
-  border: 1px solid #eaeaea; }
+  border: 1px solid #CCCCCC; }
 
 .bs-searchbox .input-block-level.form-control {
   box-shadow: none !important;

@@ -119,6 +119,7 @@ CREATE TABLE BOLDTC_TenantLog (
 	ToStatus int Not Null,
 	UpdatedUserId uuid NULL,
 	SourceTypeId int Null,
+	OptionalData varchar(1026) NULL,
 	CreatedDate timestamp NOT NULL,
 	IsActive smallint NOT NULL,
   CONSTRAINT PK_BOLDTC_TENANTLOG PRIMARY KEY (Id)
@@ -748,7 +749,7 @@ CREATE TABLE BOLDTC_AzureBlob (
 	TenantInfoId uuid NOT NULL,
 	AccountName varchar(4000) NOT NULL,
 	AccessKey varchar(4000) NOT NULL,
-	Uri varchar(4000) NOT NULL,
+	Uri varchar(4000) NULL,
 	ContainerName varchar(4000) NOT NULL,
 	ConnectionType varchar(4000) NOT NULL,
 	ConnectionString varchar(4000) NOT NULL,

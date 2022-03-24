@@ -30,8 +30,8 @@ var validateUserpassword = {
             return "p_policy_length"
     }
 };
-$(document).on("ready", function () {
-    $(".show-hide-password").on("click", function () {
+$(function () {
+    $(document).on("click", ".show-hide-password", function () {
         if ($(this).siblings().find("input").is(":password")) {
             $(this).siblings().find("input").attr('type', 'text');
             $(this).removeClass('su-show').addClass('su-hide').attr("data-original-title", window.Server.App.LocalizationContent.ClicktoHide);
@@ -44,7 +44,7 @@ $(document).on("ready", function () {
         }
     });
 
-    $(".show-hide-password").bind("touch", function () {
+    $(document).on("touch", ".show-hide-password", function () {
         if ($(this).siblings().find("input").is(":password")) {
             $(this).siblings().find("input").attr('type', 'text');
             $(this).removeClass('su-show');

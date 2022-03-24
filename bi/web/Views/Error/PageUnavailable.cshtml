@@ -24,7 +24,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>[[[Page Unavailable]]]</title>
+    <title>@T["Page Unavailable"]</title>
     <environment include="Development,CloudDevelopment">
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/layout.css" />
@@ -60,28 +60,19 @@
                 <div class="error-image-center-2">
                     <img src="@cdnLink/static/error-pages/v1/500.svg" class="error-image-2">
                 </div>
-                <div class="error-type">[[[Page unavailable]]]</div>
+                <div class="error-type">@T["Page unavailable"]</div>
                 @if (!ServerAppConfig.IsSelfHosted)
                 {
-                    if (GlobalAppSettings.Branding == AppBranding.Syncfusion.Identifier)
-                    {
-
-                        <div class="error-text">[[[The requested page failed to load. If the problem persists, please contact Syncfusion Support.]]]</div>
-                    }
-                    else
-                    {
-                        <div class="error-text">[[[The requested page failed to load. If the problem persists, please contact Bold BI Support.]]]</div>
-                    }
-
+                    <div class="error-text">@string.Format(T["The requested page failed to load. If the problem persists, please contact {0} Support."].Value, GlobalAppSettings.Branding == AppBranding.Syncfusion.Identifier ? "Syncfusion" : "Bold BI")</div>
                     <div class="take-me-back-to-home-page">
                         <span class="error-page-cursor">
-                            <a class="error-to-beck-text-color" href="https://www.@(GlobalAppSettings.BrandingDomain)/support">[[[Create a Support ticket]]]</a>
+                            <a class="error-to-beck-text-color" href="https://www.@(GlobalAppSettings.BrandingDomain)/support">@T["Create a Support ticket"]</a>
                         </span>
                     </div>
                 }
                 else
                 {
-                    <div class="error-text">[[[The requested page failed to load. If the problem persists, please contact your administrator.]]]</div>
+                    <div class="error-text">@T["The requested page failed to load. If the problem persists, please contact your administrator."]</div>
                 }
             </div>
         </div>

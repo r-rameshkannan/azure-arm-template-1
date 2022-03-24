@@ -32,8 +32,6 @@
     var faviconLogo = globalAppSettings.SystemSettings.FavIcon;
     var requestUrl = new Uri(Context.Request.GetDisplayUrl());
     var dashboardServerResourceUrl = globalAppSettings.SystemSettings.CDNLink.TrimEnd('/');
-    var isUnlisted = itemDetail.IsUnlisted ? "true" : "false";
-    var unlistedcode = itemDetail.UnlistedCode;
     var currentUserId = identityResponse.User != null ? identityResponse.User.UserId : 0;
     var isOwner = itemDetail.CreatedById == currentUserId ? "true" : "false";
 
@@ -166,8 +164,6 @@
 	var sso = "@hasSSO";
 	var comment = "";
     var view = "";
-    var isUnlisted = @itemDetail.IsUnlisted.ToString().ToLower();
-    var unlistedCode = "@itemDetail.UnlistedCode";
     var isOwner = @isOwner;
     var commentSettings = {
             isDashboardCommented: @Html.Raw(ViewBag.IsDashboardCommented),
@@ -375,7 +371,7 @@ else
 						renderDashboard(comment,view);
 						}
 						else{
-						if(@isPublic == true || @isUnlisted == true){
+						if(@isPublic == true){
 						enableComment = "false";
 		                enableView = "false";
 		                renderDashboard(comment,view);
@@ -513,7 +509,7 @@ else
                                     }
                                 }
                                 else{
-                                    if(@isPublic == true || @isUnlisted == true && isAuthenticated.toLowerCase() == "false")
+                                    if(@isPublic == true && isAuthenticated.toLowerCase() == "false")
                                     {
                                         enableComment = "false";
                                         enableView = "false";
@@ -544,7 +540,7 @@ else
                 renderDashboard(comment,view);
             }
             else{
-                if(@isPublic == true || @isUnlisted == true)
+                if(@isPublic == true)
                 {
                     enableComment = "false";
                     enableView = "false";
@@ -563,7 +559,7 @@ else
                 renderDashboard(comment,view);
             }
             else{
-                if(@isPublic == true || @isUnlisted == true && isAuthenticated.toLowerCase() == "false"){
+                if(@isPublic == true && isAuthenticated.toLowerCase() == "false"){
                     enableComment = "false";
                     enableView = "false";
                     renderDashboard(comment,view);

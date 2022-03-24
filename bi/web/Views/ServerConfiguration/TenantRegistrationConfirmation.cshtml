@@ -6,22 +6,26 @@
     var favLogo = string.Empty;
     var orgName = string.Empty;
     var headerLogo = string.Empty;
+    var footerlogo = string.Empty;
     if (!string.IsNullOrWhiteSpace(ViewBag.appsettings.SystemSettings.LoginLogo))
     {
         headerLogo = new Uri(ViewBag.appsettings.SystemSettings.LoginLogo).PathAndQuery;
         favLogo = new Uri(ViewBag.appsettings.SystemSettings.FavIcon).PathAndQuery + "&ramd=" + Syncfusion.Server.Base.Helpers.DateTimeHelper.DateTimeToUnixTimeStamp(DateTime.Now);
+        footerlogo = new Uri(ViewBag.appsettings.SystemSettings.FooterLogo).PathAndQuery;
         orgName = ViewBag.appsettings.SystemSettings.OrganizationName;
     }
     else
     {
         headerLogo = dashboardServerResourceUrl + "/cdn/images/application/boldbi/deployment_header_logo.svg";
         favLogo = dashboardServerResourceUrl + "/cdn/images/application/boldbi/favicon.ico";
+        footerlogo = dashboardServerResourceUrl + "/cdn/images/application/boldbi/footer_logo.svg";
         orgName = @GlobalAppSettings.BrandingDisplayName + " Enterprise";
     }
     var pathbase = Context.Request.PathBase;
     var tenantId = ViewBag.TenantInfoId;
     var baseUrl = ViewBag.BaseUrl;
     var isFirstTenant = ViewBag.IsFirstTenant;
+    var globalAppSettings = _globalAppSettings;
 }
 <!DOCTYPE html>
 <html class="dashboard-server">
@@ -151,8 +155,8 @@
                 <img class="boldbi-logo" src="@headerLogo" />
             </div>
             <div class="deploy-tenant-bg">
-                <div class="text-h1 deployment-content">[[[Registering your site...]]]</div>
-                <div class="text-body deployment-content-small">[[[Sit back and relax. We’ll let you know when your setup is ready to go!]]]</div>
+                <div class="text-h1 deployment-content">@T["Registering your site..."]</div>
+                <div class="text-body deployment-content-small">@T["Sit back and relax. We’ll let you know when your setup is ready to go!"]</div>
                 <div class="deployment-container">
                     <div class="circle-progress">
                         <div class="wrapper">
@@ -161,14 +165,14 @@
                         </div>
                     </div>
                 </div>
-                <div id="deployment-status" class="text-body deployment-content-small">[[[Fetching site information...]]]</div>
+                <div id="deployment-status" class="text-body deployment-content-small">@T["Fetching site information..."]</div>
             </div>
         </div>
     </div>
     @if (ViewBag.appsettings.SystemSettings.IsEnablePoweredBySyncfusion) 
     {
         <footer class="deployment-footer">
-            <span class="footer-content">[[[Powered by]]]</span><img class="footer-logo" src="@dashboardServerResourceUrl/cdn/images/application/boldbi/footer_logo.svg" />
+            <span class="footer-content">@T["Powered by"]</span><img class="footer-logo" src="@footerlogo"/>
         </footer>
     }
 
@@ -184,8 +188,7 @@
                 <div id="user-profile-picture">
                     <div class="profile-pic-tag" data-type="user" data-image-size="100" data-toggle="tooltip" data-placement="top"></div>
                 </div>
-                <div class="user-name">[[[Hello,]]] <span></span></div>
-                <div class="welcome-content">[[[Welcome to Bold BI Enterprise Dashboards]]]</div>
+                <div class="user-name">@Html.Raw(string.Format(T["Hello, {0}Welcome to {1} Enterprise Dashboards"].Value, "<span></span></div><div class='welcome-content'>","Bold BI"))</div>
                 <div class="tenant-parent-container">
                     <a class="admin-link-container" rel="alternate" hreflang="en" href="@ServerAppConfig.InternalAppIdpUrl/@ServerAppConfig.TenantManagementHostName/sites">
                         <table class="admin-options">
@@ -194,12 +197,12 @@
                                     <img src="@dashboardServerResourceUrl/cdn/images/application/boldbi/manage_tenant.svg" />
                                 </td>
                                 <td class="action-title">
-                                    <div>[[[Manage your Sites]]]</div>
+                                    <div>@T["Manage your Sites"]</div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="action-description">
-                                    [[[Manage permissions for the sites you created.]]]
+                                    @T["Manage permissions for the sites you created."]
                                     <a class="su-arrow-right"></a>
                                 </td>
                             </tr>
@@ -214,12 +217,12 @@
                                     <img src="@dashboardServerResourceUrl/cdn/images/application/boldbi/goto_dashboard.svg" />
                                 </td>
                                 <td class="action-title">
-                                    <div>[[[Go to Dashboards]]]</div>
+                                    <div>@T["Go to Dashboards"]</div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="action-description">
-                                    [[[Get started creating dashboards.]]]
+                                    @T["Get started creating dashboards."]
                                     <a class="su-arrow-right"></a>
                                 </td>
                             </tr>

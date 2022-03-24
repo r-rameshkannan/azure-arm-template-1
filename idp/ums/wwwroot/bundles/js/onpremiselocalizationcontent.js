@@ -19,12 +19,15 @@ var TM = {
             BrowsePath: "[[[Browse file path]]]",
 
             //Authentication Settings
+            DefaultAuthenticationSettings: "[[[Default Authentication Provider]]]",
+            Provider: "[[[Provider]]]",
             SSOSettings: "[[[SSO Settings]]]",
             SSOSettingsUpdated: "[[[SSO settings have been updated.]]]",
             SSOSettingsUpdateError: "[[[Error while updating settings.]]]",
             Configuration: "[[[Configuration]]]",
             ConfigurationUpdated: "[[[Configuration have been updated.]]]",
             ConfigurationUpdateError: "[[[Error while updating the configuration.]]]",
+            InvalidConfiguration: "[[[Configuration data is invalid.]]]",
             WindowsAdSettings: "[[[Windows AD Settings]]]",
             WindowsAdSettingsUpdated: "[[[Windows AD settings have been updated.]]]",
             WindowsAdSettingsUpdateError: "[[[Error while updating settings.]]]",
@@ -48,6 +51,12 @@ var TM = {
             ChangeSubscriptionDialogHeader: "[[[Change Subscription]]]",
 
             //SystemSettings.js
+            TimeZone: "[[[Time Zone]]]",
+            TimeFormat: "[[[Date Format]]]",
+            DateFormat: "[[[Time format]]]",
+            Language: "[[[Application Language]]]",
+            
+            SiteUrl: "[[[Site URL]]]",
             TimeFormatTrue: "[[[13:00]]]",
             TimeFormatFalse: "[[[1:00 PM]]]",
             InValidFileFormat: "[[[Invalid file format]]]",
@@ -61,11 +70,14 @@ var TM = {
             EnterName: "[[[Please enter the name.]]]",
             InvalidEmailAddress: "[[[Invalid email address]]]",
             Urlvalidator: "[[[Please enter URL]]]",
+            OrganizationName: "[[[Please enter the organization name]]]",
             AzureADSettings: "[[[Azure Active Directory Settings]]]",
             PasswordPlaceholder: "[[[Password]]]",
             CopyRightValidator: "[[[Please enter the copy right information text]]]",
             MySqlPortInfo: "[[[Specify the TCP port number that the server is listening for connections. The default port number is 3306.]]]",
             postgresPortInfo: "[[[Specify the TCP port number that the server is listening for connections. The default port number is 5432.]]]",
+            MailSendFailureMessage1: "[[[Unable to send test email.]]]",
+            MailSendFailureMessage2: "[[[View More]]]",
 
             //Offlinelicenupdate.js
             InvalidLicFileFormat: "[[[Invalid file type. Please select .lic format only]]]",
@@ -76,6 +88,8 @@ var TM = {
             SenderNameValidator: "[[[Please enter sender name]]]",
             MailSMTPServerValidator: "[[[Please enter SMTP server]]]",
             MailSMTPPortValidator: "[[[Please enter SMTP port]]]",
+            SendButton: "[[[Send]]]",
+            DoneButton: "[[[Done]]]",
 
             //UserSettings.js
             UserSettings: "[[[User Settings]]]",
@@ -117,6 +131,7 @@ var TM = {
             ContactUs: "[[[contact us]]]",
             UpgradeYourplan: "[[[upgrade your plan]]]",
             Or: "[[[or]]]",
+            SearchFiles: "[[[Search your files]]]",
 
             //Changepassword.js
             OldPasswordValidator: "[[[Please enter your old password]]]",
@@ -141,14 +156,15 @@ var TM = {
             //SysetmSettings.js
             SelectDatabase: "[[[Select a database]]]",
             SiteValidation: "[[[Site name is too long. Must be fewer than 255 characters.]]]",
+            SiteIdentifierValidation: "[[[Site identifier is too long. Must be fewer than 32 characters.]]]",
             YourSite: "[[[Step 2: Let’s configure the database]]]",
             YourSite2: "[[[This is where we store user identities and ]]]",
-            YourSite3:" [[[sites.]]]",
+            YourSite3: " [[[sites.]]]",
             YourStorage: "[[[Step 3: Your storage type]]]",
             StorageBIMsg: "[[[The storage is used to maintain your Embedded BI resources.]]]",
             StorageReportsMsg: "[[[The storage is used to maintain your Enterprise Reporting resources.]]]",
             StorageAccount: "[[[Please enter storage account name]]]",
-            DatabaseInfo:"[[[This is where we store the tenants, users, and their tenant access permissions.]]]",
+            DatabaseInfo: "[[[This is where we store the tenants, users, and their tenant access permissions.]]]",
             DatabaseInfoBI: "[[[This is where we store your Embedded BI resources and data store configuration.]]]",
             DatabaseInfoBI2: "[[[This is where we store the BI tenants, dashboard resources, and data store configuration.]]]",
             DatabaseInfoReports: "[[[This is where we store your Enterprise Reporting resources, users, and their access permissions.]]]",
@@ -201,6 +217,8 @@ var TM = {
             DatabaseReportsMsg: "[[[This is where we store your reports, users, and their access permissions.]]]",
             DatabaseName: "[[[Database name]]]",
             IDDatabaseName: "[[[ID database name]]]",
+            LogoButton: "[[[Change Logo]]]",
+            FavIconButton: "[[[Change Favicon]]]",
 
             //AddTenant.js
             BoldReportsMultiTenancy: "[[[Using a multitenant solution, you can host multiple Enterprise Reporting sites on a single instance by isolating the database and resources for each site.]]]",
@@ -234,7 +252,7 @@ var TM = {
 
             //ViewSite.js
             AddAdministrators: "[[[Add Administrators]]]",
-            RemoveAdministrator: "[[[Remove Administartor]]]",
+            RemoveAdministrator: "[[[Remove Administrator]]]",
             GrantSiteAccess: "[[[Grant Site Access]]]",
             GrantSiteAccessError: "[[[An error occurred while granting access to users.]]]",
             GrantedAccessTo: "[[[Granted access to]]]",
@@ -246,7 +264,9 @@ var TM = {
             RegenerateClientSecretSuccess: "[[[Client secret generated successfully.]]]",
             RegenerateClientSecretFail: "[[[Error while generating client secret.]]]",
             WarningColon: "[[[Warning:]]]",
+            DeleteDatabase: "[[[Delete the database linked to this site.]]]",
             DeleteAllResource: "[[[This will delete all the resource and database linked to this site, and this action cannot be undone.]]]",
+            DeleteAllResourceWithoutDataBase: "[[[This will delete all the resources and this action cannot be undone.]]]",
             Activate: "[[[Activate]]]",
             Suspend: "[[[Suspend]]]",
             Delete: "[[[Delete]]]",
@@ -254,11 +274,15 @@ var TM = {
             InternalServerErrorTryAgain: "[[[Internal server error. Please try again]]]",
             SiteSuspendSuccess: "[[[Site has been suspended successfully.]]]",
             SiteDeleteSuccess: "[[[Site has been deleted successfully.]]]",
+            SiteDeleteSuccesswithoutdatabase: "[[[The site has been deleted successfully; however, the database was not as it contained one or more tables.]]]",
             SiteActivatedSuccess: "[[[Site has been activated successfully.]]]",
             IsolationCode: "[[[Isolation Code]]]",
             IsolationCodeSucess: "[[[Isolation code has been updated successfully.]]]",
             IsolationCodeError: "[[[An error occurred while updating isolation code.]]]",
             IsolationCodeValidator: "[[[Please enter a valid isolation code.]]]",
+            GrantAccessToUsers: "[[[Grant Access to users]]]",
+            GrantSiteAccessToUsersHeaderDescription: "[[[Select the users who would be granted site access.]]]",
+            RevokeAccess: "[[[Revoke User(s) Access]]]",
 
             //UserDelete.js
             DeleteUser: "[[[Delete User]]]",
@@ -293,6 +317,10 @@ var TM = {
             RemoveRole: "[[[Remove Role]]]",
             MakeAdminError: "[[[An error occured while giving admin access]]]",
             RemoveAdminError: "[[[An error occured while removing admin access]]]",
+            GrantSiteAcessHeaderTitle: "[[[Grant Access to Sites]]]",
+            GrantSiteAcessHeaderDescription: "[[[Select the sites to which you want to grant access.]]]",
+            GrantSiteAccessButton: "[[[Grant access]]]",
+            ManageUserAccess: "[[[Manage User Access]]]",
 
             //UserManagementProfile.js
             PhoneNumberValidator: "[[[Please enter the valid phone number]]]",
@@ -349,9 +377,14 @@ var TM = {
             ClicktoHide: "[[[Click to hide]]]",
 
             //upload-font
+            LookAndFeel: "[[[Font Family]]]",
             UploadFont: "[[[Upload Font]]]",
             BrowseFont: "[[[Browse file path (.woff2)]]]",
-            FontSettings: "[[[Font Settings]]]"
+            FontSettings: "[[[Font Settings]]]",
+            //API Validation
+            IdpTokenAPI: "[[[IdP Token API]]]",
+            APIResponse: "[[[API Response]]]",
+            AutoDeployment: "[[[Auto Deployment]]]"
         }
     }
 };

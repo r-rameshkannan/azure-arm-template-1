@@ -2,8 +2,7 @@
 
 @{
     var globalAppSettings = _globalAppSettings;
-
-    ViewBag.Title = "[[[Notifications]]] - " + globalAppSettings.SystemSettings.OrganizationName;
+    ViewBag.Title = T["Notifications"].Value +" - " + globalAppSettings.SystemSettings.OrganizationName;
     ViewBag.MessageBox = false;
     var idPAvatarUrl = globalAppSettings.SystemSettings.IDPUrl + "/User/Avatar";
     ViewBag.HelpSiteUrl = GlobalAppSettings.GetHelpSiteUrl(HelpSiteUrlNames.SystemNotifications);

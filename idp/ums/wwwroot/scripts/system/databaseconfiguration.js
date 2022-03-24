@@ -263,7 +263,9 @@ $(document).on("click", "#db-config-submit, #sql-existing-db-submit", function (
     removeError();
     var canProceed = $("#db-content-holder").valid();
     if (canProceed) {
-        showWaitingPopup($(".startup-waiting-popup"));
+        if (typeof isDockerOrk8s != "undefined" && !isDockerOrk8s) {
+            showWaitingPopup($(".startup-waiting-popup"));
+        }
         $(this).prop("disabled", true);
         window.serverName = $("#txt-servername").val();
         window.portNumber = $("#txt-portnumber").val();
@@ -511,7 +513,16 @@ function DomResize() {
 function onDatbaseChange(args) {
     removeError();
     var checkedVal = args.value.toLowerCase();
-    $("#admin-nav").show();
+    if (!isSiteCreation) {
+        $("#admin-nav").show();
+    }
+    else if (!isBoldReportsTenantType() && isSiteCreation) {
+        $("#admin-nav").show();
+    }
+    else if (isBoldReportsTenantType && isSiteCreation) {
+        $("#admin-nav").hide();
+    }
+
     showDataStore();
     switch (checkedVal) {
         case "mssql":
@@ -528,6 +539,12 @@ function onDatbaseChange(args) {
             $(".show-sql-content").slideDown("slow");
             if (!isSiteCreation) {
                 prefillDbNames();
+            }
+            if (!isSiteCreation && isBoldReports) {
+                hideDataStore();
+            }
+            else if (isSiteCreation && isBoldReportsTenantType()) {
+                hideDataStore();
             }
             $("div.placeholder").remove();
             $(".note-additional-parameter a").attr("href", sqlParameter);
@@ -557,6 +574,7 @@ function onDatbaseChange(args) {
             if (!isSiteCreation) {
                 prefillDbNames();
             }
+           
             $("div.placeholder").remove();
             $(".note-additional-parameter a").attr("href", mySQLParameter);
             DomResize();
@@ -584,8 +602,15 @@ function onDatbaseChange(args) {
             $("#move-to-next,.sqlce-content").removeClass("show").addClass("hide");
             $(".content-display").hide();
             $(".show-sql-content").slideDown("slow");
+           
             if (!isSiteCreation) {
                 prefillDbNames();
+            }
+            if (!isSiteCreation && isBoldReports) {
+                hideDataStore();
+            }
+            else if (isSiteCreation && isBoldReportsTenantType()) {
+                hideDataStore();
             }
             $("div.placeholder").remove();
             $(".note-additional-parameter a").attr("href", postgresSQLParameter);
@@ -596,7 +621,16 @@ function onDatbaseChange(args) {
 
             break;
     }
-    $("#new-db").prop("checked", true).trigger("change");
+        $("#new-db").prop("checked", true).trigger("change");
+
+    if (getRadioButtonValue("databaseType") == "1") {
+        $("#sql-existing-db-submit, .sql-server-existing-db").show();
+        $(".database-name, #db-config-submit").hide();
+    }
+    else {
+        $("#sql-existing-db-submit, .sql-server-existing-db").hide();
+        $(".database-name, #db-config-submit").show();
+    }
 
     if (actionType.toLowerCase() != "edit") {
         document.getElementById("txt-login").ej2_instances[0].value = null;
@@ -630,6 +664,8 @@ function onWindowsChange(args) {
     if (windowsCheck && databaseType == "MSSQL") {
         document.getElementById("txt-login").ej2_instances[0].enabled = false;
         document.getElementById("txt-password-db").ej2_instances[0].enabled = false;
+        document.getElementById("txt-login").ej2_instances[0].value = null;
+        document.getElementById("txt-password-db").ej2_instances[0].value = null;
         $("#auth-type-info").removeClass("hide").addClass("show");
     }
     else if (databaseType == "MSSQL") {
@@ -654,7 +690,6 @@ function onDbSelectChange() {
     if (databaseType == "MySQL") {
         hideDataStore();
     }
-
     changeFooterPostion();
     DomResize();
     if (!isBoldBI) {
@@ -669,16 +704,16 @@ function prefillDbNames() {
 }
 
 function hideDataStore() {
-    $(".data-store-hide").hide();
-    $(".data-store-existing-db-hide").hide();
+    $(".data-store-hide").removeClass("show").addClass("hidden");
+    $(".data-store-existing-db-hide").removeClass("show").addClass("hidden");
 }
 
 function showDataStore() {
     if (getRadioButtonValue("databaseType") == "1") {
-        $(".data-store-existing-db-hide").show();
+        $(".data-store-existing-db-hide").removeClass("hidden").addClass("show");
     }
     else {
-        $(".data-store-hide").show();
+        $(".data-store-hide").removeClass("hidden").addClass("show");
     }
 }
 

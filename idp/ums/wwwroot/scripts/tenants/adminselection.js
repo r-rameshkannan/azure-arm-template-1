@@ -249,6 +249,7 @@ $(document).on("click", "#clear-search", function () {
     var gridObj = $("#add_admins_grid").data("ejGrid");
     gridObj.clearSelection();
     selectedAdmins = [];
+	gridHeight = 500;
     listUsersForAdminSelection();
     gridObj.refreshContent();
 });

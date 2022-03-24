@@ -1,4 +1,4 @@
-ALTER TABLE  {database_name}.BOLDBI_ScheduleDetail ADD ScheduleExportInfo text NULL
+﻿ALTER TABLE  {database_name}.BOLDBI_ScheduleDetail ADD ScheduleExportInfo text NULL
 ;
 INSERT into {database_name}.BOLDBI_LogField (ModuleId,Field,Description,ModifiedDate,IsActive) SELECT 10,'DashboardSettings.UsageAnalytics','DashboardSettings.UsageAnalytics',NOW(),1 FROM DUAL 
 WHERE NOT EXISTS(SELECT * FROM {database_name}.BOLDBI_LogField WHERE Field='DashboardSettings.UsageAnalytics' LIMIT 1)

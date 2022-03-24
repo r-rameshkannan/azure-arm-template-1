@@ -2,7 +2,7 @@
 @{
     Layout = null;
     var tenantIdentifierPrefix = CloudAppConfig.TenantIdentifierPrefix;
-    var idPUrl = CloudAppConfig.IdPUrl.TrimEnd('/');
+    var idPUrl = GlobalAppSettings.SystemSettings.BaseUrl.TrimEnd('/');
     var userId = Context.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
     var profilePicture = idPUrl + "/User/Avatar?id=" + ViewBag.UserId + "&ImageSize=64";
     var displayName = ViewBag.UserDetails.DisplayName;

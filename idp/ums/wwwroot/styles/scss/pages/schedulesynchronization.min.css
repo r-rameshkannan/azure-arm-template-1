@@ -8,25 +8,30 @@
   #schedule-synchronization-container input::-ms-clear, #schedule-synchronization-container input::-ms-reveal {
     display: none !important; }
   #schedule-synchronization-container .material-checkbox + input + label {
-    position: relative;
-    padding: 5px 0 0 25px !important;
     cursor: pointer;
     display: inline-block;
-    color: var(--colorText);
     height: 25px;
+    font-family: var(--font-family);
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0.26px;
     margin: 0;
+    padding: 6px 7px 0 24px !important;
+    position: relative;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none; }
     #schedule-synchronization-container .material-checkbox + input + label::after {
-      border-radius: 3px; }
+      border-radius: 2px; }
     #schedule-synchronization-container .material-checkbox + input + label::before, #schedule-synchronization-container .material-checkbox + input + label::after {
       content: '';
       left: 0;
       position: absolute;
       -webkit-transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
       transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
-      z-index: 1; }
+      z-index: 1;
+      width: 11px;
+      height: 8px; }
   #schedule-synchronization-container .material-checkbox:not(:checked) + input + label::before {
     width: 0;
     height: 0;
@@ -37,34 +42,36 @@
     height: 16px;
     width: 16px;
     background-color: transparent;
-    border: 2px solid #eeeeee;
+    border: 1px solid #b3b3b3;
     top: 0px;
     z-index: 1;
     margin-top: 7px;
     margin-bottom: 2px; }
   #schedule-synchronization-container .material-checkbox:checked + input + label::before {
-    bottom: 14px;
-    color: var(--colorOnPrimary);
-    content: "";
+    bottom: 11.2px;
+    color: #fff;
+    content: "";
     font-family: "Server";
-    height: 10px;
-    width: 5px;
-    left: 3px; }
+    left: 1px;
+    font-size: 14px;
+    font-weight: bold; }
   #schedule-synchronization-container .material-checkbox:checked + input + label::after {
     top: 0;
     width: 16px;
     height: 16px;
-    border: 1.5px solid var(--colorPrimary);
+    border: 1px solid var(--colorPrimary);
     background-color: var(--colorPrimary);
     z-index: 0;
     margin-top: 7px;
     margin-bottom: 2px; }
   #schedule-synchronization-container .material-checkbox:disabled + input + label::after {
-    background-color: #eeeeee;
-    border: 1px solid #eeeeee; }
+    background-color: #f2f2f2;
+    border: 1px solid #cccccc; }
+  #schedule-synchronization-container .material-checkbox:disabled + input + label::before {
+    color: #b3b3b3; }
   #schedule-synchronization-container .material-checkbox:not(:checked):disabled + input + label::after {
-    background-color: #fff;
-    border: 1px solid #eeeeee; }
+    background-color: #f2f2f2;
+    border: 1px solid #cccccc; }
   #schedule-synchronization-container .material-checkbox:not(:checked), #schedule-synchronization-container .material-checkbox:checked {
     position: absolute;
     left: -9999px;
@@ -104,25 +111,30 @@
     #schedule-synchronization-container #schedule-panel .radio-pad {
       padding-left: 100px; }
     #schedule-synchronization-container #schedule-panel .material-checkbox + input + label {
-      position: relative;
-      padding: 5px 0 0 25px !important;
       cursor: pointer;
       display: inline-block;
-      color: var(--colorText);
       height: 25px;
+      font-family: var(--font-family);
+      font-weight: 400;
+      line-height: 18px;
+      letter-spacing: 0.26px;
       margin: 0;
+      padding: 6px 7px 0 24px !important;
+      position: relative;
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none; }
       #schedule-synchronization-container #schedule-panel .material-checkbox + input + label::after {
-        border-radius: 3px; }
+        border-radius: 2px; }
       #schedule-synchronization-container #schedule-panel .material-checkbox + input + label::before, #schedule-synchronization-container #schedule-panel .material-checkbox + input + label::after {
         content: '';
         left: 0;
         position: absolute;
         -webkit-transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
         transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
-        z-index: 1; }
+        z-index: 1;
+        width: 11px;
+        height: 8px; }
     #schedule-synchronization-container #schedule-panel .material-checkbox:not(:checked) + input + label::before {
       width: 0;
       height: 0;
@@ -133,34 +145,36 @@
       height: 16px;
       width: 16px;
       background-color: transparent;
-      border: 2px solid #eeeeee;
+      border: 1px solid #b3b3b3;
       top: 0px;
       z-index: 1;
       margin-top: 7px;
       margin-bottom: 2px; }
     #schedule-synchronization-container #schedule-panel .material-checkbox:checked + input + label::before {
-      bottom: 14px;
-      color: var(--colorOnPrimary);
-      content: "";
+      bottom: 11.2px;
+      color: #fff;
+      content: "";
       font-family: "Server";
-      height: 10px;
-      width: 5px;
-      left: 3px; }
+      left: 1px;
+      font-size: 14px;
+      font-weight: bold; }
     #schedule-synchronization-container #schedule-panel .material-checkbox:checked + input + label::after {
       top: 0;
       width: 16px;
       height: 16px;
-      border: 1.5px solid var(--colorPrimary);
+      border: 1px solid var(--colorPrimary);
       background-color: var(--colorPrimary);
       z-index: 0;
       margin-top: 7px;
       margin-bottom: 2px; }
     #schedule-synchronization-container #schedule-panel .material-checkbox:disabled + input + label::after {
-      background-color: #eeeeee;
-      border: 1px solid #eeeeee; }
+      background-color: #f2f2f2;
+      border: 1px solid #cccccc; }
+    #schedule-synchronization-container #schedule-panel .material-checkbox:disabled + input + label::before {
+      color: #b3b3b3; }
     #schedule-synchronization-container #schedule-panel .material-checkbox:not(:checked):disabled + input + label::after {
-      background-color: #fff;
-      border: 1px solid #eeeeee; }
+      background-color: #f2f2f2;
+      border: 1px solid #cccccc; }
     #schedule-synchronization-container #schedule-panel .material-checkbox:not(:checked), #schedule-synchronization-container #schedule-panel .material-checkbox:checked {
       position: absolute;
       left: -9999px;
@@ -274,25 +288,30 @@
 
 @media screen and (min-width: 1400px) {
   #schedule-synchronization-container .material-checkbox + input + label {
-    position: relative;
-    padding: 5px 0 0 25px !important;
     cursor: pointer;
     display: inline-block;
-    color: var(--colorText);
     height: 25px;
+    font-family: var(--font-family);
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0.26px;
     margin: 0;
+    padding: 6px 7px 0 24px !important;
+    position: relative;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none; }
     #schedule-synchronization-container .material-checkbox + input + label::after {
-      border-radius: 3px; }
+      border-radius: 2px; }
     #schedule-synchronization-container .material-checkbox + input + label::before, #schedule-synchronization-container .material-checkbox + input + label::after {
       content: '';
       left: 0;
       position: absolute;
       -webkit-transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
       transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
-      z-index: 1; }
+      z-index: 1;
+      width: 11px;
+      height: 8px; }
   #schedule-synchronization-container .material-checkbox:not(:checked) + input + label::before {
     width: 0;
     height: 0;
@@ -303,34 +322,36 @@
     height: 16px;
     width: 16px;
     background-color: transparent;
-    border: 2px solid #eeeeee;
+    border: 1px solid #b3b3b3;
     top: 0px;
     z-index: 1;
     margin-top: 7px;
     margin-bottom: 2px; }
   #schedule-synchronization-container .material-checkbox:checked + input + label::before {
-    bottom: 14px;
-    color: var(--colorOnPrimary);
-    content: "";
+    bottom: 11.2px;
+    color: #fff;
+    content: "";
     font-family: "Server";
-    height: 10px;
-    width: 5px;
-    left: 3px; }
+    left: 1px;
+    font-size: 14px;
+    font-weight: bold; }
   #schedule-synchronization-container .material-checkbox:checked + input + label::after {
     top: 0;
     width: 16px;
     height: 16px;
-    border: 1.5px solid var(--colorPrimary);
+    border: 1px solid var(--colorPrimary);
     background-color: var(--colorPrimary);
     z-index: 0;
     margin-top: 7px;
     margin-bottom: 2px; }
   #schedule-synchronization-container .material-checkbox:disabled + input + label::after {
-    background-color: #eeeeee;
-    border: 1px solid #eeeeee; }
+    background-color: #f2f2f2;
+    border: 1px solid #cccccc; }
+  #schedule-synchronization-container .material-checkbox:disabled + input + label::before {
+    color: #b3b3b3; }
   #schedule-synchronization-container .material-checkbox:not(:checked):disabled + input + label::after {
-    background-color: #fff;
-    border: 1px solid #eeeeee; }
+    background-color: #f2f2f2;
+    border: 1px solid #cccccc; }
   #schedule-synchronization-container .material-checkbox:not(:checked), #schedule-synchronization-container .material-checkbox:checked {
     position: absolute;
     left: -9999px;
@@ -340,25 +361,30 @@
   #schedule-synchronization-container .schedule-info {
     font-size: 14px; }
   #schedule-panel #weekly-schedule-option div .material-checkbox + input + label {
-    position: relative;
-    padding: 5px 0 0 25px !important;
     cursor: pointer;
     display: inline-block;
-    color: var(--colorText);
     height: 25px;
+    font-family: var(--font-family);
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0.26px;
     margin: 0;
+    padding: 6px 7px 0 24px !important;
+    position: relative;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none; }
     #schedule-panel #weekly-schedule-option div .material-checkbox + input + label::after {
-      border-radius: 3px; }
+      border-radius: 2px; }
     #schedule-panel #weekly-schedule-option div .material-checkbox + input + label::before, #schedule-panel #weekly-schedule-option div .material-checkbox + input + label::after {
       content: '';
       left: 0;
       position: absolute;
       -webkit-transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
       transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
-      z-index: 1; }
+      z-index: 1;
+      width: 11px;
+      height: 8px; }
   #schedule-panel #weekly-schedule-option div .material-checkbox:not(:checked) + input + label::before {
     width: 0;
     height: 0;
@@ -369,34 +395,36 @@
     height: 16px;
     width: 16px;
     background-color: transparent;
-    border: 2px solid #eeeeee;
+    border: 1px solid #b3b3b3;
     top: 0px;
     z-index: 1;
     margin-top: 7px;
     margin-bottom: 2px; }
   #schedule-panel #weekly-schedule-option div .material-checkbox:checked + input + label::before {
-    bottom: 14px;
-    color: var(--colorOnPrimary);
-    content: "";
+    bottom: 11.2px;
+    color: #fff;
+    content: "";
     font-family: "Server";
-    height: 10px;
-    width: 5px;
-    left: 3px; }
+    left: 1px;
+    font-size: 14px;
+    font-weight: bold; }
   #schedule-panel #weekly-schedule-option div .material-checkbox:checked + input + label::after {
     top: 0;
     width: 16px;
     height: 16px;
-    border: 1.5px solid var(--colorPrimary);
+    border: 1px solid var(--colorPrimary);
     background-color: var(--colorPrimary);
     z-index: 0;
     margin-top: 7px;
     margin-bottom: 2px; }
   #schedule-panel #weekly-schedule-option div .material-checkbox:disabled + input + label::after {
-    background-color: #eeeeee;
-    border: 1px solid #eeeeee; }
+    background-color: #f2f2f2;
+    border: 1px solid #cccccc; }
+  #schedule-panel #weekly-schedule-option div .material-checkbox:disabled + input + label::before {
+    color: #b3b3b3; }
   #schedule-panel #weekly-schedule-option div .material-checkbox:not(:checked):disabled + input + label::after {
-    background-color: #fff;
-    border: 1px solid #eeeeee; }
+    background-color: #f2f2f2;
+    border: 1px solid #cccccc; }
   #schedule-panel #weekly-schedule-option div .material-checkbox:not(:checked), #schedule-panel #weekly-schedule-option div .material-checkbox:checked {
     position: absolute;
     left: -9999px;

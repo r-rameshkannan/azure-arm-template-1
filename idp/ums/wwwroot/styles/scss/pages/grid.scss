@@ -4,20 +4,25 @@
 @import "../../fonts/variables.scss";
 
 .e-grid:not(.item-grid) {
-    border-color: $grid-border-color;
+    border-color: $grid-content-border-normal-color;
 
     .e-gridheader {
-        background: $grid-header-bg;
-        border-color: $grid-border-color;
-        //color: $grid-header-color;
+        background: $grid-header-bg-normal-color;
+        color: $grid-header-text-normal-color;
+        border-bottom-color: $grid-content-border-normal-color;
+        border-top-color: $grid-content-border-normal-color;
+
         .e-headercell {
             padding-left: 15px;
+            padding-right:15px;
             padding-top: 5px;
-            background: $grid-header-bg;
+            background: $grid-header-bg-normal-color;
 
             .e-headercelldiv, .e-headercelldiv *:not(.material-checkbox + label) {
-                color: $grid-text-color;
-                font-size: $app-text-size;
+                color: $grid-header-text-normal-color;
+                font-size: $app-text-size + 1;
+                letter-spacing: 0.3px;
+                font-weight: 600;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
@@ -25,19 +30,21 @@
     }
 
     .e-gridcontent {
-        background: $grid-content-bg;
-        color: $grid-text-color;
+        background: $grid-content-bg-normal-color;
+        color: $grid-content-text-normal-color;
         font-size: $app-text-size;
 
         tr {
-            height: 35px;
+            height: 40px;
 
             &.e-hover td {
-                background: $grid-hover-color;
+                background: $grid-content-bg-hover-color;
+                color: $grid-content-text-hover-color;
             }
 
             td {
                 padding-left: 15px;
+                font-size: $app-text-size + 1;
 
                 &.e-rowcell {
                     padding-left: 15px;
@@ -79,12 +86,13 @@
                 }
 
                 .option-icon {
-                    border: 1px solid $grid-content-bg;
                     border-radius: 5px;
+                    border: none;
                     cursor: pointer;
                     padding: 4px 2px;
                     position: absolute;
                     top: -12px !important;
+                    left: 5px;
                 }
 
                 .grid-directory-icon {
@@ -100,24 +108,20 @@
                 }
 
                 &.e-active {
-                    background: $grid-active-color;
-                    color: $grid-active-text-color !important;
+                    background: $grid-content-bg-active-color;
+                    color: $grid-content-text-active-color;
 
                     a {
-                        color: $grid-link-color;
+                        color: $grid-link-text-normal-color;
                     }
 
                     .grid-directory-icon {
-                        color: $grid-active-text-color !important;
+                        color: $grid-content-text-normal-color;
                     }
 
-                    .dropdown {
-                        .dropdown-menu {
-                            background: $admin-page-bg;
-                        }
-
+                    .dropdown.open, .dropup.open {
                         .option-icon {
-                            border: 1px solid $grid-active-text-color !important;
+                            border: 1px solid $primary-black;
                         }
                     }
                 }
@@ -146,35 +150,54 @@
                 }
             }
         }
+
+        .dropdown {
+            position: absolute;
+            right: 35px;
+
+            .dropdown-menu {
+                left: -172px;
+                width: 190px;
+            }
+        }
     }
 
     .e-pager {
-        background: $grid-footer-bg;
-        border-color: $grid-border-color;
-        color: $grid-link-color;
-        display: table;
-        height: 40px;
+        background: $grid-footer-bg-normal-color;
+        border-color: $grid-footer-border-normal-color;
+        color: $grid-link-text-normal-color;
+        display: block;
+        height: 45px;
+        padding: 0px;
 
         .e-pagercontainer, .e-parentmsgbar {
             display: table-cell;
             vertical-align: middle;
+            padding: 14px 12px 14px 20px;
         }
 
         .e-pagercontainer {
-            background: $grid-footer-bg;
+            background: $grid-footer-bg-normal-color;
             border: none;
+            height: 17px;
 
             .e-icon, .e-link {
                 background: transparent;
                 border: none;
                 float: left;
                 font-size: $app-text-size;
+                padding: 0px;
             }
 
             .e-icon {
                 font-family: "Server" !important;
                 font-size: $icon-size + 1;
                 margin-top: -4px;
+                color: $icon-text-normal-color;
+
+                &:hover {
+                    color: $icon-text-hover-color;
+                }
             }
 
             .e-mediaback:before {
@@ -195,24 +218,23 @@
 
             .e-numericcontainer {
                 float: left;
-                margin-top: 2px;
+                margin-top: 0px;
 
                 .e-link {
                     background: transparent;
-                    color: $primary-color;
+                    color: $grid-link-text-normal-color;
                 }
 
                 .e-currentitem {
-                    color: $sub-text-color;
+                    color: $grid-footer-text-normal-color;
                 }
             }
         }
 
         .e-parentmsgbar {
-            color: $sub-text-color;
+            color: $grid-footer-text-normal-color;
             font-size: $app-text-size;
             float: none;
-            padding-top: 0;
         }
     }
 

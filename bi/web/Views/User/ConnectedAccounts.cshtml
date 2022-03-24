@@ -3,7 +3,7 @@
 @{
     var globalAppSettings = _globalAppSettings;
 
-    ViewBag.Title = "[[[Connected Accounts]]] - " + globalAppSettings.SystemSettings.OrganizationName;
+    ViewBag.Title = T["Connected Accounts"].Value + " - " + globalAppSettings.SystemSettings.OrganizationName;
     ViewBag.HelpSiteUrl = GlobalAppSettings.GetHelpSiteUrl(HelpSiteUrlNames.ConnectedAccounts);
     ViewBag.MessageBox = true;
     var jsondata = JsonConvert.SerializeObject(Model);
@@ -61,16 +61,16 @@
         <span class="grid-content item-name"><span title="{{:AuthorizedDate}}" data-toggle="tooltip">{{:AuthorizedDate}}</span></span>
     </script>
     <script type="text/x-jsrender" id="itemname-header">
-        <div class="item-name">[[[Name]]]</div>
+        <div class="item-name">@T["Name"]</div>
     </script>
     <script type="text/x-jsrender" id="provider-header">
-        <div class="item-header">[[[Provider]]]</div>
+        <div class="item-header">@T["Provider"]</div>
     </script>
     <script type="text/x-jsrender" id="created-date-header">
-        <div class="item-header">[[[Created Date]]]</div>
+        <div class="item-header">@T["Created Date"]</div>
     </script>
     <script type="text/x-jsrender" id="last-authorized-header">
-        <div class="item-header">[[[Last Authorized]]]</div>
+        <div class="item-header">@T["Last Authorized"]</div>
     </script>
 
     <script type="text/x-jsrender" id="options">
@@ -82,20 +82,20 @@
                 <li>
                     <a href="javascript:void(0);" class="re-authorize-account" data-content="{{:Id}}" data-reauthorize-url="@ServerAppConfig.InternalAppDataServiceUrl/v1.0/oauth/re-authorize?token=@ViewBag.AccessToken&id={{:Id}}&server=@serverApiUrl{{:OrganizationUrl ? '&resourceurl=' + OrganizationUrl : ''}}">
                         <i class="su su-re-authorize"></i>
-                        <span>[[[Reauthorize]]]</span>
+                        <span>@T["Reauthorize"]</span>
                     </a>
                 </li>
                 <li class="divider" role="separator"></li>
                 <li>
                     <a href="javascript:void(0);" class="edit-connected-account" data-content="{{:Id}}" data-account-name="{{:Name}}">
                         <i class="su su-edit"></i>
-                        <span>[[[Edit]]]</span>
+                        <span>@T["Edit"]</span>
                     </a>
                 </li>
                 <li>
                     <a class="delete-class delete-connected-account" data-content="{{:Id}}" data-account-name="{{:Name}}" href="javascript:void(0);">
                         <i class="su su-delete"></i>
-                        <span>[[[Delete]]]</span>
+                        <span>@T["Delete"]</span>
                     </a>
                 </li>
             </ul>
@@ -104,6 +104,7 @@
 
     <script type="text/javascript">
         $(function () {
+            GridLocalization();
             $("#search-linked-accounts").val("");
             $("#ConnectedAccountGrid").ejGrid({
                 dataSource: @Html.Raw(jsondata),
@@ -131,7 +132,7 @@
                         template: true,
                         allowSorting: true,
                         templateID: "#name-template",
-                        headerText: "[[[Name]]]",
+                        headerText: '@T["Name"]',
                         width: 115,
                         headerTemplateID: "#itemname-header",
                         field: "Name",
@@ -140,21 +141,21 @@
                     {
                         field: "Services",
                         templateID: "#provider-template",
-                        headerText: "[[[Provider]]]",
+                        headerText: '@T["Provider"]',
                         headerTemplateID: "#provider-header",
                         type: "string",
                         width: 115
                     },
                     {
                         field: "CreatedOn",
-                        headerText: "[[[Created On]]]",
+                        headerText: '@T["Created On"]',
                         headerTemplateID: "#create-date-header",
                         templateID: "#created-date-template",
                         width: 80
                     },
                     {
                         field: "AuthorizedDate",
-                        headerText: "[[[Last Authorized]]]",
+                        headerText: '@T["Last Authorized"]',
                         headerTemplateID: "#last-authorized-header",
                         templateID: "#last-authorized-template",
                         width: 80
@@ -176,46 +177,47 @@
 
     @await Html.PartialAsync("_ProfileMenu")
 
-    <div id="linked-accounts-container" class="admin-page-container">
-        <div class="admin-page-header col-xs-12">
-            <hgroup class="col-xs-8 no-padding">
-                <h1 class="page-title">[[[CONNECTED ACCOUNTS]]]</h1>
-                <h5 class="no-padding page-description">[[[Manage the external accounts that you have granted access for data analytics.]]]</h5>
+<div id="linked-accounts-container" class="bi-page-container col-xs-12">
+    <div class="bi-page-content col-xs-12 no-padding">
+        <div class="bi-page-header col-xs-12">
+            <hgroup class="col-xs-8 bi-page-header-description no-padding">
+                <h1 class="page-title">@T["Connected Accounts"]</h1>
+                <h5 class="no-padding page-description">@T["Manage the external accounts that you have granted access for data analytics"]</h5>
             </hgroup>
         </div>
-
-        <div class="admin-page-body col-lg-12">
+        <div class="bi-page-body col-md-12">
             <div id="search-area" class="pull-right">
-                <input type="text" class="pull-left" id="search-linked-accounts" placeholder="[[[Search]]]" />
-                <span class="su su-inner-close close-icon pull-left" id="clear-search" title="[[[Clear search]]]"></span>
-                <span class="su su-search search-accounts pull-left" title="[[[Search]]]"></span>
+                <input type="text" class="pull-left" id="search-linked-accounts" placeholder="@T["Search"]" />
+                <span class="su su-inner-close close-icon pull-left" id="clear-search" title="@T["Clear search"]"></span>
+                <span class="su su-search search-accounts pull-left" title="@T["Search"]"></span>
             </div>
             <div class="col-xs-12 no-padding ">
                 <div id="ConnectedAccountGrid"></div>
             </div>
         </div>
-
         <div id="edit-connected-account-popup" class="fluent-popup display-none">
             <div class="fluent-popup-header">
                 <h4 class="popup-title">
-                    <span>[[[Edit Connected Account]]]</span>
-                    <button id="close-edit-connected-account" type="button" title="[[[Close]]]" class="close popup-close" aria-label="Close">
+                    <span>@T["Edit Connected Account"]</span>
+                    <button id="close-edit-connected-account" type="button" title="@T["Close"]" class="close popup-close" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </h4>
             </div>
             <div class="fluent-popup-body">
                 <div class="edit-name">
-                    <label class="popup-label">[[[Name]]]</label>
+                    <label class="popup-label">@T["Name"]</label>
                     <input class="form-control textarea" maxlength="255" id="edit-connected-account-name" />
                 </div>
             </div>
             <div id="edit-connected-account-button" class="fluent-popup-footer">
                 <div id="button-container" class="col-lg-12 col-md-12">
-                    <button type="button" id="cancel-edit-account" class="app-button app-secondary-button app-btn-secondary pull-right">[[[Cancel]]]</button>
-                    <button type="button" id="submit-edit-account" data-conected-account-id="" class="app-button app-primary-button app-btn-primary pull-right" disabled="disabled">[[[Submit]]]</button>
+                    <button type="button" id="cancel-edit-account" class="app-button app-secondary-button app-btn-secondary pull-right">@T["Cancel"]</button>
+                    <button type="button" id="submit-edit-account" data-conected-account-id="" class="app-button app-primary-button app-btn-primary pull-right" disabled="disabled">@T["Submit"]</button>
                 </div>
             </div>
         </div>
     </div>
+    @await Html.PartialAsync("../Shared/_Footer", new ViewDataDictionary(ViewData) { { "appsettings", globalAppSettings } })
+</div>
 }

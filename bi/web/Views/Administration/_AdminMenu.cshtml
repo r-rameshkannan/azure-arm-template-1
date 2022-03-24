@@ -2,25 +2,8 @@
 @{
     var model = ViewBag.GranularPermissions as Dictionary<object, bool>;
     var isAdmin = _identityResponse.IsAdmin;
-    var scopeList = new List<string>()
-    {
-        SettingsScopes.Accounts.ToString(),
-        SettingsScopes.AuthenticationSettings.ToString(),
-        SettingsScopes.SiteSettings.ToString(),
-        SettingsScopes.DashboardSettings.ToString(),
-        SettingsScopes.DataStoreSettings.ToString(),
-        SettingsScopes.Connectors.ToString(),
-        SettingsScopes.Email.ToString(),
-        SettingsScopes.EmbedSettings.ToString(),
-        SettingsScopes.UserDirectorySettings.ToString(),
-        SettingsScopes.ManageLicense.ToString(),
-        SettingsScopes.Payments.ToString(),
-        SettingsScopes.Subscription.ToString(),
-        SettingsScopes.SupportSettings.ToString(),
-        SettingsScopes.NotificationSettings.ToString()
-
-    };
-    var canShowAdminMenu = isAdmin || model[SettingsScopes.All] || model.Select(x => x).Where(x => scopeList.Contains(x.Key.ToString()) && x.Value == true).Count() > 1;
+    var scopeList = ServerAppConfig.SettingsScopesList;
+    var canShowAdminMenu = isAdmin || model[SettingsScopes.All] || model.Select(x => x).Where(x => scopeList.Contains(x.Key.ToString()) && x.Value == true).Count() > 1 || (model.Select(x => x).Where(x => scopeList.Contains(x.Key.ToString()) && x.Value == true).Count() == 1 && (model[PermissionEntity.UsersandGroups] || model[PermissionEntity.SpecificGroup] || model[PermissionEntity.AllGroups])) || model[PermissionEntity.UsersandGroups];
     var requestUrl = new Uri(Context.Request.GetDisplayUrl());
     var currentUrl = requestUrl.LocalPath.TrimEnd('/');
     var adminHomeUrl = Url.RouteUrl(new { controller = "Administration", action = "Administration" });
@@ -34,42 +17,51 @@
     var manageLicenseSettingsUrl = Url.Action("ManageLicenseSettings", "Administration");
     var dashboardSettingsUrl = Url.Action("DashboardSettings", "Administration");
     var embedSettingsUrl = Url.Action("EmbedSettings", "Administration");
-    var updateCardUrl = Url.Action("GetCardDetail", "Payment") ?? string.Empty;
-    var conciergeSupportUrl = Url.Action("ConciergeSupport", "Support") ?? string.Empty;
+    var conciergeSupportUrl = Url.Action("ConciergeSupport", "Administration") ?? string.Empty;
     var dataStoreSettingsUrl = Url.Action("DataStoreSettings", "Administration") ?? string.Empty;
     var dataConnectorUrl = Url.Action("DataConnector", "Administration");
     var credentialsUrl = Url.Action("Credentials", "Administration");
+    var dashboardServerResourceUrl = _globalAppSettings.SystemSettings.CDNLink.TrimEnd('/');
+    var groupPageUrl = Url.Action("group", "group");
+    var userPageUrl = Url.Action("User", "UserManagement");
 }
 
+<environment include="Development,CloudDevelopment">
+    <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/admin-menu.css" />
+</environment>
+<environment exclude="Development,CloudDevelopment">
+    <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/admin-menu.min.css" />
+</environment>
 
 @if (canShowAdminMenu)
 {
-    <nav id="admin-nav">
+    <nav id="bi-side-nav-bar" class="no-margin admin-nav-bar">
+        <h2 class="header">@T["Settings"]</h2>
         <ul>
             @if (isAdmin || (model != null && (model[SettingsScopes.All] || model[SettingsScopes.SiteSettings])))
             {
-                <li class="mobile-hidden">
-                    <a id="site-settings-link" class="admin-menu-item @((currentUrl.IndexOf(siteSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 || currentUrl.Equals(adminHomeUrl, StringComparison.CurrentCultureIgnoreCase)) ? "active" : string.Empty)" href="@siteSettingsUrl" role="tab">
+                <li class="mobile-hidden admin-menu-item @((currentUrl.IndexOf(siteSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 || currentUrl.Equals(adminHomeUrl, StringComparison.CurrentCultureIgnoreCase)) ? "active" : string.Empty)">
+                    <a id="site-settings-link" class="" href="@siteSettingsUrl">
                         <i class="su su-url"></i>
-                        <span>[[[Site]]]</span>
+                        <span>@T["Site"]</span>
                     </a>
                 </li>
             }
             @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.DashboardSettings]))
             {
-                <li>
-                    <a id="dashboard-settings-link" class="admin-menu-item @(currentUrl.IndexOf(dashboardSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@dashboardSettingsUrl" role="tab">
+                <li class="admin-menu-item @(currentUrl.IndexOf(dashboardSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                    <a id="dashboard-settings-link" href="@dashboardSettingsUrl">
                         <i class="su su-nav-dashboard"></i>
-                        <span>[[[Dashboards]]]</span>
+                        <span>@T["Dashboards"]</span>
                     </a>
                 </li>
             }
             @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.EmbedSettings]))
             {
-                <li>
-                    <a id="embed-settings-link" class="admin-menu-item @(currentUrl.IndexOf(embedSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@embedSettingsUrl" role="tab">
+                <li class="admin-menu-item @(currentUrl.IndexOf(embedSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                    <a id="embed-settings-link" href="@embedSettingsUrl">
                         <i class="su su-embed"></i>
-                        <span>[[[Embed]]]</span>
+                        <span>@T["Embed"]</span>
                     </a>
                 </li>
             }
@@ -77,121 +69,119 @@
             {
                 @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.DataStoreSettings]))
                 {
-                    <li>
-                        <a id="dataStore-settings-link" class="admin-menu-item @(currentUrl.IndexOf(dataStoreSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@dataStoreSettingsUrl" role="tab">
+                    <li class="admin-menu-item @(currentUrl.IndexOf(dataStoreSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                        <a id="dataStore-settings-link" href="@dataStoreSettingsUrl">
                             <i class="su su-datastorage"></i>
-                            <span>[[[Data Store]]]</span>
+                            <span>@T["Data Store"]</span>
                         </a>
                     </li>
                 }
                 @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.Connectors]))
                 {
-                    <li>
-                        <a id="datasource-settings-link" class="admin-menu-item @(currentUrl.IndexOf(dataConnectorUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@dataConnectorUrl" role="tab">
+                    <li class="admin-menu-item @(currentUrl.IndexOf(dataConnectorUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                        <a id="datasource-settings-link" href="@dataConnectorUrl">
                             <i class="su su-connector"><i class="su-connector path1" style="padding-right:0px"></i></i>
-                            <span>[[[Connectors]]]</span>
+                            <span>@T["Connectors"]</span>
                         </a>
                     </li>
                 }
                 @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.Email]))
                 {
-                    <li>
-                        <a id="email-settings-link" class="admin-menu-item @(currentUrl.IndexOf(emailSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@emailSettingsUrl" role="tab">
+                    <li class="admin-menu-item @(currentUrl.IndexOf(emailSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                        <a id="email-settings-link" href="@emailSettingsUrl">
                             <i class="su su-e-mail"></i>
-                            <span>[[[Email]]]</span>
+                            <span>@T["Email"]</span>
                         </a>
                     </li>
                 }
                 @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.Accounts]))
                 {
-                    <li class="mobile-hidden">
-                        <a id="user-settings-link" class="admin-menu-item @(currentUrl.IndexOf(userSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@userSettingsUrl" role="tab">
+                    <li class="mobile-hidden admin-menu-item @(currentUrl.IndexOf(userSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                        <a id="user-settings-link" href="@userSettingsUrl">
                             <i class="su su-user_settings_icon"></i>
-                            <span>[[[Accounts]]]</span>
+                            <span>@T["Accounts"]</span>
                         </a>
                     </li>
                 }
             }
             @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.UserDirectorySettings]))
             {
-                <li class="mobile-hidden">
-                    <a id="active-directory-settings-link" class="admin-menu-item @(currentUrl.IndexOf(adSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@adSettingsUrl" role="tab">
+                <li class="mobile-hidden admin-menu-item @(currentUrl.IndexOf(adSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                    <a id="active-directory-settings-link" class="" href="@adSettingsUrl">
                         <i class="su su-user-directory"></i>
-                        <span>[[[User Directories]]]</span>
+                        <span>@T["User Directories"]</span>
                     </a>
                 </li>
             }
             @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.AuthenticationSettings]))
             {
-                <li class="mobile-hidden">
-                    <a id="authentication-settings-link" class="admin-menu-item @(currentUrl.IndexOf(authenticationSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@authenticationSettingsUrl" role="tab">
+                <li class="mobile-hidden admin-menu-item @(currentUrl.IndexOf(authenticationSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                    <a id="authentication-settings-link" class="" href="@authenticationSettingsUrl">
                         <i class="su su-lock"></i>
-                        <span>[[[Authentication]]]</span>
+                        <span>@T["Authentication"]</span>
                     </a>
                 </li>
             }
             @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.NotificationSettings]))
             {
-                <li class="mobile-hidden">
-                    <a id="notification-settings-link" class="admin-menu-item @(currentUrl.IndexOf(notificationSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@notificationSettingsUrl" role="tab">
+                <li class="mobile-hidden admin-menu-item @(currentUrl.IndexOf(notificationSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                    <a id="notification-settings-link" class="" href="@notificationSettingsUrl">
                         <i class="su su-notification-settings"></i>
-                        <span>[[[Notifications]]]</span>
+                        <span>@T["Notifications"]</span>
                     </a>
                 </li>
             }
-
             @if (!ServerAppConfig.IsSelfHosted)
             {
                 @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.SupportSettings]))
                 {
-                    <li>
-                        <a id="notification-settings-link" class="admin-menu-item @(currentUrl.IndexOf(conciergeSupportUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@conciergeSupportUrl" role="tab">
+                    <li class="admin-menu-item @(currentUrl.IndexOf(conciergeSupportUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                        <a id="support-settings-link" href="@conciergeSupportUrl">
                             <i class="su su-concierge-support"></i>
-                            <span>[[[Support Settings]]]</span>
-                        </a>
-                    </li>
-                }
-                @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.Subscription]))
-                {
-                    <li class="mobile-hidden">
-                        <a id="license-settings-link" class="admin-menu-item @(currentUrl.IndexOf(manageLicenseUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@manageLicenseUrl" role="tab">
-                            <i class="su su-license-settings"></i>
-                            <span>[[[Subscription]]]</span>
-                        </a>
-                    </li>
-                }
-                @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.Payments]))
-                {
-                    <li>
-                        <a id="payment-link" class="admin-menu-item @(currentUrl.IndexOf(updateCardUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@updateCardUrl" role="tab">
-                            <i class="su su-dollar"></i>
-                            <span>[[[Payments]]]</span>
+                            <span>@T["Support Settings"]</span>
                         </a>
                     </li>
                 }
                 if (ServerAppConfig.EnablePublishModule)
                 {
-                    <li class="mobile-hidden">
-                        <a id="credential-link" class="admin-menu-item @(currentUrl.IndexOf(credentialsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@credentialsUrl" role="tab">
+                    <li class="mobile-hidden admin-menu-item @(currentUrl.IndexOf(credentialsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                        <a id="credential-link" class="" href="@credentialsUrl">
                             <i class="su su-credentials"></i>
-                            <span>[[[Credentials]]]</span>
+                            <span>@T["Credentials"]</span>
                         </a>
                     </li>
                 }
             }
-            else
+            @*else
             {
                 @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.ManageLicense]))
                 {
-                    <li class="mobile-hidden">
-                        <a id="license-settings-link" class="admin-menu-item @(currentUrl.IndexOf(manageLicenseSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@manageLicenseSettingsUrl" role="tab">
+                    <li class="mobile-hidden admin-menu-item @(currentUrl.IndexOf(manageLicenseSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                        <a id="license-settings-link" class="" href="@manageLicenseSettingsUrl">
                             <i class="su su-license-settings"></i>
-                            <span>[[[Manage License]]]</span>
+                            <span>@T["Manage License"]</span>
                         </a>
                     </li>
                 }
+            }*@
+            @if (isAdmin || (model != null && model[PermissionEntity.UsersandGroups]))
+            {
+                <li class="mobile-hidden admin-menu-item @(currentUrl.Contains("users") || currentUrl.IndexOf(userPageUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                    <a id="license-settings-link" class="" href="@userPageUrl">
+                        <i class="su su-user-1"></i>
+                        <span>@T["Users"]</span>
+                    </a>
+                </li>
+            }
+            @if (isAdmin || (model != null && model[PermissionEntity.UsersandGroups] || model[PermissionEntity.SpecificGroup] || model[PermissionEntity.AllGroups]))
+            {
+                <li class="mobile-hidden admin-menu-item @(currentUrl.Contains("groups") || currentUrl.IndexOf(groupPageUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+                    <a id="license-settings-link" class="" href="@groupPageUrl">
+                        <i class="su su-group-1"></i>
+                        <span>@T["Groups"]</span>
+                    </a>
+                </li>
             }
         </ul>
     </nav>
 }
-

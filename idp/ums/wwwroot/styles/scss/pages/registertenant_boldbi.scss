@@ -359,10 +359,6 @@ body {
                                         position: static;
                                         font-family: 'server' !important;
                                     }
-
-                                    .caret:before {
-                                        content: $su-vertical-expand;
-                                    }
                                 }
 
                                 .btn:focus, .btn:hover, .btn:active {

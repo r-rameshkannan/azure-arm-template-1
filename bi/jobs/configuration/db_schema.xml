@@ -111,7 +111,6 @@
     <IsDraft>IsDraft</IsDraft>
     <IsLocked>IsLocked</IsLocked>
     <IsUnlisted>IsUnlisted</IsUnlisted>
-    <UnlistedCode>UnlistedCode</UnlistedCode>
   </DB_Item>
   <DB_ItemCommentLog>
     <DB_TableName>ItemCommentLog</DB_TableName>
@@ -841,4 +840,24 @@
     <Name>Name</Name>
     <IsActive>IsActive</IsActive>
   </DB_SettingsType>
+<DB_EmailActivityLog>
+    <DB_TableName>EmailActivityLog</DB_TableName>
+    <Id>Id</Id>
+    <Event>Event</Event>
+    <RecipientEmail>RecipientEmail</RecipientEmail>
+    <SenderEmail>SenderEmail</SenderEmail>
+    <MailSubject>MailSubject</MailSubject>
+    <MailBody>MailBody</MailBody>
+    <CreatedDate>CreatedDate</CreatedDate>
+    <ModifiedDate>ModifiedDate</ModifiedDate>
+    <InitiatedBy>InitiatedBy</InitiatedBy>
+    <UserId>UserId</UserId>
+    <GroupId>GroupId</GroupId>
+    <ItemId>ItemId</ItemId>
+    <CommentId>CommentId</CommentId>
+    <PermissionId>PermissionId</PermissionId>
+    <Status>Status</Status>
+    <StatusMessage>StatusMessage</StatusMessage>
+    <IsActive>IsActive</IsActive>
+  </DB_EmailActivityLog>
 </DB_SyncUMP>

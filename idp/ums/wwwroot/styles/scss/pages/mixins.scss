@@ -44,8 +44,9 @@
     }
 
     &:disabled {
-        background: $primary-btn-disabled-bg;
-        color: $sub-text-color;
+        background: $primary-button-bg-disable-color;
+        border: 1px solid $primary-button-border-disable-color;
+        color: $primary-button-text-disable-color;
     }
 }
 
@@ -354,95 +355,6 @@
                 }
             }
         }
-
-       /* #notification-section {
-            cursor: pointer;
-            display: table;
-            height: $header-height;
-            width: $header-height;
-
-            &:hover {
-                background-color: lighten($item-panel-bg, 10%);
-
-                #notification-link {
-                    #notification-indicator {
-                        border-color: lighten($item-panel-bg, 10%);
-                    }
-                }
-            }
-
-            #notification-link {
-                display: table-cell;
-                height: inherit;
-                margin: 0 auto;
-                position: relative;
-                text-align: center;
-                vertical-align: middle;
-                width: inherit;
-
-                #notification-icon {
-                    color: $primary-btn-text-color;
-                    display: inline-block;
-                    height: $header-height;
-                    width: $header-height;
-                    line-height: $header-height;
-                }
-
-                #notification-indicator {
-                    background: $unread-notification-color;
-                    border: 1px solid $header-bg;
-                    border-radius: 10px;
-                    display: block;
-                    left: 21px;
-                    height: 8px;
-                    position: absolute;
-                    top: 9px;
-                    width: 8px;
-                }
-
-                #notification-content-area {
-                    border-radius: 10px;
-                    height: 400px;
-                    left: auto;
-                    padding: 0 !important;
-                    right: 0;
-                    width: 375px;
-
-                    #notification-header {
-                        background-color: $header-bg-color;
-                        color: $header-bg;
-                        cursor: default;
-                        float: left;
-                        font-size: 18px;
-                        height: 40px;
-                        padding: 8px;
-                        width: 100%;
-
-                        span, a {
-                            margin-top: 4px;
-                        }
-
-                        span {
-                            float: left;
-                            font-size: $app-large-text-size;
-                        }
-
-                        a {
-                            float: right;
-                            color: $primary-btn-bg;
-                            font-size: $app-large-text-size;
-                        }
-                    }
-
-                    #notification-list {
-                        border: 0 none;
-                        height: 360px;
-                        width: 100%;
-                    }
-                }
-            }
-        }*/
-
         .login-account {
             float: right;
             padding: 10px;
@@ -937,22 +849,26 @@
         }
     }
 }
+
 //Checkbox material design class
-@mixin material-checkbox-controls($active: $primary-btn-bg, $default: $admin-pages-border-color, $checkbox-tick: $primary-btn-text-color) {
+@mixin material-checkbox-controls($active: $checkbox-bg-active-color, $default: $checkbox-border-normal-color, $checkbox-tick: $checkbox-text-active-color) {
     & + input + label {
-        position: relative;
-        padding: 5px 0 0 25px !important;
         cursor: pointer;
         display: inline-block;
-        color: $primary-text-color;
         height: 25px;
+        font-family: var(--font-family);
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: 0.26px;
         margin: 0;
+        padding: 6px 7px 0 24px !important;
+        position: relative;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
 
         &::after {
-            border-radius: 3px;
+            border-radius: 2px;
         }
 
         &::before, &::after {
@@ -962,6 +878,8 @@
             -webkit-transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
             transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
             z-index: 1;
+            width: 11px;
+            height: 8px;
         }
     }
 
@@ -977,7 +895,7 @@
         height: 16px;
         width: 16px;
         background-color: transparent;
-        border: 2px solid $default;
+        border: 1px solid $default;
         top: 0px;
         z-index: 1;
         margin-top: 7px;
@@ -985,20 +903,20 @@
     }
 
     &:checked + input + label::before {
-        bottom: 14px;
+        bottom: 11.2px;
         color: $checkbox-tick;
         content: $su-tick;
         font-family: "Server";
-        height: 10px;
-        width: 5px;
-        left: 3px;
+        left: 1px;
+        font-size: 14px;
+        font-weight: bold;
     }
 
     &:checked + input + label::after {
         top: 0;
         width: 16px;
         height: 16px;
-        border: 1.5px solid $active;
+        border: 1px solid $checkbox-border-active-color;
         background-color: $active;
         z-index: 0;
         margin-top: 7px;
@@ -1006,13 +924,17 @@
     }
 
     &:disabled + input + label::after {
-        background-color: $default;
-        border: 1px solid $default;
+        background-color: $checkbox-bg-disable-color;
+        border: 1px solid $checkbox-border-disable-color;
+    }
+
+    &:disabled + input + label::before {
+        color: $checkbox-text-disable-color;
     }
 
     &:not(:checked):disabled + input + label::after {
-        background-color: $white;
-        border: 1px solid $default;
+        background-color: $checkbox-bg-disable-color;
+        border: 1px solid $checkbox-border-disable-color;
     }
 
     &:not(:checked), &:checked {
@@ -1560,24 +1482,481 @@
 }
 
 @mixin bootstrap-selectpicker() {
-    background-color: $white !important;
-    border-color: $highlight-list-item !important;
-
     .btn-default:focus {
-        background-color: $white !important;
-        border-color: $highlight-list-item !important;
+        background-color: $drop-down-menu-btn-bg-normal-color;
+        color: $drop-down-menu-btn-text-normal-color;
+        border-color: $drop-down-menu-btn-border-normal-color;
+        outline: none !important;
     }
 
-    &:active {
-        background-color: $white !important;
-        border-color: $highlight-list-item !important;
+    .btn-default.disabled, .btn-default.disabled:focus {
+        background-color: $drop-down-menu-btn-bg-disable-color;
+        border: 1px solid $drop-down-menu-btn-border-disable-color;
+        color: $drop-down-menu-btn-text-disable-color;
     }
 
     &.open {
         .dropdown-toggle {
-            background-color: $white !important;
+            background-color: $drop-down-menu-btn-bg-normal-color;
+            color: $drop-down-menu-btn-text-normal-color;
+            border-color: $drop-down-menu-btn-border-normal-color;
             box-shadow: none !important;
-            border-color: $highlight-list-item !important;
         }
     }
 }
+
+@mixin navmenu() {
+    background: $sub-nav-menu-bg-color;
+    border-right: 1px solid $sub-nav-menu-border-color;
+    float: left;
+    height: 100vh;
+    padding: 18px 13px;
+    width: 230px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    ul {
+        height: auto;
+        list-style: none;
+        padding: 0;
+
+        li {
+            cursor: pointer;
+            display: inline-block;
+            height: 36px;
+            margin-bottom: 8px;
+            position: relative;
+            width: 204px;
+
+            a {
+                cursor: pointer;
+                display: inline-block;
+                font-size: $app-text-size;
+                font-weight: 400;
+                height: inherit;
+                overflow: hidden;
+                outline: none;
+                padding: 0 15px;
+                position: relative;
+                width: 204px;
+
+                i {
+                    font-size: $app-large-text-size + 2;
+                    padding-right: 6px;
+                }
+            }
+
+            &:hover {
+                background: $sub-nav-menu-hover-color;
+                border-radius: 4px;
+                left: 0;
+                right: 0;
+            }
+
+            &.active {
+                background: $sub-nav-menu-content-bg-active-color;
+                border-radius: 4px;
+
+                a {
+                    span, i {
+                        color: $sub-nav-menu-content-text-active-color;
+                        font-weight: 700;
+                        letter-spacing: 0.3px;
+                        line-height: 36px;
+                        vertical-align: middle;
+                    }
+                }
+            }
+        }
+    }
+
+    .header {
+        color: $sub-nav-menu-header-text-normal-color;
+        font-weight: 700;
+        font-size: $app-large-text-size + 2;
+        letter-spacing: 0.24px;
+        line-height: 18px;
+        margin-top: 0px;
+        width: 50px;
+
+        &::after {
+            background: $sub-nav-menu-header-bg-color;
+            bottom: 0;
+            border: 2px solid $sub-nav-menu-header-border-color;
+            border-radius: 4px;
+            content: "";
+            display: block;
+            height: 1px;
+            margin-top: 4px;
+            -webkit-transition-property: left, right;
+            transition-property: left, right;
+            -webkit-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+            -webkit-transition-timing-function: ease-out;
+            transition-timing-function: ease-out;
+        }
+    }
+
+    .admin-menu-item {
+        a {
+            span, i {
+                color: $sub-nav-menu-content-text-normal-color;
+                font-size: 13px;
+                letter-spacing: 0.3px;
+                line-height: 36px;
+                vertical-align: middle;
+            }
+        }
+    }
+}
+
+@mixin admin-page-template_new() {
+    background: $admin-page-bg;
+    height: 100%;
+    overflow: auto;
+    padding: 0;
+    position: relative;
+    width: calc(100% - 230px);
+
+    .admin-page-content {
+        min-height: calc(100% - 95px);
+
+        .separator-margin {
+            border-bottom: 1px solid $grey-100;
+            padding: 0 0 32px 0;
+        }
+
+        .input-field-margin {
+            margin-top: 16px;
+        }
+
+        .inline-align {
+            display: inline-block;
+            margin-bottom: 0px !important;
+        }
+
+        .info-message {
+            margin-top: 6px;
+            line-height: 18px;
+            color: $checkbox-description-color;
+            letter-spacing: 0.26px;
+            font-size: 12px;
+            width: 450px;
+        }
+
+        .admin-page-header {
+            background: $admin-container-bg;
+            padding: 32px 24px;
+
+            .page-title {
+                font-size: $app-large-text-size + 2;
+                font-weight: bold;
+                line-height: 24px;
+                margin: 0px;
+            }
+
+            .page-description {
+                color: $header-description-text-normal-color;
+                font-size: $list-content-large-size;
+                line-height: 19px;
+                margin: 0px;
+            }
+
+            .admin-header-btn {
+                margin-top: 8px;
+            }
+
+            .back-button {
+                color: $sub-text-color;
+                font-size: $app-large-text-size + 6;
+                line-height: 1;
+                margin-top: 2px;
+                padding: 0px 10px 0px 0px;
+            }
+        }
+
+        .admin-page-body {
+            padding: 24px 24px 0px 24px;
+            font-size: $app-text-size;
+            border-top: 1px solid $tab-border-normal-color;
+
+            .validation-errors, .validation-message {
+                color: $validation-text-color;
+                font-size: $app-text-size;
+            }
+
+            .sub-title {
+                font-size: $app-text-size + 2;
+                font-weight: bold;
+                line-height: 21px;
+                margin: 32px 0px 12px 0px;
+                padding: 0;
+            }
+
+            .sub-section-heading {
+                font-size: $app-text-size + 2;
+                font-weight: bold;
+                line-height: 21px;
+                margin: 0 0 12px 0;
+                padding: 0;
+            }
+
+            .section-info-message {
+                font-size: $app-text-size;
+                width: 75%;
+                line-height: 18px;
+                color: $checkbox-description-color;
+                letter-spacing: .26px;
+                margin-bottom: 10px
+            }
+
+            .app-textbox-label {
+                font-style: normal;
+                font-weight: 400;
+                line-height: 18px;
+                font-size: $app-text-size;
+                text-align: left;
+                margin-bottom: 8px;
+                letter-spacing: 0.3px;
+                padding: 0;
+            }
+
+            #oauth-client-secret, #mail-password, #openid-client-secret {
+                padding-right: 30px;
+            }
+
+            #oauth-callback-link-copy, #openid-callback-link-copy, #oauth-mobile-callback-link-copy, #openid-mobile-callback-link-copy, #api-copy-client-id, #api-copy-client-secret, #show-api-client-secret, #copy-client-id, #copy-client-secret, #show-secret {
+                border-radius: 0 4px 4px 0;
+                float: left;
+                font-size: 14px;
+                cursor: pointer;
+                padding-left: 8px;
+                height: 28px;
+                width: 29px;
+                background-color: $dialog-body-bgcolor;
+                box-shadow: none;
+                border-left: none;
+            }
+
+            .bootstrap-select {
+                padding-left: 0px;
+            }
+
+            .show-hide-password {
+                position: absolute;
+                font-size: $app-large-text-size;
+                top: 7px;
+                left: 425px;
+                cursor: pointer;
+            }
+
+            .admin-settings-drop-down {
+                width: 450px !important;
+
+                .btn-group {
+                    height: 28px;
+                }
+
+                button {
+                    font-size: 12px !important;
+                    height: 28px !important;
+                    padding: 5px 8px;
+                }
+
+                .dropdown-menu {
+                    width: 450px;
+
+                    ul {
+                        width: 448px;
+                    }
+
+                    .bs-searchbox {
+                        input[type="text"] {
+                            width: 432px !important;
+                        }
+                    }
+                }
+            }
+        }
+
+        .admin-page-footer {
+            padding: 0px 24px;
+
+            .admin-page-actions {
+                border-top: 1px solid $grey-100;
+                padding: 32px 0 0 0;
+
+                .secondary-button, .primary-button {
+                    margin-left: 15px;
+                }
+            }
+        }
+
+        .auth-page-nav-bar, .lic-page-nav-bar, .site-nav-bar {
+            background: $admin-container-bg;
+
+            .nav {
+                padding-left: 24px;
+
+                > li {
+                    > a {
+                        position: relative;
+                        display: block;
+                        padding: 0px 12px 10px 12px;
+                        line-height: 14px;
+                    }
+                }
+
+                .active {
+                    a {
+                        padding-bottom: 8px;
+                    }
+                }
+            }
+        }
+    }
+
+    #base-footer-div {
+        margin: 0;
+        padding: 52px 24px 24px 24px;
+    }
+
+    &.full-page-container {
+        width: 100%;
+
+        .admin-page-content {
+            min-height: calc(100% - 72px);
+
+            .admin-page-header {
+                border-bottom: 1px solid $hr-separator-normal-color;
+            }
+        }
+
+        #base-footer-div {
+            margin-top: 0px;
+            padding: 37px 27px 16px 24px;
+        }
+    }
+}
+
+@mixin copyshowClient() {
+    .client-values {
+        background-color: $admin-page-bg;
+        overflow: hidden;
+        border-radius: 4px 0 0 4px;
+        resize: none;
+        width: 421px !important;
+        height: 28px;
+        float: left;
+        box-shadow: none;
+    }
+
+    .my-secret {
+        border-right: 0px;
+        width: 392px !important;
+    }
+
+    .show-client-secret {
+        border: 1px solid $input-box-border-normal-color;
+        border-left: none !important;
+        border-radius: 0px !important;
+    }
+}
+
+@mixin uploadInput() {
+    .form-control, #filename {
+        border-radius: 4px 0 0 4px;
+        box-shadow: none;
+        display: inline-block;
+        font-size: 12px;
+        height: 28px;
+        float: left;
+        overflow: hidden;
+        resize: none;
+        width: 393px;
+        border: 1px solid $grey-200;
+        cursor: default;
+        border-right: 0px !important;
+    }
+
+    .input-group-addon {
+        border-radius: 0 4px 4px 0;
+        box-shadow: none;
+        border-left: none;
+        cursor: pointer;
+        display: inline-block;
+        float: left;
+        font-size: 16px;
+        height: 28px;
+        width: 38px;
+        background-color: $admin-page-bg;
+        border: 1px solid $grey-200;
+        line-height: 1;
+        padding: 1px 1px 7px 1px;
+    }
+
+    input.upload-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        width: 0;
+    }
+
+    .primary-button {
+        min-width: 133px;
+        height: 28px;
+        line-height: 26px;
+        width: 120px;
+        padding: 0px;
+    }
+
+    .upload-box {
+        width: 431px;
+        float: left;
+        margin-right: 20px;
+    }
+
+    .download-template {
+        color: $primary-color;
+        position: absolute;
+    }
+}
+
+@mixin ej2NonFloat() {
+    .e-custom.e-non-float {
+        input {
+            min-height: 30px !important;
+        }
+
+        &:hover:not(.e-input-focus):not(.e-success):not(.e-error):not(.e-disabled) {
+            border-color: $primary-color !important;
+        }
+
+        &.e-valid-input:hover:not(.e-success):not(.e-error):not(.e-disabled) {
+            border-color: $primary-color !important;
+        }
+
+        &.e-input-focus:not(.e-error):not(.e-success):not(.e-disabled) {
+            border-color: $primary-color !important;
+            box-shadow: inset 0.1px 0 $primary-color, inset -0.1px 0 $primary-color, inset 0 -0.1px $primary-color !important;
+        }
+
+        &.e-error {
+            border-color: $validation-text-color;
+            box-shadow: inset 0.1px 0 $validation-text-color, inset -0.1px 0 $validation-text-color, inset 0 -0.1px $validation-text-color !important;
+        }
+
+        &.e-disabled {
+            background-color: $input-box-disabled !important;
+            border: 1px solid $input-box-border-disable-color !important;
+            color: $input-box-text-disable-color !important;
+        }
+    }
+}
+

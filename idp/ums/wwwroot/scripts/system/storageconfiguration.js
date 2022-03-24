@@ -10,7 +10,6 @@ $(document).ready(function () {
 
         } else {
             var blobUrl = $("#txt-bloburl").val();
-
             var finalValue = "BlobEndpoint=" + blobUrl + ";AccountName=" + accountName + ";AccountKey=" + accessKey;
             $("#connection-string").val(finalValue);
         }
@@ -97,7 +96,7 @@ function validate_storage_type() {
     if (storageType == "1") {
         if ($("#blob-storage-form").valid()) {
             window.accountname = $("#txt-accountname").val();
-            window.endpoint = $("#txt-endpoint").val();
+            window.endpoint = $("#txt-bloburl").val() == "" ? "https://" + $("#txt-accountname").val() + ".blob.core.windows.net" : $("#txt-bloburl").val();
             window.accesskey = $("#txt-accesskey").val();
             window.containername = $("#txt-containername").val();
             window.storageType = storageType;
@@ -198,6 +197,7 @@ function onBlobStorageChange(args) {
         $(".azure-validation").css("display", "none");
         $(".e-error").removeClass("e-error");
         $("div.placeholder").remove();
+        ResizeHeightForDOM();
     }
     addPlacehoder("#system-settings-filestorage-container");
     changeFooterPostion();

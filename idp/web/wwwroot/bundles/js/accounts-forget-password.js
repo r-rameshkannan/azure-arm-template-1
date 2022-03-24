@@ -42,6 +42,6 @@ $(document).ready(function () {
 
 function ForgotValidate() {
     var isValidForm = $('#forgot-password-form').valid();
-    isValidForm ? $("body").ejWaitingPopup("show") : $("body").ejWaitingPopup("hide");
+    isValidForm ? showWaitingPopup('body') : hideWaitingPopup('body');
     return isValidForm;
 }

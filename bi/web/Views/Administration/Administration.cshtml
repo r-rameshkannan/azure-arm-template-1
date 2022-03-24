@@ -2,8 +2,8 @@
 @{
     var globalAppSettings = _globalAppSettings;
 
-    ViewBag.Title = "[[[Administration]]] - " + globalAppSettings.SystemSettings.OrganizationName;
-    ViewBag.MessageBox = false;
+    ViewBag.Title = T["Administration"].Value + " - " + globalAppSettings.SystemSettings.OrganizationName;
+    ViewBag.MessageBox = true;
     var requestUrl = new Uri(Context.Request.GetDisplayUrl());
     var isSitesPage = requestUrl.ToString().IndexOf("/administration/site", StringComparison.CurrentCultureIgnoreCase) > 0 || requestUrl.ToString().IndexOf("/administration", StringComparison.CurrentCultureIgnoreCase) > 0;
     var isADPage = requestUrl.ToString().IndexOf("/administration/user-directory-settings", StringComparison.CurrentCultureIgnoreCase) > 0;

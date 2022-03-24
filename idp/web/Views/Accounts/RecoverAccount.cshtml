@@ -45,11 +45,11 @@
         {
             @if (appBranding == AppBranding.Bold.Identifier)
             {
-                <div class="user-validation text-body">[[[As the email settings are not configured, we will not be able to send an email to reset your password. If you are the administrator, please follow the ]]]<a href="@HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.ResetPassword, TenantType.BoldBIOnPremise)">[[[steps]]]</a>[[[ to reset your password.]]]</div>
+                <div class="user-validation text-body">[[[As the email settings are not configured, we will not be able to send an email to reset your password. If you are the administrator, please follow the ]]]<a href="@await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.ResetPassword, TenantType.BoldBIOnPremise)">[[[steps]]]</a>[[[ to reset your password.]]]</div>
             }
             else
             {
-                <div class="user-validation text-body">[[[As the email settings are not configured, we will not be able to send an email to reset your password. If you are the administrator, please follow the ]]]<a href="@HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.ResetPassword, TenantType.BoldReportsOnPremise)">[[[steps]]]</a>[[[ to reset your password.]]]</div>
+                <div class="user-validation text-body">[[[As the email settings are not configured, we will not be able to send an email to reset your password. If you are the administrator, please follow the ]]]<a href="@await HelpSiteManager.GetHelpSiteUrl(HelpSiteUrlNames.ResetPassword, TenantType.BoldReportsOnPremise)">[[[steps]]]</a>[[[ to reset your password.]]]</div>
             }
         }
         else

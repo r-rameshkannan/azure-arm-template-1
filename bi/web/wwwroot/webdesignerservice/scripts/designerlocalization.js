@@ -65,7 +65,8 @@ var Designer = {
                     chart: " Chart",
                     combineWidget: "Combine Widget",
                     separateline: "Line",
-                    dateBucket: "Date Group"
+                    dateBucket: "Date Group",
+					textFilter: "Text Filter"
                 },
                 widgetDescription: {
                     columnChartDesc: "Compare values for a set of unordered items across categories using vertical bars arranged horizontally.",
@@ -111,7 +112,8 @@ var Designer = {
                     combineWidgetDesc: "Combines multiple widgets.",
                     popDesc: "Filter based on Date Ranges selected.",
                     lineDesc: "Separate the widgets.",
-                    dateBucketDesc: "Used to change the date format dynamically for the connected widgets."
+                    dateBucketDesc: "Used to change the date format dynamically for the connected widgets.",
+					textFilterDesc: "Filter based on the search performed in the text box."
                 },
                 widgetDataRequiredMessage: {
                     gridDataRequiredMessage: "Grid requires atleast 1 Column to render",
@@ -212,6 +214,7 @@ var Designer = {
                 backgroundImage: "Background Image",
                 rows: "Row(s)",
                 hiddenColumn: "Hidden Column",
+				hiddenColumns: "Hidden Column(s)",
                 argument: "Argument",
                 dimension: "Dimension",
                 measure: "Measure",
@@ -286,7 +289,9 @@ var Designer = {
                 linking: {
                     enableLinkText: "Enable Link",
                     escapeSpecialChartext: "Escape Special Characters",
+					enableEncryptParameter: "Encrypt Parameters",
                     escapeSpecialCharTooltipInfo: "Know More",
+					enableEncryptCharTooltipInfo: "The parameter with encryption can be configured in the dashboard URL. It does not support the external URL.",
                     rowText: "Row",
                     columnText: "Column",
                     chooseField: "Choose Field",
@@ -382,6 +387,7 @@ var Designer = {
 		            showTooltip:"Show Tooltip",
                     legend: "Legend",
                     legendPosition: "Legend Position",
+                    legendType:'Type',
 					legendPositioning: 'Position',
 					legendShape: 'Shape',
 					legendTitle: 'Title',
@@ -589,6 +595,7 @@ var Designer = {
                 },
                 cardTitleSettings: {
                     showTitle: "Show Title",
+					enableWrap: "Text Wrap",
                     titleText: " ",
                     titleColor: "Color",
                     titleFontSize: "Font Size",
@@ -1478,6 +1485,12 @@ var Designer = {
                         templates: [
                             { projects: { name: "", desc: "" } }
                         ]
+                    },
+					zuora: {
+                        name: 'Zuora',
+                        templates: [
+                            { projects: { name: '', desc: '' } }
+                        ]
                     }
                 },
                 oauthConnectors: {
@@ -1864,7 +1877,10 @@ var Designer = {
                 removeTableFromMergedDsMessage: "Removing this table will affect the data result. Do you want to continue?",
                 InfluxdbJoinMessage: "InfluxDB does not support join operation. Empty join window will appear.",
                 ElasticsearchJoinMessage: "Elasticsearch does not support join operation. Empty join window will appear.",
-                exportingContent: "Your export request has been submitted successfully. It may take a few seconds to complete."                       
+                exportingContent: "Your export request has been submitted successfully. It may take a few seconds to complete.",
+                exportingSuccessContent: "export was completed successfully. If the download does not begin, please",
+                exportingSuccessClick: "click here",
+				exportingSuccessEndContent: " to download the file."
             },
             parameterMessages: {
                 nameHasSpecialChar: "Name should not contain spaces and special characters",
@@ -1878,7 +1894,10 @@ var Designer = {
                 itemExist: "The relative date range that you are trying to add already exists.",
                 relativeRangeNotEmpty: "Relative range name should not empty",
                 startDateNotLessEndDate: "Start date should not be lesser than End date.",
-                dateNotEmpty: "Start and End date value should not be empty."
+                dateNotEmpty: "Start and End date value should not be empty.",
+                relativeDatesExist:"The Relative dates applied for the Value Column section. So, it can not be bound in the Display column section. Please remove Relative dates from the Value section to add the Display column.",
+                displayColumnBinded:"The Display column is configured. So, it can not be added as Relative dates. Remove the bound value from the Display column to add the Relative dates."
+                
             },
             alertDialogTitle: {
                 dataSources: "Data source",
@@ -1942,7 +1961,8 @@ var Designer = {
                 updateParameter: "Update Parameter",
                 SlaveWidgetOverrideTitle: "Period-over-Period Configuration",
                 LargeFileSizeAlert: "Confirm File Import",
-                JoinAlert: "Join Alert"
+                JoinAlert: "Join Alert",
+                relativeDatesAlert: "Relative Dates Alert"
             },
             linkedAccountsWindow: {
                 title: "Accounts",
@@ -3995,6 +4015,15 @@ var Designer = {
                 month: "Month",
                 week: "Week"
             },
+						dateSettingsDialog: {
+				columnLabelText:"Column:",
+				cancelButtonText: "Cancel",
+				okButtonText: "OK",
+				format: "Format",				
+				fiscalYearStart:"Fiscal Year Start",
+				customFormat: "Custom Format",
+				infoIcon: "For some formats, filtering is not supported."
+			},
             azureDevOpsDataSource: {
                 accountValidation: "Please enter the account name",
                 projectValidation: "Please enter the project name",
@@ -4202,6 +4231,10 @@ var Designer = {
                 titleText: "Multi-Level Drill Down",
                 dialogContentText: "Do you want to enable multi-level drill down?",
             },
+			customHierarchy: {
+				titleText: "Custom Hierarchy",
+				dialogContentText: "Do you want to remove hierarchy?"
+			},
             nameValidationMessages: {
                 dashboardName: "&nbspdashboard name",
                 categoryName: "&nbspcategory name",
@@ -4333,7 +4366,7 @@ var Designer = {
             sharedDSMenu: {
                 ownerNameHeader: "Owner",
                 LasteUpdatedTimeHeader: "Last updated on",
-                searchBoxText: "Search Table"
+                searchBoxText: "Search"
             },
             expressionDesigner: {
                 expressionTitleText: "Expression Designer",
@@ -4767,10 +4800,11 @@ var Designer = {
                 waitingTextForPdf: "Exporting to pdf...",
                 exportWidgetTitle: "Export Widget",
                 moreOptions: "More Options",
-                includeFilterInfoTooltipForImage: "When 'Include filter information' is switched on, the dashboard exported Image will contain the applied filter(s) information.",
-                includeFilterInfoTooltipForPdf: "When 'Include filter information' is switched on, the dashboard exported PDF will contain the applied filter(s) information.",
+                includeFilterInfoTooltipForImage: "When Include filter information is switched on, the dashboard exported Image will contain the applied filter(s) information.",
+                includeFilterInfoTooltipForPdf: "When Include filter information is switched on, the dashboard exported PDF will contain the applied filter(s) information.",
                 includeFilterInfoText: "Include filter information",
-                reset: "Reset"
+                reset: "Reset",
+                apiExportErrMsg: "Invalid export parameter (widgetName)"
             },
             maximize: {
                 maximize: "Maximize",
@@ -4848,7 +4882,14 @@ var Designer = {
                 oAuthHeaderSuffixText: "require OAuth configuration to be used in the application.",
                 searchWaterMarkText: "Search Connector",
                 noSelectionAlert: "Please select minimum one connection.",
-                resetConfiguration: "Reset Configuration"
+                resetConfiguration: "Reset Configuration",
+				jsonUpload: 'JSON Upload',
+				newConnector: 'Add New Connector',
+				enableCustomConnector: 'Enable Custom Connectors',
+				uploading: 'Uploading...',
+				uploadFailed: 'Upload Failed.',
+				uploadCompleted: 'Upload Completed',
+				initiatingUpload: 'Initiating Upload...'
             },
             kpiCardImageSettingsReset: {
                 titleText: "Image Settings Reset",
@@ -4880,7 +4921,8 @@ var Designer = {
                     countd: "Distinct Count",
                     stdev: "StdDev",
                     var: "Var",
-                    custom: "Agg"
+                    custom: "Agg",
+					median: "Median",
                 },
                 fieldView: {
                     MeasureFieldDisplayName: "Measures",
@@ -4903,6 +4945,9 @@ var Designer = {
                     sortAscending: "Sort Ascending",
                     sortDescending: "Sort Descending",
                     SortDispalyName: "Sort...",
+					CreateHierarchyDisplayName: "Create New Hierarchy",
+					AddToHierarchyDisplayName: "Add To Hierarchy",
+					CustomHierarchyremove: "Remove",
                     dimensionFilterDisplayName: "Filter(s)",
                     relativeDateFilterDisplayName: "Relative Date Filter",
                     dateTime: "Date Time",
@@ -4979,7 +5024,8 @@ var Designer = {
                 showAllColumns: "Show all columns"
             },
             rowsRetrieved: {
-                rowsRetrieved: "rows retrieved"
+                rowsRetrieved: "rows retrieved",
+				                of: "of"
             },
             fetchData: {
                 fetchData: "Fetching Data..."
@@ -5569,6 +5615,24 @@ var Designer = {
                 result: "Result",
                 feeds: "Feeds",
             },
+			zuoraDataSource: {
+				account: 'Account',
+				accountingCode: 'Accounting Code',
+				invoice: 'Invoice',
+				order: 'Order',
+				subscription: 'Subscription',
+
+				allAccountingCodes: 'All Accounting Codes',
+				showAccountingCode: 'Show Accounting Code',
+				accountingPeriods: 'Accounting Periods',
+				showAccount: 'Show Account',
+				accountSummary: 'Account Summary',
+				allOrders: 'All Orders',
+				showOrder: 'Show Order',
+				subscriptionByAccount: 'Subscription By Account',
+				invoiceItems: 'Invoice Items',
+				invoicePayments: 'Invoice Payments',
+            },
             freshdeskDataSource: {
                 allTickets: "All Tickets",
                 viewTicket: "View Ticket",
@@ -5867,7 +5931,8 @@ var Designer = {
             },
 			userParameter: {
 				fullName: "Current User Full Name",
-				email: "Current User Email"
+				email: "Current User Email",
+                token: 'Current User Token'
 			},
         }
     }

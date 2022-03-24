@@ -123,6 +123,13 @@
         }
     });
 
+    $("#admin-account-fields-container").on("keypress", function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            $("#user-account-proceed").click();
+        }
+    }); 
+
     $("#user-account-proceed").on("click", function () {
         if ($(".admin-account-fields-container").valid()) {
             $(".startup-waiting-popup").removeClass("storage-page-content");
@@ -130,15 +137,15 @@
             $("#image-parent-container .startup-image").hide().attr("src", serverSetupImageUrl).fadeIn();
             $(".startup-content span.first-content").hide().text(window.TM.App.LocalizationContent.YourSite).slideDown();
             $(".startup-content span.second-content").hide().text(window.TM.App.LocalizationContent.YourSite2 + displayName + window.TM.App.LocalizationContent.YourSite3).slideDown();
-            $("#system-settings-db-selection-container").slideDown("slow");
+            $("#system-settings-db-selection-container").show();
+            $("#db-content-holder,#db-config-submit").show();
+            $("#sql-existing-db-submit, .sql-server-existing-db").hide();
             autoFocus("txt-servername");
             $("#advanced_tab_db_name").hide();
             prefillDbNames();
             if (!isBoldBI) {
                 hideDataStore();
             }
-            $("#db-content-holder,#db-config-submit").show();
-            $("#sql-existing-db-submit, .sql-server-existing-db").hide();
         }
     });
 });

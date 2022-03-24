@@ -1,7 +1,7 @@
 ﻿@{
     var globalAppSettings = _globalAppSettings;
     var isMobile = new DeviceDetection(Context).IsMobile;
-    ViewBag.Title = "[[[Pinboards]]] - " + globalAppSettings.SystemSettings.OrganizationName;
+    ViewBag.Title = T["Pinboards"].Value + " - " + globalAppSettings.SystemSettings.OrganizationName;
     ViewBag.MessageBox = true;
     var baseUrl = globalAppSettings.SystemSettings.BaseUrl;
     var dashboardServiceUrl = globalAppSettings.SystemSettings.InternalAppDataServiceUrl;
@@ -120,7 +120,7 @@
 
         window.onload = function () {
             //Add placeholder for search box in 'Select a default pinboard' selectpicker in homepage
-            $("#widget-container #no-default-homepage-container .bootstrap-select .bs-searchbox .input-block-level").attr("placeholder", window.Server.App.LocalizationContent.SearchPinboards);
+            $("#widget-container #no-default-homepage-container .bootstrap-select .bs-searchbox .input-block-level").attr("placeholder", window.Server.App.Localization.SearchPinboards);
         }
     </script>
 }
@@ -143,20 +143,20 @@
                     <ul class="dropdown-menu" id="options" role="menu">
                         @if (!isMobile)
                         {
-                            <li id="rename">[[[Rename]]]</li>
-                            <li id="duplicate">[[[Duplicate]]]</li>
-                            <li id="delete">[[[Delete]]]</li>
+                            <li id="rename">@T["Rename"]</li>
+                            <li id="duplicate">@T["Duplicate"]</li>
+                            <li id="delete">@T["Delete"]</li>
                         }
                         @if ((!isDefaultHomepage && defaultHomepageDetail != null) || (isHomePageInfoByName && !homepageInfo.IsDefaultHomepage) || (!isDefaultHomepage && !isHomePageInfoByName))
                         {
                             <li id="make-default" class="make-default">
-                                [[[Set as default pinboard]]]
+                                @T["Set as default pinboard"]
                             </li>
                         }
                         else
                         {
                             <li id="remove-default" class="make-default">
-                                [[[Remove default pinboard]]]
+                                @T["Remove default pinboard"]
                             </li>
                         }
                     </ul>
@@ -167,7 +167,7 @@
                     @if (!isMobile)
                     {
                         <div id="layout-container">
-                            <div id="layout" class="dropdown-toggle" data-toggle="dropdown">[[[Edit Layout]]]</div>
+                            <div id="layout" class="dropdown-toggle" data-toggle="dropdown">@T["Edit Layout"]</div>
                             <div class="dropdown-menu" id="layout-items" role="menu">
                                 <span class="su su-single-column" id="1"></span>
                                 <span class="su su-two-column" id="11"></span>
@@ -180,13 +180,13 @@
                         {
                             <div id="divider"></div>
                             <div id="add-button-container">
-                                <button class="dropdown-toggle primary-button app-btn-primary" data-toggle="dropdown" id="add-button" title="[[[Add Pinboard]]]">
-                                    <span>[[[Add Pinboard]]] </span>
+                                <button class="dropdown-toggle primary-button app-btn-primary" data-toggle="dropdown" id="add-button" title="@T["Add Pinboard"]">
+                                    <span>@T["Add Pinboard"] </span>
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" id="add-homepage-options" role="menu">
-                                    <li id="add-homepage">[[[Empty Pinboard]]]</li>
-                                    <li id="add-dashboard-homepage">[[[Pin Dashboard]]]</li>
+                                    <li id="add-homepage">@T["Empty Pinboard"]</li>
+                                    <li id="add-dashboard-homepage">@T["Pin Dashboard"]</li>
                                 </ul>
                             </div>
                         }
@@ -197,7 +197,7 @@
         </div>
         @if (!isMobile)
         {
-            <div id="initial-message" class="hidden"><span id="message"><span class="su su-info"></span><span>[[[You have not added any widget to the pinboard yet. Start tracking data from multiple dashboards. Click pin icon on dashboard widgets to add widgets to the pinboard.]]]</span><span id="close-icon"><span class="su su-close" title="[[[Close]]]"></span></span></span></div>
+            <div id="initial-message" class="hidden"><span id="message"><span class="su su-info"></span><span>@T["You have not added any widget to the pinboard yet. Start tracking data from multiple dashboards. Click pin icon on dashboard widgets to add widgets to the pinboard."]</span><span id="close-icon"><span class="su su-close" title="@T["Close"]"></span></span></span></div>
         }
         <div id="widget-container" data-homepage-id="" data-current-layout="" data-virtual-homepage="">
             @if (allHomepagesCount != 0 && (!isDefaultHomepage && !isHomePageInfoByName) && isHomepageExists)
@@ -205,20 +205,20 @@
                 <div id="default-homepage-detail">
                     @if (isSyncfusionIdentifier)
                     {
-                        <div>[[[The pinboard is the initial screen. It can either contain individual widgets from other dashboards or have entire dashboards added to it.]]]</div>
+                        <div>@T["The pinboard is the initial screen. It can either contain individual widgets from other dashboards or have entire dashboards added to it."]</div>
                     }
                     else
                     {
-                        <div>[[[The pinboard is the initial screen. It can contain individual widgets from other dashboards.]]]</div>
+                        <div>@T["The pinboard is the initial screen. It can contain individual widgets from other dashboards."]</div>
                     }
-                    <div id="select-default-content">[[[Select a pinboard to set as default.]]]</div>
+                    <div id="select-default-content">@T["Select a pinboard to set as default."]</div>
                 </div>
                 <div id="no-default-homepage-container">
-                    <select class="selectpicker" id="select-default-homepage" data-live-search="true" data-size="10" title="" data-original-value="">
-                        <option data-hidden="true" value="">[[[Select a default pinboard]]]</option>
+                    <select class="selectpicker" id="select-default-homepage" data-live-search="true" data-size="10" title="" data-original-value="" data-none-results-text = "@T["No results match"]">
+                        <option data-hidden="true" value="">@T["Select a default pinboard"]</option>
                         <option ng-repeat="homepage in allHomepages|orderBy:'Name'" value="{{homepage.Id}}">{{homepage.Name}}</option>
                     </select>
-                    <input type="button" id="set-default-button" class="btn primary-button app-btn-primary" value="[[[Apply]]]">
+                    <input type="button" id="set-default-button" class="btn primary-button app-btn-primary" value="@T["Apply"]">
                 </div>
             }
             @if (allHomepagesCount <= 0 && isHomepageExists)
@@ -228,19 +228,19 @@
                         @if (isSyncfusionIdentifier)
                         {
                             <div>
-                                [[[The pinboard is the initial screen. It can either contain individual widgets from other dashboards or have entire dashboards added to it. It is possible to create multiple pinboards, but only one can be active at a time.]]]
+                                @T["The pinboard is the initial screen. It can either contain individual widgets from other dashboards or have entire dashboards added to it. It is possible to create multiple pinboards, but only one can be active at a time."]
                             </div>
                         }
                         else
                         {
                             <div>
-                                [[[The pinboard is the initial screen. It can contain individual widgets from other dashboards. It is possible to create multiple pinboards, but only one can be active at a time.]]]
+                                @T["The pinboard is the initial screen. It can contain individual widgets from other dashboards. It is possible to create multiple pinboards, but only one can be active at a time."]
                             </div>
                         }
 
                         @if (isMobile)
                         {
-                            <div id="login-message">[[[You need to log in with a desktop client to be able to create and configure pinboards.]]]</div>
+                            <div id="login-message">@T["You need to log in with a desktop client to be able to create and configure pinboards."]</div>
                         }
                     </div>
                 </div>
@@ -248,15 +248,15 @@
                 {
                     <div id="add-button-wrapper">
                         <div id="add-button-container">
-                            <button class="dropdown-toggle primary-button app-btn-primary" data-toggle="dropdown" id="add-button" title="[[[Add Pinboard]]]">
-                                <span>[[[Add Pinboard]]] </span>
+                            <button class="dropdown-toggle primary-button app-btn-primary" data-toggle="dropdown" id="add-button" title="@T["Add Pinboard"]">
+                                <span>@T["Add Pinboard"]</span>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" id="add-homepage-options" role="menu">
-                                <li id="add-homepage">[[[Empty Pinboard]]]</li>
+                                <li id="add-homepage">@T["Empty Pinboard"]</li>
                                 @if (isSyncfusionIdentifier)
                                 {
-                                    <li id="add-dashboard-homepage">[[[From Dashboard]]]</li>
+                                    <li id="add-dashboard-homepage">@T["From Dashboard"]</li>
                                 }
                             </ul>
                         </div>
@@ -270,14 +270,14 @@
             <div class="col-md-12 dialog-header">
                 <span class="su su-pin Head-icon"></span>
                 <span class="PopupTitle"></span>
-                <a href="javascript:void(0);" title="[[[Close]]]" class="PopupClose" onclick="closeHomepageActionPopup()"><span class="su su-close"></span></a>
+                <a href="javascript:void(0);" title="@T["Close"]" class="PopupClose" onclick="closeHomepageActionPopup()"><span class="su su-close"></span></a>
                 <div id="homepage-name"><div id="name" data-toggle="tooltip" data-placement="bottom" data-original-title="" title=""></div></div>
             </div>
 
             <form class="dialog-body col-xs-12 no-padding" id="homepage-option-form" data-homepage-id="">
                 <div>
                     <div class="col-xs-12 padding20 no-bottom-padding" id="item-name-division">
-                        <div class="col-xs-4 no-padding text-right text-label">[[[Name]]]<span class="mandatory">*</span></div>
+                        <div class="col-xs-4 no-padding text-right text-label">@T["Name"]<span class="mandatory">*</span></div>
                         <div class="col-xs-1 no-padding"></div>
                         <div class="col-xs-7 no-padding">
                             <input type="text" id="homepage-new-name" name="homepagenewname" maxlength="255" value="" class="form-control site-orgname-fields text" autofocus />
@@ -286,7 +286,7 @@
                     </div>
 
                     <div class="col-xs-12" id="default-homepage-section">
-                        @Html.Label("makedefault", "[[[Make default]]]", new { @class = "col-xs-4 no-padding text-right text-label", @id = "make-default-label" })
+                        @Html.Label("makedefault", T["Make default"].Value, new { @class = "col-xs-4 no-padding text-right text-label", @id = "make-default-label" })
                         <div class="col-xs-4 makedefault switch-align">
                             <span class="material-switch text-left">
                                 <input type="checkbox" id="makedefault" name="make-default" />
@@ -295,7 +295,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12 display-none" id="filter-container">
-                        @Html.Label("keepfilter", "[[[Keep filters]]]", new { @class = "col-xs-4 no-padding text-right text-label", @id = "keep-filter-label" })
+                        @Html.Label("keepfilter", T["Keep filters"].Value, new { @class = "col-xs-4 no-padding text-right text-label", @id = "keep-filter-label" })
                         <div class="col-xs-4 keepfilter switch-align">
                             <span class="material-switch text-left">
                                 <input type="checkbox" id="keepfilter" name="keep-filter" checked />
@@ -303,15 +303,15 @@
                             </span>
                         </div>
                         <div id="info-tag">
-                            <span id="filter-info" class="su su-info info-popup" data-toggle="popover" data-placement="top" data-content="[[[When “keep filter” is switched on, the widget will be added to the pinboard in its current filtered state.]]]"></span>
+                            <span id="filter-info" class="su su-info info-popup" data-toggle="popover" data-placement="top" data-content="@T["When “keep filter” is switched on, the widget will be added to the pinboard in its current filtered state."]"></span>
                         </div>
                     </div>
                 </div>
             </form>
             <div class="col-xs-12 dialog-footer no-right-padding no-left-padding" id="action-button-division">
                 <div class="rightAlign">
-                    <input type="button" title="" data-value="" id="save-button" class="btn primary-button app-btn-primary" value=[[[Save]]] />
-                    <input type="button" id="cancel-button" title="" class="btn secondary-button app-btn-secondary" value="[[[Cancel]]]" onclick="closeHomepageActionPopup()" />
+                    <input type="button" title="" data-value="" id="save-button" class="btn primary-button app-btn-primary" value="@T["Save"]" />
+                    <input type="button" id="cancel-button" title="" class="btn secondary-button app-btn-secondary" value="@T["Cancel"]" onclick="closeHomepageActionPopup()" />
                 </div>
             </div>
         </div>

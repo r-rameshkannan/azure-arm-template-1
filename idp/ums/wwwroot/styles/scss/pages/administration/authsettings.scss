@@ -1,28 +1,13 @@
 ﻿@import "../mixins.scss";
 
-#server-app-container {
-    #base-footer-div {
-        background-color: transparent !important;
-    }
-
-    #content-area {
-        background-color: $admin-container-bg !important;
-    }
-}
-
 #base_container_WaitingPopup, .e-waitpopup-pane {
     z-index: 998 !important;
 }
 
-.placeholder {
-    position: absolute;
-    top: 0px;
-    padding: 6px 0 6px 12px;
-    color: $placeholder-color;
-    height: 34px;
-    line-height: 1.5;
-    overflow: hidden;
+.admin-page-body {
+    @include ej2NonFloat();
 }
+
 
 .e-chkbox-wrap {
     float: left;
@@ -43,44 +28,12 @@
     }
 }
 
-.tooltip-inner {
-    word-break: break-all;
-    white-space: pre;
-    max-width: none;
-}
-
-.tooltip.top .tooltip-arrow {
-    bottom: 1px;
-}
-
-.separator {
-    float: left;
-    width: 100%;
-}
-
-.confirmatioMessage {
-    display: none;
-    float: right;
-    margin-top: 10px;
-}
-
-.ValidationErrorImage {
-    color: $validation-text-color;
-}
-
 .bootstrap-select .dropdown-toggle:focus {
     outline: none !important;
 }
 
 #no-auth {
-    .no-auth-msg {
-        padding-left: 20px;
-        padding-top: 25px;
-        padding-bottom: 5px;
-    }
-
     .options-padding {
-        padding-left: 20px;
         padding-top: 15px;
         padding-bottom: 65px;
         display: block;
@@ -102,6 +55,13 @@
     }
 
     .default-auth-option {
+
+        .su-windows-ad {
+            &:before {
+                color: $primary-text-color !important;
+            }
+        }
+
         height: 120px;
         width: 160px;
         background: $admin-page-bg;
@@ -112,108 +72,49 @@
     }
 }
 
-#windows-ad-settings-tab {
-    .popover {
-        width: 100%;
+#windows-ad {
+    .info-message {
+        padding: 3px 0 0 44px;
+        width: 75%;
+        margin: 0 !important;
     }
 }
 
-#active-directory-container, #sso-container {
-    margin-bottom: 30px;
-
-    .admin-page-body {
-        border-top: none;
-    }
-
-    #ad-tab-nav {
-        border-color: $admin-body-border-color;
-
-        li:first-child {
-            margin-left: 20px;
-        }
-
-        li a {
-            color: $primary-text-color;
-        }
-
-        li.active {
-            a {
-                color: $primary-color;
-            }
-        }
-    }
-
-    input::-ms-clear, input::-ms-reveal {
-        display: none;
-    }
+.auth-header {
+    padding: 32px 24px 20px 24px !important;
 }
 
 #oauth-settings-tab, #openid-settings-tab, #azure-ad-settings-tab, #jwt-settings-tab {
-    #oauth-page-body, #openid-page-body {
-        .su.su-show, .su.su-hide {
-            font-size: 18px;
-        }
-    }
-
-    #jwt-page-body {
-        .su.su-show, .su.su-hide {
-            font-size: 17px;
-            top: 2px !important;
-            height: 35px;
-        }
-    }
-
     .admin-page-body {
-        color: $primary-text-color;
-
         .auth-settings-form {
-            margin-bottom: 50px;
-            margin-top: 10px;
-            border-radius: 4px;
-            float: left;
-            width: 100%;
+            .auth-sub-title {
+                margin-top: 32px;
 
-            .section-title {
-                font-size: $app-large-text-size;
-                margin: 30px 0 0 20px;
-                font-weight: bold;
+                .section-title {
+                    font-size: $app-large-text-size;
+                    font-weight: bold;
+                    margin-bottom: 4px;
+                }
             }
 
-            .method-type {
-                float: left;
-                width: 20% !important;
-            }
-
-            .info-popup {
-                float: left;
-                position: absolute;
-                cursor: pointer;
-                top: 7px;
-            }
-
-            .popover {
-                width: 400px;
+            #jwt-signing-key.signing-key-width {
+                width: 450px !important;
+                border-radius: 4px;
+                border-right: 1px solid $grey-200;
             }
 
             #oauth-userinfo-endpoint, #oauth-token-endpoint {
-                width: 80%;
+                width: 370px;
+                height: 28px;
+                border-radius: 0 4px 4px 0;
+                float: left;
             }
 
-            #oauth-user-data-info {
-                top: 33px;
-                margin-left: 20px;
-            }
-
-            #oauth-logo-info, #openid-logo-info, #jwt-logo-info {
-                left: 130px;
-                top: 2px;
-            }
-
-            input#oauth-callback-link, input#openid-callback-link, input#oauth-mobile-callback-link, input#openid-mobile-callback-link {
+            input#oauth-callback-link, input#openid-callback-link, input#oauth-mobile-callback-link, input#openid-mobile-callback-link, input#jwt-signing-key {
                 overflow: hidden;
                 border-radius: 4px 0 0 4px;
                 resize: none;
-                width: 93%;
+                width: 421px;
                 float: left;
                 background-color: $dialog-body-bgcolor;
                 box-shadow: none;
@@ -223,18 +124,6 @@
                 }
             }
 
-            #oauth-callback-link-copy, #openid-callback-link-copy, #oauth-mobile-callback-link-copy, #openid-mobile-callback-link-copy {
-                border-radius: 0 4px 4px 0;
-                float: left;
-                font-size: 14px;
-                cursor: pointer;
-                padding-left: 7px;
-                padding-top: 10px;
-                width: 7%;
-                background-color: $dialog-body-bgcolor;
-                box-shadow: none;
-                border-left: none;
-            }
 
             #oauth-callback-link-copy.focusdiv, #openid-callback-link-copy.focusdiv, #oauth-mobile-callback-link-copy.focusdiv, #openid-mobile-callback-link-copy.focusdiv {
                 border-top: 1px solid $primary-color;
@@ -242,42 +131,18 @@
                 border-bottom: 1px solid $primary-color;
             }
 
-            .section-info-message-container {
-                margin: 20px;
-                background-color: $admin-container-bg;
-                border: 1px solid $footer-bg-color;
-                border-left: 6px solid $primary-text-color;
-                cursor: default;
-                display: table;
-                min-height: 45px;
-
-                .su-info {
-                    display: table-cell;
-                    vertical-align: middle;
-                    font-size: 22px;
-                }
-
-                .section-info-message {
-                    display: table-cell;
-                    padding: 10px;
-                    vertical-align: middle;
-                }
-            }
-
             .logo-container {
                 .auth-image-upload-box {
-                    height: 100px;
-                    width: 103px;
-                    /*height: 133px;
-                    width: 153px;*/
+                    height: 80px;
+                    width: 150px;
                     border-radius: 4px;
-                    border: 2px solid $footer-bg-color;
+                    border: 1px solid $footer-bg-color;
+                    margin-bottom: 4px;
 
                     .js-image-preview {
-                        height: 70px;
+                        height: 25px;
                         width: 100px;
-                        /*height: 100px;
-                        width: 150px;*/
+                        margin: 18px auto 8px auto;
                         background-image: url("");
                         background-position: center center;
                         background-repeat: no-repeat;
@@ -285,9 +150,8 @@
                     }
 
                     .upload-options {
-                        height: 26px;
-                        /*height: 30px;*/
-                        background-color: $primary-btn-disabled-bg;
+                        height: 27px;
+                        background-color: $grey-60;
                         cursor: pointer;
 
                         input {
@@ -302,7 +166,7 @@
                             margin: 0;
 
                             span {
-                                font-size: $app-large-text-size;
+                                font-size: $list-content-large-size;
                                 color: $primary-color;
                                 display: table-cell;
                                 vertical-align: middle;
@@ -313,36 +177,44 @@
                 }
             }
 
-            .signing-key-values {
-                padding: 10px;
-                border-radius: 2px;
-                background-color: $select-hover;
-                border: none;
+            #jwt-signing-key {
+                width: 366px !important;
+                border-right: 0px
             }
 
-            .signing-key-width {
-                width: 300px;
+            #show-signing-key {
+                border: 1px solid $grey-200;
+                border-left: none;
+                padding: 4px;
+                border-radius: 0px;
+                position: inherit;
+            }
+
+            #copy-signing-key {
+                border-left: none;
+                border-radius: 0px;
+            }
+
+            #generate-signing-key {
+                border-radius: 0 4px 4px 0;
+                border-left: none;
             }
 
             .copy-signing-key-values {
-                padding: 10px;
-                background-color: $select-hover;
-                position: relative;
-                left: 3%;
-                border: none;
-                top: 0px !important;
-
-                &:hover {
-                    background-color: $border-color;
-                    cursor: pointer
-                }
-            }
-
-            .show-hide-password {
-                top: 6px;
-                right: 25px;
+                background-color: $admin-page-bg !important;
+                overflow: hidden;
+                resize: none;
+                width: 28px;
+                height: 28px;
+                float: left;
+                box-shadow: none;
+                padding-left: 8px;
             }
         }
+    }
+
+    .e-input-group {
+        width: 450px !important;
     }
 }
 
@@ -350,14 +222,64 @@
     display: none;
 }
 
-.modal-body {
-    .provider-name {
-        color: $primary-color;
-        font-style: italic;
-    }
+.dialogContent .dialogText {
+    font-size: 15px;
+    padding: 3%;
+    word-wrap: break-word;
+    border-radius: 2px;
+    text-align: justify;
+    color: $dialog-text-1;
+    font-style: initial;
+    display: block;
+    background-color: $bg-dialog-1;
+}
 
-    a {
-        color: $primary-color;
+.custom-template.e-dialog .e-dlg-header-content {
+    border-bottom: none;
+    background-color: $white;
+}
+
+.e-control.e-dialog .e-dlg-header-content .e-btn.e-dlg-closeicon-btn {
+    height: 25px;
+    width: 30px;
+}
+
+.e-control.e-dialog .e-btn .e-btn-icon.e-icon-dlg-close {
+    font-size: 20px;
+    height: 100%;
+    width: 100%;
+    color: $grey-800;
+}
+
+.su.su-warning-alt {
+    font-size: 45px;
+    position: relative;
+    float: left;
+    right: 2%;
+}
+
+#sendButton {
+    position: relative;
+    right: 38%;
+    width: 20%;
+    background: $white;
+    border: 0;
+    border-radius: 4px;
+    color: $grey-800;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    height: 28px;
+    line-height: 28px;
+    min-width: 90px;
+    outline: none;
+    text-align: center;
+    border: 1px solid $grey-300;
+
+
+    &:hover {
+        background-color: $grey-200;
     }
 }
 
@@ -383,20 +305,10 @@
 }
 
 @media screen and (min-width: 1041px) and (max-width: 1399px) {
-    .popover-content {
-        font-size: $app-text-size;
-    }
-
     #messageBox {
         .message-content {
             margin-top: 30px !important;
         }
-    }
-}
-
-@media screen and (min-width: 1040px) {
-    .left-alignment {
-        padding-left: 8%;
     }
 }
 

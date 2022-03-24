@@ -477,6 +477,16 @@
             <param name="apiDataSourceUpdate">Details about the data source passed will be updated to the specified data source id.</param>
             <returns>The response is sent as ApiResponse object</returns>
         </member>
+        <member name="M:Syncfusion.Server.API.Controllers.V4.DataSourceController.UpdateDataSourcesColumnsJson(System.Collections.Generic.List{Syncfusion.Server.Base.DataClasses.ApiUpdateDataSourceColumn})">
+            <summary>
+            Update the data source column names
+            </summary>
+            <remarks>
+            Users who have write access for data source and dashboard, can update an existing data source column names by providing respective data source details in the request body.
+            </remarks>
+            <param name="apiUpdateDataSourceColumn">Details about the data source passed will be updated to the specified data source id.</param>
+            <returns>The response is sent as ApiResponse object</returns>
+        </member>
         <member name="M:Syncfusion.Server.API.Controllers.V4.DataSourceController.DeleteDatasource(System.Guid)">
             <summary>
             Deletes the specified datasource on the server
@@ -506,6 +516,15 @@
             </remarks>
             <returns>The response is sent as ApiResponse object</returns>
         </member>
+        <member name="M:Syncfusion.Server.API.Controllers.V4.DataSourceController.GetDashboards(System.Guid)">
+            <summary>
+            Get the data source dashboard list from the server
+            </summary>
+            <remarks>
+            Users who have a read access for dashboards can get the data source's dashboard details.
+            </remarks>
+            <returns>The response is sent as an API items object list</returns>
+        </member>
         <member name="M:Syncfusion.Server.API.Controllers.V4.DataSourceController.AddDatasourceConnectionJson(Syncfusion.Server.Base.DataClasses.ApiAddDataSourceConnectionV4)">
             <summary>
             Add a new datasource.
@@ -534,7 +553,6 @@
             <summary>
             Get Preview features
             </summary>
-            <remarks></remarks>
             <returns>The response is sent as ApiResponse Object</returns>
         </member>
         <member name="T:Syncfusion.Server.API.Controllers.V4.GroupsController">
@@ -823,6 +841,18 @@
             </summary>
             <returns>The response is sent as ApiResponse Object</returns>
         </member>
+        <member name="M:Syncfusion.Server.API.Controllers.V4.SystemSettingsController.GetDashboardSettings">
+            <summary>
+            Get Dashboard Settings
+            </summary>
+            <returns>The response is sent as ApiDashboardSettings Object</returns>
+        </member>
+        <member name="M:Syncfusion.Server.API.Controllers.V4.SystemSettingsController.UpdateDashboardSettingsJson(Syncfusion.Server.Base.DataClasses.ApiDashboardSettings)">
+            <summary>
+            Update Dashboard Settings
+            </summary>
+            <returns>The response is sent as ApiResponse Object</returns>
+        </member>
         <member name="T:Syncfusion.Server.API.Controllers.V4.TenantController">
             <summary>
             Controller for Tenant related actions
@@ -939,14 +969,17 @@
             If single dashboard : add dashboard's widgets
             </summary>
             <param name="parentId"></param>
+            <param name="itemName"></param>
             <param name="userId"></param>
+            <param name="extension"></param>
             <returns></returns>
         </member>
-        <member name="M:Syncfusion.Server.API.Models.ItemsModel.PublishDashboard(Syncfusion.Server.Base.DataClasses.ApiDashboardAdd,System.String,System.Boolean)">
+        <member name="M:Syncfusion.Server.API.Models.ItemsModel.PublishDashboard(Syncfusion.Server.Base.DataClasses.ApiDashboardAdd,System.String)">
             <summary>
             Add Dashboard in dashboard Server
             </summary>
             <param name="itemRequest">ItemRequest object which is sent as request</param>
+            <param name="extension"></param>
             <returns>The response is sent as ItemResponse object</returns>
         </member>
         <member name="M:Syncfusion.Server.API.Models.ItemsModel.AddDatasource(Syncfusion.Server.Base.DataClasses.ApiAddDataSourceConnectionV4)">
@@ -970,11 +1003,12 @@
             <param name="itemRequest">ItemRequest object which is sent as request</param>
             <returns>The response is sent as ItemResponse object</returns>
         </member>
-        <member name="M:Syncfusion.Server.API.Models.ItemsModel.UpdateDashboard(Syncfusion.Server.Base.DataClasses.ApiDashboardUpdate,System.String,System.Boolean)">
+        <member name="M:Syncfusion.Server.API.Models.ItemsModel.UpdateDashboard(Syncfusion.Server.Base.DataClasses.ApiDashboardUpdate,System.String)">
             <summary>
             Update dashboard in dashboard Server
             </summary>
             <param name="itemRequest">ItemRequest object which is sent as request</param>
+            <param name="extension">file extension</param>
             <returns>The response is sent as ItemResponse object</returns>
         </member>
         <member name="M:Syncfusion.Server.API.Models.ItemsModel.UpdateWidget(Syncfusion.Server.Base.DataClasses.ApiWidgetUpdate)">
@@ -1051,7 +1085,7 @@
             <summary>
             The method will get the file and convert to bytes as response
             </summary>
-            <param name="itemRequest">Request object from report designer</param>
+            <param name="id">item id</param>
             <returns>Class type ItemResponse</returns>
         </member>
         <member name="M:Syncfusion.Server.API.Models.ItemsModel.GetItemLocation(System.Guid)">
@@ -1069,7 +1103,7 @@
             <param name="apiScheduleRequest"></param>
             <returns></returns>
         </member>
-        <member name="M:Syncfusion.Server.API.Models.SchedulerManagementModel.ParseSchedule(Syncfusion.Server.Base.DataClasses.ApiScheduleRequest,Syncfusion.Server.Base.DataClasses.EndType,System.String,Syncfusion.Server.Base.DataClasses.ScheduleExportLocation@,System.Nullable{System.Guid},System.Boolean)">
+        <member name="M:Syncfusion.Server.API.Models.SchedulerManagementModel.ParseSchedule(Syncfusion.Server.Base.DataClasses.ApiScheduleRequest,Syncfusion.Server.Base.DataClasses.EndType,System.String,Syncfusion.Server.Base.DataClasses.ScheduleExportLocation,System.Nullable{System.Guid},System.Boolean)">
             <summary>
             Parses the schedule details from request.
             </summary>
@@ -1081,7 +1115,7 @@
             <param name="getUnchangedLocation">Whether to get old Export Location</param>
             <returns>Retruns the parsed schedule details.</returns>
         </member>
-        <member name="M:Syncfusion.Server.API.Models.ScheduleValidationHelper.SubscribeUsersValidation(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Int32}@)">
+        <member name="M:Syncfusion.Server.API.Models.ScheduleValidationHelper.SubscribeUsersValidation(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Int32})">
             <summary>
             Validates the subscribers.
             </summary>
@@ -1142,9 +1176,14 @@
             This is used only when this API application needs a new token to send to the client
             for which it will call the /api/token endpoint from an exisitng api request.
             </summary>
+            <param name="httpContext">Http context.</param>
             <param name="userDetail">Detail of the user</param>
             <param name="ipAddress">IP address of the request</param>
             <param name="expiresIn">Specifies the expiry time in seconds</param>
+            <param name="subId"></param>
+            <param name="userGroupIds"></param>
+            <param name="datasourceFilter"></param>
+            <param name="isUsageAnalytics"></param>
             <returns></returns>
         </member>
     </members>

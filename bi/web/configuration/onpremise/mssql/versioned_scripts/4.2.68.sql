@@ -1,4 +1,4 @@
-ALTER TABLE [BOLDBI_ScheduleDetail] ADD [ScheduleExportInfo] [nvarchar](max) NULL
+﻿ALTER TABLE [BOLDBI_ScheduleDetail] ADD [ScheduleExportInfo] [nvarchar](max) NULL
 ;
 INSERT into [BOLDBI_LogField] (ModuleId,Field,Description,ModifiedDate,IsActive) SELECT 10,N'DashboardSettings.UsageAnalytics',N'DashboardSettings.UsageAnalytics',GETDATE(),1
 WHERE NOT EXISTS (SELECT Field FROM [BOLDBI_LogField] WHERE Field = N'DashboardSettings.UsageAnalytics')

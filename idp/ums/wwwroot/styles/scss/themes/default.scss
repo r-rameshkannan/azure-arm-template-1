@@ -11,10 +11,14 @@ $grey-500: #808080;
 $grey-400: #999999;
 $grey-300: #b3b3b3;
 $grey-200: #cccccc;
+$grey-100: #e6e6e6;
 $grey-80: #eeeeee;
 $grey-60: #f2f2f2;
 $grey-40: #f9f9f9;
 
+// Warning colors
+$warning-900: #fff8ee;
+$warning-800: #ffebcf;
 
 $border-color: $grey-300;
 
@@ -49,18 +53,53 @@ $border-color: $grey-200;
 $login-font-color: $primary-black;
 
 // Admin Page
-
+$backgroud: var(--background);
 $admin-container-bg: var(--background);
 $admin-page-bg: var(--surface);
 $admin-body-border-color: $grey-80;
 $admin-pages-border-color: $grey-80;
 $description-text-color: $grey-900;
 
+$header-description-text-normal-color: $primary-text-color;
+$tab-border-normal-color: $grey-100;
+$hr-separator-normal-color: $grey-200;
+$logo-section-border-color: $grey-200;
+$logo-section-description-color: $grey-500;
+$logo-disabled-color:$grey-400;
+
+
+$embed-warning-bg-normal-color: $warning-900;
+$embed-warning-border-normal-color: $warning-800;
+
 //input box
 $input-box-disabled: $grey-80;
+$input-box-border-disable-color: $grey-200;
+$input-box-text-normal-color: $primary-text-color;
+$input-box-text-disable-color: $grey-300;
+$input-box-bg-normal-color: $white;
+$input-box-bg-disable-color: $grey-80;
+$input-box-border-normal-color: $grey-200;
+
+//Icons
+$icon-text-normal-color: $grey-700;
+$icon-text-hover-color: $grey-900;
 
 
 //Grid Variables
+$grid-content-border-normal-color: $grey-100;
+$grid-header-bg-normal-color:$admin-container-bg;
+$grid-header-text-normal-color:$primary-text-color;
+$grid-content-bg-normal-color:$white;
+$grid-content-text-normal-color:$primary-text-color;
+$grid-content-text-hover-color:$primary-text-color;
+$grid-content-bg-hover-color:$grey-80;
+$grid-footer-text-normal-color:$primary-text-color;
+$grid-link-text-normal-color:$blue;
+$grid-footer-bg-normal-color: $backgroud;
+$grid-footer-border-normal-color: $grey-100;
+$grid-content-bg-active-color:$blue-lighter;
+$grid-content-text-active-color:$primary-text-color;
+
 $grid-header-bg: var(--surface);
 $grid-content-bg: var(--surface);
 $grid-footer-bg: var(--surface);
@@ -122,6 +161,15 @@ $danger-btn-hover: #FF4E45;
 $link-btn-hover: $grey-80;
 $submit-button-disabled: $grey-60;
 
+$primary-button-bg-normal-color: $primary-color;
+$primary-button-bg-hover-color: $blue-secondary;
+$primary-button-bg-disable-color: $grey-80;
+$primary-button-border-normal-color: $primary-color;
+$primary-button-border-disable-color: $grey-200;
+$primary-button-text-normal-color: $white;
+$primary-button-text-hover-color: $white;
+$primary-button-text-disable-color:$grey-400;
+
 // Link colors
 $link-text-color: $primary-color;
 
@@ -131,16 +179,37 @@ $profile-border-color: $grey-200;
 $primary-btn-disabled-color: $grey-400;
 
 //Dialog Box
+$dialog-header-bg-normal-color:$backgroud;
+$dialog-header-border-normal-color:$grey-100;
+$dialog-footer-bg-normal-color: $backgroud;
+$dialog-footer-border-normal-color: $grey-100;
+
 $dialog-header-bgcolor: $admin-page-bg;
 $dialog-body-bgcolor: $admin-page-bg;
 $dialog-footer-bgcolor: $grey-60;
 $footer-border-color:$grey-200;
 
 //CSS Radio Button
-$radio-bg: $primary-color;
-$radio-border: $grid-border-color;
-$radio-shadow: $primary-btn-text-color;
-$radio-active: $primary-color;
+//Radio button
+$radio-button-bg-active-color: $primary-color;
+$radio-button-border-normal-color: $grey-300;
+$radio-button-border-active-color: $primary-color;
+$radio-button-border-disable-color: $grey-200;
+$radio-button-box-shadow-normal-color: $white;
+$radio-button-box-shadow-active-color: $white;
+$radio-button-box-shadow-disable-color: $grey-80;
+
+
+//Toast
+$toast-bg-normal-color: $white;
+$success-toast-border-normal-color: #4bc870;
+$warning-toast-border-normal-color: #4bc870;
+$toast-text-normal-color: $grey-800;
+$toast-sec-text-normal-color: $grey-500;
+$success-toast-icon-text-normal-color: #4dd964;
+$warning-toast-icon-text-normal-color: #ffad42;
+$toast-close-icon-text-normal-color: $grey-700;
+$toast-close-icon-text-hover-color: $grey-900;
 
 //Dialog
 $dialog-close-icon-color: $grey-500;
@@ -205,6 +274,22 @@ $additional-storage-border-color: $grey-80;
 $additional-storage-table-bg-color: $grey-40;
 
 //dropdown
+$drop-down-menu-btn-bg-normal-color: $white;
+$drop-down-menu-btn-bg-hover-color: $grey-100;
+$drop-down-menu-btn-bg-disable-color: $grey-80;
+$drop-down-menu-btn-border-normal-color: $grey-200;
+$drop-down-menu-btn-border-hover-color: $grey-300;
+$drop-down-menu-btn-border-disable-color: $grey-200;
+$drop-down-menu-btn-text-normal-color: $primary-black;
+$drop-down-menu-btn-text-hover-color: $primary-black;
+$drop-down-menu-btn-text-disable-color: $grey-300;
+$drop-down-menu-bg-normal-color: $white;
+$drop-down-menu-bg-hover-color: $grey-80;
+$drop-down-menu-bg-active-color: $blue-lighter;
+$drop-down-menu-border-normal-color: $grey-200;
+$drop-down-menu-text-normal-color: $primary-black;
+$drop-down-menu-text-hover-color: $primary-black;
+$drop-down-menu-text-active-color: $primary-text-color;
 $dropdown-selected: $selected-color;
 
 //Modal dialog
@@ -285,8 +370,46 @@ $nav-menu-hover-color: var(--nav-menu-hover-color);
 $nav-menu-hover-text-color: var(--nav-menu-hover-text-color);
 $nav-menu-hover-text-sec-color: var(--nav-menu-hover-text-sec-color);
 $nav-menu-hover-content-color: var(--nav-menu-hover-content-color);
-$nav-menu-create-icon-bgcolor: var(--nav-menu-create-icon-bgcolor);
 $nav-menu-separtor-icon-color: var(--nav-menu-separtor-icon-color);
+
+//SubNavigationMenu
+$sub-nav-menu-bg-color: $grey-40;
+$sub-nav-menu-border-color: $grey-200;
+$sub-nav-menu-hover-color: $grey-80;
+$sub-nav-menu-content-text-normal-color: $grey-800;
+$sub-nav-menu-content-bg-active-color: $blue-lighter;
+$sub-nav-menu-content-text-active-color: $primary-color;
+$sub-nav-menu-header-text-normal-color:$grey-800;
+$sub-nav-menu-header-bg-color: $primary-color;
+$sub-nav-menu-header-border-color: $primary-color;
+
+//tab
+$tab-text-normal-color:$primary-text-color;
+$tab-bg-normal-color: var(--background);
+$tab-text-hover-color: $primary-text-color;
+$tab-text-active-color: $primary-color;
+
+//Checkbox
+$checkbox-bg-active-color:$primary-color;
+$checkbox-border-normal-color: $grey-300;
+$checkbox-text-active-color:$white;
+$checkbox-bg-disable-color:$grey-60;
+$checkbox-border-disable-color:$grey-200;
+$checkbox-text-disable-color:$grey-300;
+$checkbox-border-active-color:$primary-color;
+$checkbox-description-color:$grey-500;
+
+//Switches
+$material-switch-background-bg-normal-color: $white;
+$material-switch-background-border-normal-color:$grey-300;
+$material-switch-background-border-hover-color:$grey-700;
+$material-switch-background-bg-active-color:$primary-color;
+$material-switch-background-border-active-color: $primary-color;
+$material-switch-background-bg-disable-color:$grey-80;
+$material-switch-background-border-disable-color:$grey-200;
+$material-switch-foreground-bg-disable-color:$grey-300;
+$material-switch-foreground-bg-normal-color: $grey-500;
+$material-switch-foreground-bg-active-color: $white;
 
 $item-menu-bg-color: $nav-menu-bg-color;
 $item-menu-section-bg-color: var(--item-menu-section-bg-color);

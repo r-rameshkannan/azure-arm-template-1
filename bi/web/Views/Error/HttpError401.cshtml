@@ -1,7 +1,7 @@
 ﻿@{
     Layout = null;
     var globalAppSettings = _globalAppSettings;
-    ViewBag.Title = "[[[Access Denied]]] - " + globalAppSettings.SystemSettings.OrganizationName;
+    ViewBag.Title = @T["Access Denied"] + " - " + globalAppSettings.SystemSettings.OrganizationName;
     var cdnLink = ServerAppConfig.AppSettings.EndPoints.CdnLink.TrimEnd('/');
     var ipAddress = Context.Connection.RemoteIpAddress;
     var embedConfig = ViewBag.EmbedConfig as EmbedConfig;
@@ -16,6 +16,9 @@
     var dashboardServerResourceUrl = globalAppSettings.SystemSettings.CDNLink.TrimEnd('/');
     var noPermissionAccess = ViewBag.NoAccess == null ? false : ViewBag.NoAccess;
     var isSlideshow = Convert.ToBoolean(requestUrl.Query.ToLower().Contains("isslideshow"));
+    var themeCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".css";
+    var themeMinCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".min.css";
+    var themeBaseColors = globalAppSettings.SystemSettings.AppTheme.BaseColors;
 }
 <!DOCTYPE html>
 <html class="dashboard-server">
@@ -23,19 +26,24 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <environment include="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/layout.css" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/error-page-new.css" />
         <link rel="stylesheet" asp-append-version="true" href="@ServerAppConfig.CustomFontUrl(globalAppSettings?.SystemSettings?.FontPreference, dashboardServerResourceUrl)" />
         <script asp-append-version="true" src="@dashboardServerResourceUrl/cdn/scripts/error-page.js"></script>
     </environment>
     <environment exclude="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.min.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeMinCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/layout.min.css" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/error-page-new.min.css" />
         <link rel="stylesheet" asp-append-version="true" href="@ServerAppConfig.CustomFontUrl(globalAppSettings?.SystemSettings?.FontPreference, dashboardServerResourceUrl)" />
         <script asp-append-version="true" src="@dashboardServerResourceUrl/cdn/scripts/error-page.min.js"></script>
     </environment>
+    <style>
+          :root {
+              @themeBaseColors
+          }
+    </style>
     <script>
         var setPermissionUrl = "@Url.Action("SetCookieStoragePermission", "Accounts")";
     </script>
@@ -52,53 +60,52 @@
                 <div class="error-image-center-2">
                     <img src="@GlobalAppSettings.CdnDomain/static/error-pages/v1/access-denied.svg" class="error-image-2">
                 </div>
-                <div class="error-type">[[[Access Denied]]]</div>
+                <div class="error-type">@T["Access Denied"]</div>
                 @if (publishedItemIsLocked)
                 {
                     <div class="error-text">
-                        [[[Editing access is denied because the dashboard was published from another site and editing has been disabled.]]] <br> [[[Please contact the site administrator for help.]]]
+                        @T["Editing access is denied because the dashboard was published from another site and editing has been disabled."]<br>@T["Please contact the site administrator for help."]
                     </div>
                 }
                 else if (publishedDatasourceIsLocked)
                 {
                     <div class="error-text">
-                        [[[Editing access is denied for the data source because it was published from another site and editing has been disabled.]]] <br> [[[Please contact the site administrator for help.]]]
+                        @T["Editing access is denied for the data source because it was published from another site and editing has been disabled."]<br>@T["Please contact the site administrator for help."]
                     </div>
                 }
                 else if (isEmbedEnabled)
                 {
                     <div class="error-text">
-                        [[[Embed authentication is disabled.]]] <br> [[[Please contact the site administrator for help.]]]
+                        @T["Embed authentication is disabled."]<br>@T["Please contact the site administrator for help."]
                     </div>
                 }
                 else if (isEmbedExpired || nonce)
                 {
                     <div class="error-text">
-                        [[[The embed dashboard link is invalid or expired.]]] <br> [[[Please contact the site administrator for help.]]]
+                        @T["The embed dashboard link is invalid or expired."]<br>@T["Please contact the site administrator for help."]
                     </div>
                 }
                 else if (embedConfig != null && (isEmbedSignature || isEmbedUserToken))
                 {
                     <div class="error-text">
-                        [[[You do not have permission to view this dashboard.<br>Please contact your administrator.]]]
+                        @T["You do not have permission to view this dashboard."]<br>@T["Please contact your administrator."]
                     </div>
                 }
                 else if (noPermissionAccess)
                 {
                     <div class="error-text">
-                        [[[You do not have permission to view this dashboard.<br>Please contact your administrator.]]]
+                        @T["You do not have permission to view this dashboard."]<br>@T["Please contact your administrator."]
                     </div>
                 }
                 else
                 {
                     <div class="error-text">
-                        [[[Oops! The dashboard you are trying to access is restricted from viewing from the current IP address:]]] <b>@ipAddress</b><br>
-                        [[[Please contact the site administrator for help.]]]
+                        @Html.Raw(string.Format(T["Oops! The dashboard you are trying to access is restricted from viewing from the current IP address: {0}"].Value, "<b>" + ipAddress + "</b>"))<br>@T["Please contact the site administrator for help."]
                     </div>
 
                     @if (!isSlideshow)
                     {
-                        <div class="take-me-back-to-home-page"><span class="error-page-cursor"><a class="error-to-beck-text-color" href="@Url.Action("Dashboards", "Dashboards")">[[[Go to home page]]]</a></span></div>
+                        <div class="take-me-back-to-home-page"><span class="error-page-cursor"><a class="error-to-beck-text-color" href="@Url.Action("Dashboards", "Dashboards")">@T["Go to home page"]</a></span></div>
                     }
                 }
             </div>

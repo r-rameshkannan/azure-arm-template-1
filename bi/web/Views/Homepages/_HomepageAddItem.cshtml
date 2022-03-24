@@ -1,6 +1,5 @@
 ﻿@{
     var globalAppSettings = _globalAppSettings;
-
     var baseUrl = ViewBag.BaseUrl;
     var dashboardServiceUrl = globalAppSettings.SystemSettings.InternalAppDataServiceUrl;
     var dashboardServiceResourceUrl = globalAppSettings.SystemSettings.DashboardServiceResourceUrl;
@@ -67,12 +66,12 @@
 <div id="items-container" class="col-xs-4">
     <div id="item-list">
         <div id="search" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <span class="su su-arrow-back col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding display-none" id="back-button" title="[[[Back]]]"></span>
+            <span class="su su-arrow-back col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding display-none" id="back-button" title="@T["Back"]"></span>
             <div id="item-type" class="col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>
             <div id="sort-options" class="no-padding col-lg-7 col-md-7 col-sm-7 col-xs-7">
                 <div id="sort-container">
                     <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button" id="sort-value">
-                        <span class="selected selected-field" data-value="ModifiedDate">[[[Modified Date]]]</span>
+                        <span class="selected selected-field" data-value="ModifiedDate">@T["Modified Date"]</span>
                         <span class="caret"></span>
                     </button>
 
@@ -80,25 +79,25 @@
                         <li>
                             <a class="dashboard-sort-options" data-value="Name" href="javascript:void(0);">
                                 <i class="su su-tick"></i>
-                                <span class="search-option">[[[Dashboard Name]]]</span>
+                                <span class="search-option">@T["Dashboard Name"]</span>
                             </a>
                         </li>
                         <li>
                             <a class="dashboard-sort-options" data-value="CreatedByDisplayName" href="javascript:void(0);">
                                 <i class="su su-tick"></i>
-                                <span class="search-option">[[[Owner Name]]]</span>
+                                <span class="search-option">@T["Owner Name"]</span>
                             </a>
                         </li>
                         <li>
                             <a class="dashboard-sort-options" data-value="CreatedDate" href="javascript:void(0);">
                                 <i class="su su-tick"></i>
-                                <span class="search-option">[[[Added Date]]]</span>
+                                <span class="search-option">@T["Added Date"]</span>
                             </a>
                         </li>
                         <li>
                             <a class="dashboard-sort-options selected" data-value="ModifiedDate" href="javascript:void(0);">
                                 <i class="su su-tick"></i>
-                                <span class="search-option">[[[Modified Date]]]</span>
+                                <span class="search-option">@T["Modified Date"]</span>
                             </a>
                         </li>
                     </ul>
@@ -110,11 +109,11 @@
                 </span>
 
                 <div class="search-area" role="search">
-                    <span class="su su-search pull-left" id="item-search" title="[[[Search]]]"></span>
+                    <span class="su su-search pull-left" id="item-search" title="@T["Search"]"></span>
                     <div id="input-div">
-                        <input type="text" class="search-home-section" id="search-home-page" placeholder="[[[Search]]]" autocomplete="off" />
+                        <input type="text" class="search-home-section" id="search-home-page" placeholder="@T["Search"]" autocomplete="off" />
                     </div>
-                    <span class="su su-inner-close close-icon category" id="search-clear" title="[[[Clear search]]]"></span>
+                    <span class="su su-inner-close close-icon category" id="search-clear" title="@T["Clear search"]"></span>
                 </div>
             </div>
         </div>
@@ -127,22 +126,22 @@
     <div id="header-menu">
         <div id="item-container" data-homepage-id="" data-dashboard-id="" data-widget-id="" data-item-type="" data-parent-id="" data-parent-name="">
             <span id="preview-item-name"></span>
-            <a href="javascript:void(0);" title="[[[Close]]]" class="popup-close pull-right" onclick="parent.closeHomepageAddItemPopup();"><span class="su su-close"></span></a>
+            <a href="javascript:void(0);" title="@T["Close"]" class="popup-close pull-right" onclick="parent.closeHomepageAddItemPopup();"><span class="su su-close"></span></a>
         </div>
         <div id="owner-container">
             <span id="preview-owner-name"></span>
             <time id="preview-modified-date" class="pull-right"></time>
         </div>
     </div>
-    <div id="select-item">[[[Select an item to preview.]]]</div>
+    <div id="select-item">@T["Select an item to preview."]</div>
     <div id="disabled-preview">
-        <input type="button" id="load-preview" class="btn primary-button app-btn-primary" value="[[[Load preview]]]">
+        <input type="button" id="load-preview" class="btn primary-button app-btn-primary" value="@T["Load preview"]">
     </div>
-    <span id="view-denied">[[[Public Dashboards are disabled by the system administrator. Please contact your system administrator to enable this.]]]</span>
+    <span id="view-denied">@T["Public Dashboards are disabled by the system administrator. Please contact your system administrator to enable this."]</span>
     <div id="preview"></div>
     <div id="buttons" class="pull-right">
-        <input type="button" id="add-button" class="btn primary-button app-btn-primary" value="[[[Add]]]">
-        <input type="button" id="cancel-button" class="btn secondary-button app-btn-secondary" value="[[[Cancel]]]" onclick="parent.closeHomepageAddItemPopup()">
+        <input type="button" id="add-button" class="btn primary-button app-btn-primary" value="@T["Add"]">
+        <input type="button" id="cancel-button" class="btn secondary-button app-btn-secondary" value="@T["Cancel"]" onclick="parent.closeHomepageAddItemPopup()">
     </div>
 </div>
 
@@ -151,7 +150,7 @@
         <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 name-and-options">
             <span class="item-name col-lg-10 col-md-10 col-sm-10 col-xs-10 no-padding" data-container="body">{{:Name}}</span>
             {{if IsMultiDashboard}}
-            <span class="multitab-icon su su-multi-tabbed" data-toggle="tooltip" data-container="body" data-placement="bottom" title="[[[Contains multiple dashboards]]]"></span>
+            <span class="multitab-icon su su-multi-tabbed" data-toggle="tooltip" data-container="body" data-placement="bottom" title="@T["Contains multiple dashboards"]"></span>
             {{/if}}
         </span>
         <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item-info no-padding">

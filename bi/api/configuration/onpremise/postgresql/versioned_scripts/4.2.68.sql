@@ -1,4 +1,4 @@
-ALTER TABLE SyncDS_ScheduleDetail ADD ScheduleExportInfo text NULL
+﻿ALTER TABLE SyncDS_ScheduleDetail ADD ScheduleExportInfo text NULL
 ;
 INSERT into SyncDS_LogField (ModuleId,Field,Description,ModifiedDate,IsActive) SELECT 10,N'DashboardSettings.UsageAnalytics',N'DashboardSettings.UsageAnalytics',now() at time zone 'utc',1 
 WHERE NOT EXISTS (SELECT Field FROM SyncDS_LogField WHERE Field = N'DashboardSettings.UsageAnalytics')

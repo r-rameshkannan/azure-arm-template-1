@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "[[[Access Denied]]]";
+    ViewBag.Title = @T["Access Denied"];
     ViewBag.MessageBox = false;
     var globalAppSettings = _globalAppSettings;
     var dashboardServerResourceUrl = globalAppSettings.SystemSettings.CDNLink.TrimEnd('/');
@@ -15,5 +15,5 @@
 }
 
 @section MainSection{
-    <h2>[[[Access Denied]]]</h2>
+    <h2>@T["Access Denied"]</h2>
 }

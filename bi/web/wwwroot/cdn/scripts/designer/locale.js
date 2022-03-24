@@ -65,7 +65,9 @@
                     chart: " Chart",
                     combineWidget: "Combine Widget",
                     separateline: "Line",
-                    dateBucket: "Date Group"
+                    dateBucket: "Date Group",
+					textFilter: "Text Filter",
+                    tabbedWidget: "Tab Widget"
                 },
                 widgetDescription: {
                     columnChartDesc: "Compare values for a set of unordered items across categories using vertical bars arranged horizontally.",
@@ -111,7 +113,9 @@
                     combineWidgetDesc: "Combines multiple widgets.",
                     popDesc: "Filter based on Date Ranges selected.",
                     lineDesc: "Separate the widgets.",
-                    dateBucketDesc: "Used to change the date format dynamically for the connected widgets."
+                    dateBucketDesc: "Used to change the date format dynamically for the connected widgets.",
+					textFilterDesc: "Filter based on the search performed in the text box.",
+                    tabWidgetDesc: "Combine multiple widgets within tabs."
                 },
                 widgetDataRequiredMessage: {
                     gridDataRequiredMessage: "Grid requires atleast 1 Column to render",
@@ -212,6 +216,7 @@
                 backgroundImage: "Background Image",
                 rows: "Row(s)",
                 hiddenColumn: "Hidden Column",
+				hiddenColumns: "Hidden Column(s)",
                 argument: "Argument",
                 dimension: "Dimension",
                 measure: "Measure",
@@ -268,6 +273,7 @@
                 editFieldSettingsText: "Edit Field Settings",
 				contentSettingsText: "Content Settings",
                 kpiValueText: "KPI Value",
+				noDataContainerText: "No Data Appearence",
 				pageSettings: {
 					pageSettingsText: "Page Settings",
 					pageSizeText: "Page Size",
@@ -286,7 +292,9 @@
                 linking: {
                     enableLinkText: "Enable Link",
                     escapeSpecialChartext: "Escape Special Characters",
+					enableEncryptParameter: "Encrypt Parameters",
                     escapeSpecialCharTooltipInfo: "Know More",
+					enableEncryptCharTooltipInfo: "The parameter with encryption can be configured in the dashboard URL. It does not support the external URL.",
                     rowText: "Row",
                     columnText: "Column",
                     chooseField: "Choose Field",
@@ -349,7 +357,8 @@
 
                     },
                     widgetTitleAutoFontSize: "Title Auto Font Size",
-                    widgetSubTitleAutoFontSize: "Subtitle Auto Font Size"
+                    widgetSubTitleAutoFontSize: "Subtitle Auto Font Size",
+					showShadowText: "Show Shadow"
                 },
                 containerActions: {
                     showMaximizeText: "Allow Maximize View",
@@ -378,10 +387,12 @@
                     chartTypeandAxis: "Chart Type & Axis",
                     enableAnimation: "Enable Animation",
                     showLegend: "Show Legend",
+                    showLegendAsDropDown: "Show Legend Items as Dropdown",
                     showLegendTitle: "Show Title",
 		            showTooltip:"Show Tooltip",
                     legend: "Legend",
                     legendPosition: "Legend Position",
+                    legendType:'Type',
 					legendPositioning: 'Position',
 					legendShape: 'Shape',
 					legendTitle: 'Title',
@@ -591,6 +602,7 @@
                 },
                 cardTitleSettings: {
                     showTitle: "Show Title",
+					enableWrap: "Text Wrap",
                     titleText: " ",
                     titleColor: "Color",
                     titleFontSize: "Font Size",
@@ -723,7 +735,14 @@
                     groupPanelBackground: "Group Panel Background",
                     headerBackground: "Header Background",
                     headerForeground: "Header Foreground"
-                }
+                },
+				noDataContainerSettings: {
+                    hideIcon: "Hide Icon",
+                    showDefaultIcon: "Show Default Image",
+                    text: "Text",
+                    textColor: "Text Color",
+                    transparency: "Transparency"
+				}
             },
             designPanel: {
                 editLabel: "Edit Label",
@@ -812,6 +831,7 @@
                 promptText: "Prompt",
                 noneText: "None",
                 dataBaseText: "Database",
+                dataBaseCollectionText: "Collections",
                 databaseText: "Database (Optional)",
                 useCurrentWindowsUser: "Use current windows user",
                 useThisUserNameAndPassword: "Use this User name and password.",
@@ -854,6 +874,7 @@
                 specifyServerName: "Server name cannot be empty.",
                 specifyConnectionTimeout: "Connection Timeout cannot be empty.",
                 specifyDatabaseName: "Database name cannot be empty.",
+				specifyCollectionName: "Collection name cannot be empty.",
                 specifyCatalogName: "Catalog Name cannot be empty",
                 specifyDataSourceName: "Data source name cannot be empty.",
                 specifyUserName: "User name cannot be empty.",
@@ -903,6 +924,7 @@
                 servernametooltipinfo: "To allow the database server to create the data source, white list the IP addresses of Bold BI cloud servers from this ",
 				impersonateInfo: "While using Windows AD login in Bold BI you can impersonate the logged-in user while processing the data from ",
 				enableImpersonate: "Impersonate User",
+				emptyCollection: "No collections in the currently selected DB",
                 dataSourceType: {
                     file: "File",
                     excel: "Excel",
@@ -1456,6 +1478,12 @@
                             { projects: { name: "", desc: "" } }
                         ]
                     },
+					quickbase: {
+						name: 'Quickbase',
+						templates: [
+							{ projects: { name: '', desc: '' } }
+						]
+					},
                     commvault: {
                         name: "Commvault",
                         templates: [
@@ -1474,11 +1502,31 @@
                             { projects: { name: "", desc: "" } }
                         ]
                     },
+                    yelp: {
+                        name: "Yelp",
+                        templates: [
+                            { projects: { name: '', desc: '' } }
+                        ]
+                    },
+
                     lessonly: {
                         name: "Lessonly",
                         templates: [
                             { projects: { name: "", desc: "" } }
                         ]
+                    },
+                    avochato: {
+                        name: "Avochato",
+                            templates: [
+                                { projects: { name: "", desc: "" } }
+                            ]
+                    },
+                   
+					zuora: {
+                        name: 'Zuora',
+                            templates: [
+                                { projects: { name: '', desc: '' } }
+                            ]
                     }
                 },
                 oauthConnectors: {
@@ -1618,6 +1666,7 @@
                     headersText: "Header(s)",
                     methodText: "Method",
                     parametersText: "Parameter(s)",
+                    tableSchema: "Table Schema",
                     replaceText: "Replace ",
                     urlText: "URL",
                     withUserDataText: "with your data",
@@ -1792,7 +1841,7 @@
                 dataSource: "Data Sources",
             },
             tableSelectorWindow: {
-                titleChooseTable: "Choose Table(s)",
+                titleChooseTable: "Extract Data",
                 okButtonText: "OK",
                 cancelButtonText: "Cancel",
                 titleChooseSchema: "Choose Schema(s)",
@@ -1802,7 +1851,15 @@
                 selectRelationTable: "Select the relation for tables",
                 relationExistsInTable: "Already relation exists between tables",
                 waitingPopupText: "Importing data. This may take some time depending on the size of the data.",
-                reloadButtonText: "Reload"
+                reloadButtonText: "Reload",
+				previewButtonText: "Preview",
+                importQueryText: "ImportQuery",
+                importTableText: "ImportTable",
+				serverNameToolTipInfo: "Max row count is not applicable for stored procedure executions",
+				enterQueryWaterMarkText: "Enter a valid SQL query",
+				closePreviewButtonText: "Close Preview",
+				importTableNameText: "TableName",
+				previewWindowMessage: "Maximum 10 records are shown for preview purpose"
             },
             alertWindowMesages: {
                 draftMessage: "You have unpublished changes in this dashboard from your previous session. Do you want to restore them?",
@@ -1865,7 +1922,10 @@
                 removeTableFromMergedDsMessage: "Removing this table will affect the data result. Do you want to continue?",
                 InfluxdbJoinMessage: "InfluxDB does not support join operation. Empty join window will appear.",
                 ElasticsearchJoinMessage: "Elasticsearch does not support join operation. Empty join window will appear.",
-                exportingContent: "Your export request has been submitted successfully. It may take a few seconds to complete."                       
+                exportingContent: "Your export request has been submitted successfully. It may take a few seconds to complete.",
+                exportingSuccessContent: "export was completed successfully. If the download does not begin, please",
+                exportingSuccessClick: "click here",
+				exportingSuccessEndContent: " to download the file."
             },
             parameterMessages: {
                 nameHasSpecialChar: "Name should not contain spaces and special characters",
@@ -1879,7 +1939,9 @@
                 itemExist: "The relative date range that you are trying to add already exists.",
                 relativeRangeNotEmpty: "Relative range name should not empty",
                 startDateNotLessEndDate: "Start date should not be lesser than End date.",
-                dateNotEmpty: "Start and End date value should not be empty."
+                dateNotEmpty: "Start and End date value should not be empty.",
+                relativeDatesExist:"The Relative dates applied for the Value Column section. So, it can not be bound in the Display column section. Please remove Relative dates from the Value section to add the Display column.",
+                displayColumnBinded:"The Display column is configured. So, it can not be added as Relative dates. Remove the bound value from the Display column to add the Relative dates."
             },
             alertDialogTitle: {
                 dataSources: "Data source",
@@ -1943,7 +2005,8 @@
                 updateParameter: "Update Parameter",
                 SlaveWidgetOverrideTitle: "Period-over-Period Configuration",
                 LargeFileSizeAlert: "Confirm File Import",
-                JoinAlert: "Join Alert"
+                JoinAlert: "Join Alert",
+                relativeDatesAlert: "Relative Dates Alert"
             },
             linkedAccountsWindow: {
                 title: "Accounts",
@@ -2649,10 +2712,29 @@
                 allSettlements: "All Settlements",
                 showSettlement: "Show Settlement",
             },
+			zuoraDataSource: {
+				account: 'Account',
+				accountingCode: 'Accounting Code',
+				invoice: 'Invoice',
+				order: 'Order',
+				subscription: 'Subscription',
+
+				allAccountingCodes: 'All Accounting Codes',
+				showAccountingCode: 'Show Accounting Code',
+				accountingPeriods: 'Accounting Periods',
+				showAccount: 'Show Account',
+				accountSummary: 'Account Summary',
+				allOrders: 'All Orders',
+				showOrder: 'Show Order',
+				subscriptionByAccount: 'Subscription By Account',
+				invoiceItems: 'Invoice Items',
+				invoicePayments: 'Invoice Payments',
+            },
             webCustomDataSource: {
                 emptyUrlValidation: "Url should not be empty.",
                 emptyRawBodyValidation: "Raw body should not be empty",
                 hostNameDisplayText: "HostName",
+                freshdeskDomainDisplayText: "Freshdesk Domain",
                 apiKeyDisplayText: "API Key",
                 apiTokenDisplayText: "API Token",
                 clubReadyChainIdDisplayText: "Chain Id",
@@ -2670,6 +2752,7 @@
                 endpointDisplayText: "API Endpoints",
                 rawBodyDisplayText: "Raw Body",
                 customRawBodyDisplayText: "Custom Raw Body",
+                emptyOrganizationsValidation: 'Cannot find any Organization for the user',
                 nutshellMethodDisplayText: "Nutshell Method",
                 isCustomUrlDisplayText: "Custom Url",
                 urlDisplayText: "Url",
@@ -2681,6 +2764,15 @@
                 validApiTokenValidation: "Please Enter Valid API Token",
                 validClubReadyChainIdValidation: "Please Enter Valid ChainId",
                 validQuickBooksRealmIdValidation: "Please Enter valid Realm ID",
+				validQuickbaseAppIdValidation: "Please enter a valid App Id",
+                validQuickbaseTableValidation: "Please select a Table",
+                authIdDisplayText: "Auth Id",
+                authSecretDisplayText: "Auth Secret",
+                emptyAuthIdValidation: "Auth Id should not be empty",
+                emptyAuthSecretValidation: "Auth Secret should not be empty",
+                emptyTableValidation: "Cannot find any Table for the User",
+                emptyappIdValidation: "App Id cannot be empty",
+                errorTableValidation: "Please provide the valid table name"
             },
             asanaWebDataSource: {
                 showAttachment: "Show Attachment",
@@ -3912,6 +4004,12 @@
                 themes: "Themes",
                 showTheme: "Show Theme",
             },
+			quickbaseDataSource: {
+				quickbaseRealmHostNameDisplayName: 'QB-Realm-Hostname',
+				quickbaseAuthenticationDisplayName: 'Authentication',
+				quickbaseAppIdDisplayName: 'App Id',
+				quickbaseTableDisplayName: 'Table',
+			},
             zendeskSunshineDataSource: {
                 customObjectRecords: "Custom Object Records",
                 objectRecordsByType: "Object Records by Type",
@@ -4171,6 +4269,42 @@
                 transactions: "Transactions",
                 creditPayments: "Credit Payments",
             },
+            avochatoDataSource: {
+            accounts: "Accounts",
+            allAccounts: "All Accounts",
+            viewAccount: "View Account",
+            broadcasts: "Broadcasts",
+            viewBroadcast: "View Broadcast",
+            campaigns: "Campaigns",
+            allCampaigns: "All Campaigns",
+            contacts: "Contacts",
+            allContacts: "All Contacts",
+            viewContact: "View Contact",
+            events: "Events",
+            showEvent: "Show Event",
+            links: "Links",
+            allLinks: "All Links",
+            showLink: "Show Link",
+            messages: "Messages",
+            allMessages: "All Messages",
+            showMessage: "Show Message",
+            tickets: "Tickets",
+            allTickets: "All Tickets",
+            showTicket: "Show Ticket",
+            users: "Users",
+            allUsers: "All Users",
+            },
+
+			dateSettingsDialog: {
+				columnLabelText:"Column:",
+				cancelButtonText: "Cancel",
+				okButtonText: "OK",
+				format: "Format",				
+				fiscalYearStart:"Fiscal Year Start",
+				customFormat: "Custom Format",
+				infoIcon: "For some formats, filtering is not supported."
+			},
+
             dialogOptions: {
                 applyButtonText: "Apply",
                 cancelButtonText: "Cancel",
@@ -4203,6 +4337,10 @@
                 titleText: "Multi-Level Drill Down",
                 dialogContentText: "Do you want to enable multi-level drill down?",
             },
+			customHierarchy: {
+				titleText: "Custom Hierarchy",
+				dialogContentText: "Do you want to remove hierarchy?"
+			},
             nameValidationMessages: {
                 dashboardName: "&nbspdashboard name",
                 categoryName: "&nbspcategory name",
@@ -4334,7 +4472,7 @@
             sharedDSMenu: {
                 ownerNameHeader: "Owner",
                 LasteUpdatedTimeHeader: "Last updated on",
-                searchBoxText: "Search Table"
+                searchBoxText: "Search"
             },
             expressionDesigner: {
                 expressionTitleText: "Expression Designer",
@@ -4768,10 +4906,11 @@
                 waitingTextForPdf: "Exporting to pdf...",
                 exportWidgetTitle: "Export Widget",
                 moreOptions: "More Options",
-                includeFilterInfoTooltipForImage: "When 'Include filter information' is switched on, the dashboard exported Image will contain the applied filter(s) information.",
-                includeFilterInfoTooltipForPdf: "When 'Include filter information' is switched on, the dashboard exported PDF will contain the applied filter(s) information.",
+                includeFilterInfoTooltipForImage: "When Include filter information is switched on, the dashboard exported Image will contain the applied filter(s) information.",
+                includeFilterInfoTooltipForPdf: "When Include filter information is switched on, the dashboard exported PDF will contain the applied filter(s) information.",
                 includeFilterInfoText: "Include filter information",
-                reset: "Reset"
+                reset: "Reset",
+                apiExportErrMsg: "Invalid export parameter (widgetName)"
             },
             maximize: {
                 maximize: "Maximize",
@@ -4827,7 +4966,14 @@
                 group: "Group Symbol"
             },
             measureFormatting: {
-                autoText: "Auto"
+                autoText: "Auto",
+				onesText: "Ones",
+                thousandsText: "Thousands",
+                lakhsText: "Lakhs",
+                millionsText: "Millions",
+                croresText: "Crores",
+                billionsText: "Billions",
+				enableLkhsAndCrores: "Enable lakhs and crores"
             },
             connectionConfiguration: {
                 save: "Save",
@@ -4849,7 +4995,15 @@
                 oAuthHeaderSuffixText: "require OAuth configuration to be used in the application.",
                 searchWaterMarkText: "Search Connector",
                 noSelectionAlert: "Please select minimum one connection.",
-                resetConfiguration: "Reset Configuration"
+                resetConfiguration: "Reset Configuration",
+				jsonUpload: 'JSON Upload',
+				newConnector: 'Add New Connector',
+				enableCustomConnector: 'Enable Custom Connectors',
+				uploading: 'Uploading...',
+				uploadFailed: 'Upload Failed.',
+				uploadCompleted: 'Upload Completed',
+				initiatingUpload: 'Initiating Upload...',
+                dynamicDialog: 'Select your flexible data'
             },
             kpiCardImageSettingsReset: {
                 titleText: "Image Settings Reset",
@@ -4881,7 +5035,8 @@
                     countd: "Distinct Count",
                     stdev: "StdDev",
                     var: "Var",
-                    custom: "Agg"
+                    custom: "Agg",
+					median: "Median",
                 },
                 fieldView: {
                     MeasureFieldDisplayName: "Measures",
@@ -4904,6 +5059,9 @@
                     sortAscending: "Sort Ascending",
                     sortDescending: "Sort Descending",
                     SortDispalyName: "Sort...",
+					CreateHierarchyDisplayName: "Create New Hierarchy",
+					AddToHierarchyDisplayName: "Add To Hierarchy",
+					CustomHierarchyremove: "Remove",
                     dimensionFilterDisplayName: "Filter(s)",
                     relativeDateFilterDisplayName: "Relative Date Filter",
                     dateTime: "Date Time",
@@ -4980,7 +5138,8 @@
                 showAllColumns: "Show all columns"
             },
             rowsRetrieved: {
-                rowsRetrieved: "rows retrieved"
+                 rowsRetrieved: "rows retrieved",
+				 of: "of"
             },
             fetchData: {
                 fetchData: "Fetching Data..."
@@ -5059,7 +5218,8 @@
 				mapped:"Mapped",
 				unMapped:"Unmapped",
 				checked:"Checked",
-				unChecked: "Unchecked"
+                unChecked: "Unchecked",
+                includeFutureValueText: "Include items which will be added in future."
             },
             dataPreview: {
                 dataPreview: "Data Preview",
@@ -5183,7 +5343,8 @@
                 drillDownDisplayName: "Drill Down",
                 filteringDisplayName: "Filter",
                 linkingDisplayName: "Link",
-                viewDataDisplayName: "View Underlying Data"
+                viewDataDisplayName: "View Underlying Data",
+				widgetLinkingDisplayName: "Widget Link"
             },
         	fitbitDataSource: {
 				activity: "User Activity",
@@ -5247,6 +5408,24 @@
 				userBadges: "User Badges",
 				userProfile: "User Profile",
 			},
+            yelpDataSource: {
+                business: "Business",
+                events: "Events",
+                categories: "Category",
+                businessSearch: "Business Search",
+                phoneSearch: "Phone Search",
+                transactionSearch: "Transaction Search",
+                viewBusiness: "View Business",
+                businessMatches: "Business Matches",
+                businessReviews: "Business Reviews",
+                autocomplete: "Autocomplete",
+                showEvent: "Show Event",
+                allEvents: "All Event",
+                featuredEvents: "Featured Events",
+                allCategories: "All Categories",
+                showCategories: "Show Category",
+            },
+
             xeroDataSource: {
                 accounts: "Accounts",
                 allAccounts: "All Accounts",
@@ -5868,8 +6047,18 @@
             },
 			userParameter: {
 				fullName: "Current User Full Name",
-				email: "Current User Email"
-			},
+				email: "Current User Email",
+                token: 'Current User Token'
+            },
+            tabWidget: {
+                deleteTab: "Delete Tab",
+                deleteTabAlertMsg: "Deleting this tab will remove all widgets inside it. Do you want to continue ?",
+                deleteWidget: "Delete Widget",
+                deleteWidgetAlertMsg: "Deleting the widget container will remove all widgets within. Do you want to continue ?",
+                hideTabHeader: "Hide Tab Header",
+                tabOrder: "Tab Order",
+                widgetOrder: "Widget Order"
+            },
         }
     }
 }

@@ -4,6 +4,9 @@
     Layout = null;
     var globalAppSettings = _globalAppSettings;
     var dashboardServerResourceUrl = globalAppSettings.SystemSettings.CDNLink.TrimEnd('/');
+    var themeCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".css";
+    var themeMinCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".min.css";
+    var themeBaseColors = globalAppSettings.SystemSettings.AppTheme.BaseColors;
 }
 
 <!DOCTYPE html>
@@ -13,17 +16,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
 
     <environment include="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/deleteconfirm.css" />
         <link rel="stylesheet" asp-append-version="true" href="@ServerAppConfig.CustomFontUrl(globalAppSettings?.SystemSettings?.FontPreference, dashboardServerResourceUrl)" />
         <script asp-append-version="true" src="@dashboardServerResourceUrl/cdn/scripts/deleteconfirm.js"></script>
     </environment>
     <environment exclude="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.min.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeMinCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/deleteconfirm.min.css" />
         <link rel="stylesheet" asp-append-version="true" href="@ServerAppConfig.CustomFontUrl(globalAppSettings?.SystemSettings?.FontPreference, dashboardServerResourceUrl)" />
         <script asp-append-version="true" src="@dashboardServerResourceUrl/cdn/scripts/deleteconfirm.min.js"></script>
     </environment>
+
+    <style>
+          :root {
+              @themeBaseColors
+          }
+    </style>
 
     <script>
         var deleteGroupUrl = "@Url.Action("DeleteGroup", "group")";
@@ -55,7 +64,7 @@
             <div class="col-md-12 modal-header">
                 <div class="col-xs-8 no-padding">
                     <span class="su su-delete head-icon"></span>
-                    <span class="modal-title">[[[Delete Group]]]</span>
+                    <span class="modal-title">@T["Delete Group"]</span>
                 </div>
                 <div class="col-xs-4 no-padding">
                     <a href="javascript:void(0);" class="popup-close  pull-right"><span class="su su-close"></span></a>
@@ -63,14 +72,14 @@
             </div>
             <div class="modal-body col-xs-12 no-padding">
                 <div class="col-xs-12 no-left-padding no-bottom-padding no-right-padding">
-                    <div class="delete-msg">[[[Are you sure you want to delete the group]]] &mdash; <span class="highlight-name">@Context.Request.Query["name"]</span> ?</div>
+                    <div class="delete-msg">@Html.Raw(String.Format(T["Are you sure you want to delete the group {0}?"].Value, " &mdash; <span class='highlight-name'>" + Context.Request.Query["name"] + "</span>"))</div>
                 </div>
             </div>
             <div class="col-xs-12 modal-footer">
                 <div class="col-xs-4"><input type="hidden" id="hidden-id" value="@ViewBag.id" /></div>
                 <div class="col-xs-8 no-padding pull-right margin-top">
-                    <input type="button" id="delete-group" class="critical-action-button app-btn-danger margin-right" value="[[[Yes]]]" />
-                    <input type="button" id="cancel-group" class="secondary-button app-btn-secondary popup-close" value="[[[No]]]" />
+                    <input type="button" id="delete-group" class="critical-action-button app-btn-danger margin-right" value="@T["Yes"]" />
+                    <input type="button" id="cancel-group" class="secondary-button app-btn-secondary popup-close" value="@T["No"]" />
                 </div>
             </div>
         </div>

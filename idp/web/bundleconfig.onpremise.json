@@ -2,13 +2,11 @@
   {
     "outputFileName": "wwwroot/bundles/js/layout.js",
     "inputFiles": [
-      "wwwroot/scripts/jquery/jquery-1.10.2.min.js",
+      "wwwroot/scripts/jquery/jquery-3.6.0.min.js",
       "wwwroot/scripts/angularjs/angular.min.js",
       "wwwroot/scripts/angularjs/angular-sanitize.min.js",
       "wwwroot/scripts/core/server.core.js",
-      "wwwroot/scripts/angularjs/serverapp.js",
-      "wwwroot/scripts/essentialjs/common/ej.core.min.js",
-      "wwwroot/scripts/essentialjs/ej.waitingpopup.min.js"
+      "wwwroot/scripts/angularjs/serverapp.js"
     ]
   },
   {
@@ -21,13 +19,12 @@
   {
     "outputFileName": "wwwroot/bundles/js/accounts.js",
     "inputFiles": [
-      "wwwroot/scripts/jquery/jquery-1.10.2.min.js",
+      "wwwroot/scripts/jquery/jquery-3.6.0.min.js",
       "wwwroot/scripts/jquery/jquery.validate.min.js",
-      "wwwroot/scripts/jquery/jquery.easing-1.3.min.js",
+      "wwwroot/scripts/jquery/jquery.easing-1.4.2.min.js",
       "wwwroot/scripts/bootstrap/bootstrap.min.js",
       "wwwroot/scripts/core/placeholder.js",
-      "wwwroot/scripts/essentialjs/common/ej.core.min.js",
-      "wwwroot/scripts/essentialjs/ej.waitingpopup.min.js"
+      "wwwroot/scripts/core/server.core.js"
     ]
   },
   {
@@ -55,32 +52,30 @@
   {
     "outputFileName": "wwwroot/bundles/js/profile.js",
     "inputFiles": [
-      "wwwroot/scripts/essentialjs/common/ej.core.min.js",
-      "wwwroot/scripts/essentialjs/common/ej.draggable.min.js",
-      "wwwroot/scripts/essentialjs/common/ej.globalize.min.js",
-      "wwwroot/scripts/essentialjs/common/ej.scroller.min.js",
-      "wwwroot/scripts/essentialjs/ej.dialog.min.js",
-      "wwwroot/scripts/essentialjs/ej.button.min.js",
-      "wwwroot/scripts/essentialjs/ej.tooltip.min.js",
-      "wwwroot/scripts/essentialjs/ej.uploadbox.min.js",
-      "wwwroot/scripts/essentialjs/ej.waitingpopup.min.js",
+      "wwwroot/scripts/essentialjs2/ej2.min.js",
       "wwwroot/scripts/jcrop/jcrop.min.js",
-      "wwwroot/scripts/bootstrap/bootstrap-select.min.js",
       "wwwroot/scripts/bootstrap/bootstrap.min.js",
       "wwwroot/scripts/jquery/jquery.validate.min.js",
+      "wwwroot/scripts/user/dropdown-initialization.js",
       "wwwroot/scripts/user/editprofile.js",
-      "wwwroot/scripts/user/usernotificationsettings.js",
-      "wwwroot/scripts/user/manageaccount.js",
       "wwwroot/scripts/core/profilepicture.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/bundles/js/user-preference.js",
+    "inputFiles": [
+      "wwwroot/scripts/bootstrap/bootstrap.min.js",
+      "wwwroot/scripts/user/dropdown-initialization.js",
+      "wwwroot/scripts/core/profilepicture.js",
+      "wwwroot/scripts/user/userpreference.js"
     ]
   },
   {
     "outputFileName": "wwwroot/bundles/js/change-password.js",
     "inputFiles": [
-      "wwwroot/scripts/essentialjs/common/ej.core.min.js",
-      "wwwroot/scripts/essentialjs/ej.waitingpopup.min.js",
       "wwwroot/scripts/bootstrap/bootstrap.min.js",
       "wwwroot/scripts/jquery/jquery.validate.min.js",
+      "wwwroot/scripts/core/server.core.js",
       "wwwroot/scripts/password/passwordpolicy.js",
       "wwwroot/scripts/password/changepassword.js",
       "wwwroot/scripts/password/showhidepassword.js",
@@ -103,7 +98,7 @@
   {
     "outputFileName": "wwwroot/bundles/js/user-account-closed.js",
     "inputFiles": [
-      "wwwroot/scripts/jquery/jquery-1.10.2.min.js",
+      "wwwroot/scripts/jquery/jquery-3.6.0.min.js",
       "wwwroot/scripts/essentialjs/common/ej.core.min.js",
       "wwwroot/scripts/essentialjs/ej.waitingpopup.min.js",
       "wwwroot/scripts/bootstrap/bootstrap.min.js",
@@ -113,7 +108,7 @@
   {
     "outputFileName": "wwwroot/bundles/js/privacy-policy-confirmation.js",
     "inputFiles": [
-      "wwwroot/scripts/jquery/jquery-1.10.2.min.js",
+      "wwwroot/scripts/jquery/jquery-3.6.0.min.js",
       "wwwroot/scripts/essentialjs/common/ej.core.min.js",
       "wwwroot/scripts/essentialjs/ej.waitingpopup.min.js",
       "wwwroot/scripts/bootstrap/bootstrap.min.js"
@@ -143,7 +138,6 @@
     "outputFileName": "wwwroot/bundles/js/update-card.js",
     "inputFiles": [
       "wwwroot/scripts/bootstrap/bootstrap.min.js",
-      "wwwroot/scripts/bootstrap/bootstrap-select.min.js",
       "wwwroot/scripts/jquery/jquery.validate.min.js",
       "wwwroot/scripts/core/server.core.js",
       "wwwroot/scripts/payment/updatecard.js"
@@ -153,10 +147,8 @@
     "outputFileName": "wwwroot/bundles/js/subscription-settings.js",
     "inputFiles": [
       "wwwroot/scripts/bootstrap/bootstrap.min.js",
-      "wwwroot/scripts/bootstrap/bootstrap-select.min.js",
       "wwwroot/scripts/jquery/jquery.validate.min.js",
       "wwwroot/scripts/subscription/subscriptionsettings.js",
-      "wwwroot/scripts/editor/easymde.min.js",
       "wwwroot/scripts/essentialjs/common/ej.core.min.js",
       "wwwroot/scripts/essentialjs/ej.waitingpopup.min.js",
       "wwwroot/scripts/essentialjs/common/ej.core.min.js",
@@ -170,7 +162,6 @@
   {
     "outputFileName": "wwwroot/bundles/js/domain-list.js",
     "inputFiles": [
-      "wwwroot/scripts/bootstrap/bootstrap-select.min.js",
       "wwwroot/scripts/bootstrap/bootstrap.min.js",
       "wwwroot/scripts/essentialjs/common/ej.core.min.js",
       "wwwroot/scripts/essentialjs/common/ej.draggable.min.js",
@@ -188,8 +179,10 @@
     "inputFiles": [
       "wwwroot/styles/essentialjs/ej.theme.min.css",
       "wwwroot/styles/essentialjs/ej.widgets.core.min.css",
+      "wwwroot/styles/essentialjs2/material-theme/material.min.css",
       "wwwroot/styles/bootstrap/bootstrap.min.css",
       "wwwroot/styles/fonts/font-server.css",
+      "wwwroot/styles/scss/spinner-customization.min.css",
       "wwwroot/styles/scss/pages/newmaster.css",
       "wwwroot/styles/scss/pages/dialogs.css",
       "wwwroot/styles/scss/pages/footer-onpremise.min.css",
@@ -199,6 +192,7 @@
   },
   {
     "inputFiles": [
+      "wwwroot/styles/essentialjs2/material-theme/material.min.css",
       "wwwroot/styles/scss/pages/accounts/login.css",
       "wwwroot/styles/scss/accounts/login.min.css",
       "wwwroot/styles/scss/accounts/input-box-customization.min.css"
@@ -226,7 +220,8 @@
       "wwwroot/styles/essentialjs/ej.theme.min.css",
       "wwwroot/styles/essentialjs/ej.widgets.core.min.css",
       "wwwroot/styles/scss/pages/accounts/layout.css",
-      "wwwroot/styles/essentialjs2/material-theme/material.css"
+      "wwwroot/styles/scss/spinner-customization.min.css",
+      "wwwroot/styles/essentialjs2/material-theme/material.min.css"
     ],
     "outputFileName": "wwwroot/bundles/css/accounts-layout.css"
   },
@@ -259,12 +254,25 @@
   {
     "inputFiles": [
       "wwwroot/styles/jcrop/jcrop.min.css",
-      "wwwroot/styles/bootstrap/bootstrap-select.css",
+      "wwwroot/styles/essentialjs2/material-theme/material.min.css",
+      "wwwroot/styles/scss/dialog-customization.min.css",
+      "wwwroot/styles/scss/drop-down-customization.css",
+      "wwwroot/styles/scss/input-box-customization.css",
+      "wwwroot/styles/scss/spinner-customization.min.css",
+      "wwwroot/styles/scss/uploader-customization.min.css",
       "wwwroot/styles/scss/pages/components/pagewrapper.css",
       "wwwroot/styles/scss/pages/profile.css",
       "wwwroot/styles/scss/pages/manageaccount.css"
     ],
     "outputFileName": "wwwroot/bundles/css/profile.css"
+  },
+  {
+    "inputFiles": [
+      "wwwroot/styles/scss/drop-down-customization.css",
+      "wwwroot/styles/scss/input-box-customization.css",
+      "wwwroot/styles/scss/pages/userpreference.css"
+    ],
+    "outputFileName": "wwwroot/bundles/css/user-preference.css"
   },
   {
     "inputFiles": [
@@ -362,8 +370,6 @@
     "inputFiles": [
       "wwwroot/styles/scss/pages/components/pagewrapper.css",
       "wwwroot/styles/scss/pages/subscription/subscription-settings.css",
-      "wwwroot/styles/bootstrap/bootstrap-select.css",
-      "wwwroot/styles/editor/easymde.min.css",
       "wwwroot/styles/scss/pages/components/popup.css",
       "wwwroot/styles/scss/pages/components/radiobutton.css",
       "wwwroot/styles/scss/pages/components/switch.css"
@@ -373,7 +379,6 @@
   {
     "inputFiles": [
       "wwwroot/styles/bootstrap/bootstrap.min.css",
-      "wwwroot/styles/bootstrap/bootstrap-select.css",
       "wwwroot/styles/scss/pages/components/pagewrapper.css",
       "wwwroot/styles/fonts/font-server.css",
       "wwwroot/styles/scss/pages/newmaster.css",
@@ -384,14 +389,10 @@
   },
   {
     "inputFiles": [
-      "wwwroot/styles/bootstrap/bootstrap-select.css",
-      "wwwroot/styles/scss/accounts/input-box-customization.css",
       "wwwroot/styles/essentialjs2/material-theme/material.css",
       "wwwroot/styles/scss/pages/passwordpolicyrules.css",
-      "wwwroot/styles/scss/pages/components/pagewrapper.css",
       "wwwroot/styles/scss/pages/changepassword.css",
       "wwwroot/styles/scss/pages/components/popup.css"
-
     ],
     "outputFileName": "wwwroot/bundles/css/change-password.css"
   },

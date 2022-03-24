@@ -3,7 +3,7 @@
 @model List<Permission>
 @{
     var globalAppSettings = _globalAppSettings;
-    ViewBag.Title = globalAppSettings.SystemSettings.OrganizationName + " - [[[View My Permissions]]]";
+    ViewBag.Title = globalAppSettings.SystemSettings.OrganizationName + " - " + @T["View My Permissions"];
     ViewBag.MessageBox = false;
     var jsondata = JsonConvert.SerializeObject(Model);
     var gridName = ViewBag.gridName;
@@ -12,7 +12,7 @@
 <script type="text/x-jsrender" id="permission-grid-template">
     <div class="item-name" data-placement="top">
         {{if (PermissionEntity=="@((int)PermissionEntity.SpecificDashboard)" || PermissionEntity=="@((int)PermissionEntity.SpecificCategory)" || PermissionEntity=="@((int)PermissionEntity.SpecificDataSource)" || PermissionEntity=="@((int)PermissionEntity.SpecificDataset)" || PermissionEntity=="@((int)PermissionEntity.SpecificFile)" || PermissionEntity=="@((int)PermissionEntity.SpecificItemView)"||PermissionEntity=="@((int)PermissionEntity.SpecificReports)" || PermissionEntity=="@((int)PermissionEntity.SpecificSchedule)" || PermissionEntity=="@((int)PermissionEntity.SpecificWidget)")}}
-        <span>{{:PermissionAccessDescription}} [[[access for the]]] </span>
+        <span>{{:PermissionAccessDescription}} @T["access for the"] </span>
         {{if ItemType=="@((int)ItemType.Dashboard)" && ItemName!="-"}}
         <span>{{:ItemTypeDescription}} - <a href="{{:~urlEncode(ItemId, CategoryName, ItemName, IsDraft)}}" target="_blank">{{:ItemName}}</a>.</span>
         {{else ItemType=="@((int)ItemType.Widget)" && ItemName!="-"}}
@@ -27,7 +27,7 @@
         <span>{{:ItemName}}</span>
         {{/if}}
         {{else}}
-        <span>{{:PermissionAccessDescription}} [[[access for]]] {{:PermissionEntityDescription}}.</span>
+        <span>{{:PermissionAccessDescription}} @T["access for"] {{:PermissionEntityDescription}}.</span>
         {{/if}}
     </div>
 </script>
@@ -53,6 +53,7 @@
 
     $(document)
         .ready(function() {
+            GridLocalization();
             $("#PermissionGrid")
                 .ejGrid({
                     dataSource: @Html.Raw(jsondata),
@@ -69,20 +70,20 @@
                     columns:[
                          {
                              field:"ItemName",
-                             headerText:"[[[Permissions]]]",
+                             headerText:'@T["Permissions"]',
                              template: true,
                              templateID:"#permission-grid-template",
                              type: "string"
                          },
                         {
                             field:"GroupName",
-                            headerText:"[[[Inherited from Group]]]",
+                            headerText:'@T["Inherited from Group"]',
                             width: 140,
                             visible: window.innerWidth > 768
                         },
                         {
                             field:"ItemTypeDescription",
-                            headerText:"[[[Resources]]]",
+                            headerText:'@T["Resources"]',
                             allowSorting:false,
                             allowFiltering:false
                         }
@@ -92,5 +93,5 @@
         });
 </script>
 
-<input type="hidden" class="page-name" data-content="[[[MY PERMISSIONS]]]">
+<input type="hidden" class="page-name" data-content="@T["MY PERMISSIONS"]">
 <div id="PermissionGrid" class="permission-grid-mobile"></div>

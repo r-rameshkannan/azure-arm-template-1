@@ -1,6 +1,6 @@
 /*!
 *  filename: ej1.card.all.js
-*  version : 4.2.69
+*  version : 5.1.55
 *  Copyright Syncfusion Inc. 2001 - 2017. All rights reserved.
 *  Use of this code is subject to the terms of our license.
 *  A copy of the current license can be obtained at any time by e-mailing
@@ -31,7 +31,7 @@ var NumberFormatting = /** @class */ (function () {
             default:
                 break;
         }
-        value = this.applyStringFormatting(stringFormat, valueRepresentation.currencyCulture, valueRepresentation.representation, value, valueRepresentation.negativeValueFormat);  // eslint-disable-line no-param-reassign
+        value = this.applyStringFormatting(stringFormat, valueRepresentation.currencyCulture, valueRepresentation.representation, value, valueRepresentation.negativeValueFormat, valueRepresentation.enableLakhsAndCroreRep);  // eslint-disable-line no-param-reassign
         if (valueRepresentation.format !== Format.Percentage && valueRepresentation.decimalSeparator !== null && valueRepresentation.groupSeparator !== null && !BoldBIDashboard.isNullOrUndefined(value)) {
             var splitDecimalValue = value.split(valueRepresentation.decimalSeparator.CurrentValue);
             splitDecimalValue[0] = splitDecimalValue[0].replaceAll(valueRepresentation.groupSeparator.CurrentValue, valueRepresentation.groupSeparator.AliasValue);
@@ -43,7 +43,7 @@ var NumberFormatting = /** @class */ (function () {
         return value;
     };
     // apply formatting to negative values
-    NumberFormatting.prototype.applyNegativeFormatting = function (value, numberOfDecimals, currencyCulture, negativeValueFormat) {
+    NumberFormatting.prototype.applyNegativeFormatting = function (value, numberOfDecimals, currencyCulture, negativeValueFormat, enableLakhsAndCroreRep) {
         var val = Math.abs((value.toString()));
         var formattedValue = BoldBIDashboard.globalize.format(val, "N" + numberOfDecimals, currencyCulture);
         switch (negativeValueFormat) {
@@ -67,7 +67,7 @@ var NumberFormatting = /** @class */ (function () {
 
             //    return value;
             //}
-            var val = unit === Representation.Auto ? this.truncateNumber(value) : this.applyNumberUnit(unit, value, culture);
+            var val = unit === Representation.Auto ? this.truncateNumber(value, culture, enableLakhsAndCroreRep) : this.applyNumberUnit(unit, value, culture);
 
             return this.adjustZeros(val, unit, stringFormat, culture, negativeValueFormat);
         }
@@ -100,9 +100,6 @@ var NumberFormatting = /** @class */ (function () {
             value = { fraction: zero, postFixLabel: "" }; // eslint-disable-line no-param-reassign
             format = stringFormat.replace(decimalplaces, "0");  // eslint-disable-line no-param-reassign
         }
-        if (isDecimalFormatChange) {
-            format = stringFormat.replace(decimalplaces, "0");
-        }
         if (stringFormat.indexOf("N") > lessThanZero && value.fraction < pointZero) {
 
             return this.applyNegativeFormatting(value.fraction, isDecimalFormatChange ? zero : decimalplaces, currencyCulture, negativeValueFormat) + value.postFixLabel;
@@ -110,7 +107,7 @@ var NumberFormatting = /** @class */ (function () {
 
         return BoldBIDashboard.globalize.format(value.fraction, format, currencyCulture) + value.postFixLabel;
     };
-    NumberFormatting.prototype.truncateNumber = function(num) {
+    NumberFormatting.prototype.truncateNumber = function(num, culture, enableLakhsAndCroreRep) {
         var three = 3,
             five = 5,
             six = 6,
@@ -119,9 +116,9 @@ var NumberFormatting = /** @class */ (function () {
             ten = 10,
             twelve = 12;
         var thousand = Math.pow(ten, three);
-        //var lakhs = Math.pow(ten, five);
+        var lakh = Math.pow(ten, five);
         var million = Math.pow(ten, six);
-        //var crores = Math.pow(ten, seven);
+        var crores = Math.pow(ten, seven);
         var billion = Math.pow(ten, nine);
         var trillion = Math.pow(ten, twelve);
         var number = num;
@@ -139,19 +136,52 @@ var NumberFormatting = /** @class */ (function () {
         //    } else if (number >= trillion || number <= -trillion) {
         //        return { fraction: this.calculateFraction(number, trillion), symbol: "T" };
         //    }
-        //} else {
+        //} else {	
         if (((number >= thousand) && (number < million)) || ((number <= -thousand) && (number > -million))) {
             return { fraction: this.calculateFraction(number, thousand), symbol: "K" };
-        } else if (((number >= million) && (number < billion)) || ((number <= -million) && (number > -billion))) {
-            return { fraction: this.calculateFraction(number, million), symbol: "M" };
-        } else if (((number >= billion) && (number < trillion)) || ((number <= -billion) && (number > -trillion))) {
-            return { fraction: this.calculateFraction(number, billion), symbol: "B" };
-        } else if (number >= trillion || number <= -trillion) {
-            return { fraction: this.calculateFraction(number, trillion), symbol: "T" };
         }
+		if (this.isRequiredCulture(culture) && enableLakhsAndCroreRep) {
+			if (((number >= lakh) && (number < crores)) || ((number <= -lakh) && (number > -crores))) {
+				return { fraction: this.calculateFraction(number, lakh), symbol: "L" };
+			} else if (number >= crores || number <= -crores) {
+				return { fraction: this.calculateFraction(number, crores), symbol: "Cr" };
+			}
+		}
+		else {
+			if (((number >= million) && (number < billion)) || ((number <= -million) && (number > -billion))) {
+				return { fraction: this.calculateFraction(number, million), symbol: "M" };
+			} else if (((number >= billion) && (number < trillion)) || ((number <= -billion) && (number > -trillion))) {
+				return { fraction: this.calculateFraction(number, billion), symbol: "B" };
+			} else if (number >= trillion || number <= -trillion) {
+				return { fraction: this.calculateFraction(number, trillion), symbol: "T" };
+			}
+		}
         //}
 
         return { fraction: number, symbol: "" };
+    };
+	NumberFormatting.prototype.isRequiredCulture = function (cultureName) {
+         var cultures = [
+            'en-IN',
+            'as-IN',
+            'bn-BD',
+            'bn-IN',
+            'gu-IN',
+            'hi-IN',
+            'kn-IN',
+            'kok-IN',
+            'ml-IN',
+            'mr-IN',
+            'ne-NP',
+            'or-IN',
+            'pa-IN',
+            'pa-Arab-PK',
+            'sa-IN',
+            'sd-Arab-PK',
+            'ta-IN',
+            'ur-PK'
+        ];
+        return cultures.filter(function (i) { return i === cultureName; }).length > 0;
     };
     NumberFormatting.prototype.calculateFraction = function(num, divisor) {
 
@@ -170,25 +200,22 @@ var NumberFormatting = /** @class */ (function () {
         var million = Math.pow(ten, six);
         var crores = Math.pow(ten, seven);
         var billion = Math.pow(ten, nine);
-        if (culture === "en-IN") {
-            switch (unit) {
-                case Representation.Ones: return { fraction: value / one, postFixLabel: "" };
-                case Representation.Thousands: return { fraction: value / thousand, postFixLabel: "K" };
-                case Representation.Lakhs: return { fraction: value / lakhs, postFixLabel: "L" };
-                case Representation.Millions: return { fraction: value / million, postFixLabel: "M" };
-                case Representation.Crores: return { fraction: value / crores, postFixLabel: "C" };
-                case Representation.Billions: return { fraction: value / billion, postFixLabel: "B" };
-                default: return { fraction: value, postFixLabel: "" };
-            }
-        } else {
-            switch (unit) {
-                case Representation.Ones: return { fraction: value / one, postFixLabel: "" };
-                case Representation.Thousands: return { fraction: value / thousand, postFixLabel: "K" };
-                case Representation.Millions: return { fraction: value / million, postFixLabel: "M" };
-                case Representation.Billions: return { fraction: value / billion, postFixLabel: "B" };
-                default: return { fraction: value, postFixLabel: "" };
-            }
-        }
+        switch (unit) {
+			case Representation.Ones: 
+				return { fraction: value / one, postFixLabel: "" };
+			case Representation.Thousands:
+				return { fraction: value / thousand, postFixLabel: "K" };
+			case Representation.Lakhs:
+				return { fraction: value / lakhs, postFixLabel: "L" };
+			case Representation.Millions:
+				return { fraction: value / million, postFixLabel: "M" };
+			case Representation.Crores:
+				return { fraction: value / crores, postFixLabel: "Cr" };
+			case Representation.Billions:
+				return { fraction: value / billion, postFixLabel: "B" };
+			default:
+				return { fraction: value, postFixLabel: "" };
+		}
     };
 
     return NumberFormatting;
@@ -4744,7 +4771,7 @@ var BoldBIDashboardSparkline;
 })(BoldBIDashboardSparkline || (BoldBIDashboardSparkline = {}));
 ;
 (function(bbdesigner$, BoldBIDashboard, undefined) {
-    BoldBIDashboard.widget('BoldBIDashboardKPICard', 'BoldBIDashboard.KPICard', {
+    BoldBIDashboard.widget("BoldBIDashboardKPICard", "BoldBIDashboard.KPICard", {
 
         //#region Defaults
 
@@ -4817,7 +4844,8 @@ var BoldBIDashboardSparkline;
                 },
                 negativeValueFormat: 'default',
                 prefix: '',
-                suffix: ''
+                suffix: '',
+				enableLakhsAndCroreRep: false
             },
             sparkline: {
                 data: null,
@@ -4828,6 +4856,7 @@ var BoldBIDashboardSparkline;
                 followDirectionColor: true,
                 isColorCustomized: false
             },
+			hiddenColumns:[],
             title: {
                 text: '',
                 foreground: '',
@@ -6564,19 +6593,20 @@ var BoldBIDashboardSparkline;
     };
 })(bbdesigner$, SyncfusionBoldBIDashboard);;
 (function(bbdesigner$, BoldBIDashboard, undefined) {
-    BoldBIDashboard.widget('BoldBIDashboardNumberCard', 'BoldBIDashboard.NumberCard', {
+    BoldBIDashboard.widget("BoldBIDashboardNumberCard", "BoldBIDashboard.NumberCard", {
         element: null,
         model: null,
-        defaults: 	{
+        defaults: {
             title: {
                 text: '',
                 foreground: 'black',
                 visibility: true,
                 fontSize: '14',
-				fontFamily:'',
-				fontWeight: '',
+                fontFamily: '',
+                fontWeight: '',
                 isColorCustomized: false,
-				position: 'Bottom',
+                position: 'Bottom',
+                enableWrap: false,
                 fontSettings: {
                     IsBold: false,
                     IsItalic: false,
@@ -6584,11 +6614,11 @@ var BoldBIDashboardSparkline;
                     IsStrikeThrough: false
                 }
             },
-			description: {
-				text: '',
-				visibility: false,
-				color: '#1a1a1a'
-			},
+            description: {
+                text: '',
+                visibility: false,
+                color: '#1a1a1a'
+            },
             animationSettings: {
                 enableAnimation: true,
                 animationDuration: 1500
@@ -6598,8 +6628,8 @@ var BoldBIDashboardSparkline;
                 foreground: 'black',
                 visibility: true,
                 fontSize: '36',
-				fontFamily:'',
-				fontWeight: '',
+                fontFamily: '',
+                fontWeight: '',
                 isColorCustomized: false,
                 fontSettings: {
                     IsBold: false,
@@ -6623,7 +6653,8 @@ var BoldBIDashboardSparkline;
                 },
                 negativeValueFormat: 'default',
                 prefix: '',
-                suffix: ''
+                suffix: '',
+				enableLakhsAndCroreRep: false
             },
             dimension: {
                 text: '',
@@ -6655,7 +6686,7 @@ var BoldBIDashboardSparkline;
                 data: null,
                 visibility: true,
                 isImageCustomized: false,
-				position: 'Right'
+                position: 'Right'
             },
             background: {
                 mode: 'Fill',
@@ -6676,56 +6707,57 @@ var BoldBIDashboardSparkline;
                 followDirectionColor: true,
                 isColorCustomized: false
             },
+            hiddenColumns: [],
             informationIcon: {
                 visibility: false
             },
-			alignment: {
-				horizontal: 'Left',
-				vertical: 'Top',
-			},
-			autoFontSize: {
-				fontSizeFactor: 1,
-				enable: false, 
-				measureText: '',
-				titleText: ''
-			},
-			responsiveMargin: false,
-			tooltip: {
-			   class: '',
-               attribute: '',
-               text: ''	
-			},
+            alignment: {
+                horizontal: 'Left',
+                vertical: 'Top',
+            },
+            autoFontSize: {
+                fontSizeFactor: 1,
+                enable: false,
+                measureText: '',
+                titleText: ''
+            },
+            responsiveMargin: false,
+            tooltip: {
+                class: '',
+                attribute: '',
+                text: ''
+            },
         },
-        _init: function() {
+        _init: function () {
             this._initializePrivateVariables();
             this._createLayout();
             this._wireEvents();
             this._updateVisibility();
             this._updateData();
             //this._updateWrapperHeight();
-			this._updateCardAlignment();
+            this._updateCardAlignment();
             this._responsiveLayout();
         },
-        _initializePrivateVariables: function() {
+        _initializePrivateVariables: function () {
             this.margin = 0;
-			this._tooltipClass = this.model.tooltip.class;
+            this._tooltipClass = this.model.tooltip.class;
             this.formatting = new NumberFormatting();
-			this._initializeMargins();
+            this._initializeMargins();
         },
-		_initializeMargins: function() {
-			this.marginTop = this.model.alignment.vertical === 'Center' ? 0 : this.model.alignment.vertical === 'Bottom' ? 2 : window.screen.width < 1920 ? 8 : 12;
-			this.marginTopWithSparkline = this.model.alignment.vertical === 'Center' ? 0 : this.model.alignment.vertical === 'Bottom' ? 2 : window.screen.width < 1920 ? 8 : 12;
-			this.inBetweenMargin = window.screen.width < 1920 ? 4 : 4;
-			this.bottomMargin = this.model.alignment.vertical === 'Center' ? 0 : this.model.alignment.vertical === 'Top' ? 2 : window.screen.width < 1920 ? 8 : 12;
-			this.bottomMarginWithSparkline = this.model.alignment.vertical === 'Center' ? 0 : this.model.alignment.vertical === 'Top' ?  2 : window.screen.width < 1920 ? 8 : 12;
-		},
-        _wireEvents: function() {
+        _initializeMargins: function () {
+            this.marginTop = this.model.alignment.vertical === 'Center' ? 0 : this.model.alignment.vertical === 'Bottom' ? 2 : window.screen.width < 1920 ? 8 : 12;
+            this.marginTopWithSparkline = this.model.alignment.vertical === 'Center' ? 0 : this.model.alignment.vertical === 'Bottom' ? 2 : window.screen.width < 1920 ? 8 : 12;
+            this.inBetweenMargin = window.screen.width < 1920 ? 4 : 4;
+            this.bottomMargin = this.model.alignment.vertical === 'Center' ? 0 : this.model.alignment.vertical === 'Top' ? 2 : window.screen.width < 1920 ? 8 : 12;
+            this.bottomMarginWithSparkline = this.model.alignment.vertical === 'Center' ? 0 : this.model.alignment.vertical === 'Top' ? 2 : window.screen.width < 1920 ? 8 : 12;
+        },
+        _wireEvents: function () {
             this._on(this.element, "click", this._selectedHandler);
         },
-        _unwireEvents: function() {
+        _unwireEvents: function () {
             this._off(this.element, "click", this._selectedHandler);
         },
-        _setModel: function(options) {
+        _setModel: function (options) {
             for (var prop in options) {
                 if (options.hasOwnProperty(prop)) { // eslint-disable-line  no-prototype-builtins
                     switch (prop) {
@@ -6743,11 +6775,11 @@ var BoldBIDashboardSparkline;
                             this._responsiveLayout();
                             //this._updateWrapperHeight();
                             break;
-						case 'description':
-							this._updateDescriptionVisibility();
-							this._updateDescription();
-							this._responsiveLayout();
-							break;
+                        case 'description':
+                            this._updateDescriptionVisibility();
+                            this._updateDescription();
+                            this._responsiveLayout();
+                            break;
                         case 'image':
                             this._updateImage();
                             this._responsiveLayout();
@@ -6761,9 +6793,9 @@ var BoldBIDashboardSparkline;
                             this._responsiveLayout();
                             break;
                         case 'size':
-							this._initializeMargins();
-							this._updateTitle();
-							this._updateMeasure();
+                            this._initializeMargins();
+                            this._updateTitle();
+                            this._updateMeasure();
                             this._resize();
                             break;
                         case 'measure':
@@ -6794,25 +6826,25 @@ var BoldBIDashboardSparkline;
                             this._applyAnimation();
                             break;
                         case 'tooltip':
-							this._updateElementsTooltip();
+                            this._updateElementsTooltip();
                             this._updateInformationTooltip();
                             this._applyAnimation();
-							this._tooltipClass = this.model.tooltip.class;
+                            this._tooltipClass = this.model.tooltip.class;
                             break;
-						case 'alignment':
-							this._updateCardAlignment();
-							this._initializeMargins();
-							this._responsiveLayout();
-							break;
-						case 'autoFontSize':
-							this._updateTitle();
-							this._updateMeasure();				    
-							this._responsiveLayout();
-							break;
-						case 'responsiveMargin':
-							this._initializeMargins();
-							this._responsiveLayout();
-							break;
+                        case 'alignment':
+                            this._updateCardAlignment();
+                            this._initializeMargins();
+                            this._responsiveLayout();
+                            break;
+                        case 'autoFontSize':
+                            this._updateTitle();
+                            this._updateMeasure();
+                            this._responsiveLayout();
+                            break;
+                        case 'responsiveMargin':
+                            this._initializeMargins();
+                            this._responsiveLayout();
+                            break;
                         default:
                             break;
 
@@ -6820,7 +6852,7 @@ var BoldBIDashboardSparkline;
                 }
             }
         },
-        _createLayout: function() {
+        _createLayout: function () {
             var parentElement = this.element;
             parentElement.css({ 'height': this.model.size.height + 'px', 'width': this.model.size.width + 'px' });
             this._createBackgroundImageWrapper();
@@ -6831,30 +6863,30 @@ var BoldBIDashboardSparkline;
             this._createCardWrapper();
             // this._createTableCellElement();
             this._createCardValueWrapper();
-			this._creteContentWrapper();
-			this._createImageElement();
-			this._createMeasureWrapper();
+            this._creteContentWrapper();
+            this._createImageElement();
+            this._createMeasureWrapper();
             this._createTitleElement();
             this._createDimensionContainer();
             this._createIconElement();
             this._createnumberElement();
             this._createSparklineContainer();
         },
-        _updateVisibility: function() {
+        _updateVisibility: function () {
             this._updateTitleVisibility();
-			this._updateDescriptionVisibility();
+            this._updateDescriptionVisibility();
             this._updateDimensionVisibility();
             this._updateIconVisibility();
             this._updateMeasureVisibility();
             this._updateImageVisibility();
             this._resizeBackgroundContainer();
             this._updateSparklineVisibility();
-			this._updateContentImageWrapper();
-			this._updateMargin();
+            this._updateContentImageWrapper();
+            this._updateMargin();
         },
-        _updateData: function() {
+        _updateData: function () {
             this._updateTitle();
-			this._updateDescription();
+            this._updateDescription();
             this._updateDimension();
             this._updateMeasure();
             this._updateIcon();
@@ -6863,108 +6895,108 @@ var BoldBIDashboardSparkline;
             this._updateSparkline();
             this._updateInformationTooltip();
         },
-        _createIconWrapper: function() {
+        _createIconWrapper: function () {
             var cardSparklineWrapper = bbdesigner$(this.element).find('.e-number-card-sparkline-wrapper');
             var iconWrapper = bbdesigner$('<div>').addClass('e-number-card-information-wrapper e-number-card-display-none').css({ 'height': (this.model.size.height - this.margin) + 'px', 'width': (this.model.size.width - this.margin) + 'px' }); //absolute positioned so, we couldn't set in %
             cardSparklineWrapper.append(iconWrapper);
             iconWrapper.append(bbdesigner$('<div>').addClass('e-number-card-information-icon'));
         },
-        _createCardWrapperParent: function() {
+        _createCardWrapperParent: function () {
             var cardSparklineWrapper = this.element.find('.e-number-card-sparkline-wrapper');
             cardSparklineWrapper.append(bbdesigner$('<div>').addClass('e-number-card-wrapper-parent e-number-card-image-styles'));
         },
-        _createCardWrapper: function() {
+        _createCardWrapper: function () {
             var cardWrapperParent = this.element.find('.e-number-card-wrapper-parent');
             cardWrapperParent.append(bbdesigner$('<div>').addClass('e-number-card-wrapper'));
         },
-        _createTableCellElement: function() {
+        _createTableCellElement: function () {
             var cardWrapperParent = this.element.find('.e-number-card-wrapper');
             cardWrapperParent.append(bbdesigner$('<div>').addClass('e-number-card-table-cell'));
         },
-        _createCardValueWrapper: function() {
+        _createCardValueWrapper: function () {
             var cardWrapperParent = this.element.find('.e-number-card-wrapper');
             cardWrapperParent.append(bbdesigner$('<div>').addClass('e-number-card-value-wrapper').css({ 'height': (this.height - this.margin) + 'px' }));
         },
-        _createTitleElement: function() {
+        _createTitleElement: function () {
             var cardWrapper = bbdesigner$(this.element).find('.e-number-card-value-wrapper');
             var cardTitleContainer = bbdesigner$('<div>').addClass('e-number-card-title-container');
             cardTitleContainer.append(bbdesigner$('<div>').addClass('e-number-card-title-text ' + this.model.tooltip.class + ' e-number-card-text-ellipsis'));
-			cardTitleContainer.append(bbdesigner$('<div>').addClass('e-number-card-description-text ' + this.model.tooltip.class));
+            cardTitleContainer.append(bbdesigner$('<div>').addClass('e-number-card-description-text ' + this.model.tooltip.class));
             cardWrapper.append(cardTitleContainer);
         },
-        _createDimensionContainer: function() {
+        _createDimensionContainer: function () {
             var cardWrapper = bbdesigner$(this.element).find('.e-number-card-value-wrapper');
             var dimensionContainer = bbdesigner$('<div>').addClass('e-number-card-dimension-container');
             cardWrapper.append(dimensionContainer);
             dimensionContainer.append(bbdesigner$('<div>').addClass('e-number-card-dimension-text ' + this.model.tooltip.class + ' e-number-card-text-ellipsis'));
         },
-		_creteContentWrapper: function() {
-			var valueWrapper = bbdesigner$(this.element).find('.e-number-card-value-wrapper');
+        _creteContentWrapper: function () {
+            var valueWrapper = bbdesigner$(this.element).find('.e-number-card-value-wrapper');
             var contentWrapper = bbdesigner$('<div>').addClass('e-number-card-content-image-wrapper e-number-card-justify-center');
             valueWrapper.append(contentWrapper);
-		},
-        _createMeasureWrapper: function() {
+        },
+        _createMeasureWrapper: function () {
             var contentWrapper = bbdesigner$(this.element).find('.e-number-card-content-image-wrapper');
             var cardContainerMiddle = bbdesigner$('<div>').addClass('e-number-card-measure-wrapper e-number-card-justify-center');
             contentWrapper.append(cardContainerMiddle);
-        },		
-        _createImageElement: function() {
+        },
+        _createImageElement: function () {
             var cardWrapper = bbdesigner$(this.element).find('.e-number-card-content-image-wrapper');
             var cardImageWrapper = bbdesigner$('<div>').addClass('e-number-card-image-wrapper');
             cardWrapper.append(cardImageWrapper);
             cardImageWrapper.append(bbdesigner$('<div>').addClass('e-number-card-image-container e-number-card-image-styles'));
         },
-        _createIconElement: function() {
+        _createIconElement: function () {
             var cardContainerMiddle = bbdesigner$(this.element).find('.e-number-card-measure-wrapper');
             var cardIndicator = bbdesigner$('<div>').addClass('e-number-card-icon-container');
             cardIndicator.append(bbdesigner$('<div>').addClass('e-number-card-icon'));
             cardContainerMiddle.prepend(cardIndicator);
         },
-        _createnumberElement: function() {
+        _createnumberElement: function () {
             var measureWrapper = bbdesigner$(this.element).find('.e-number-card-measure-wrapper');
             var numberContainer = bbdesigner$('<div>').addClass('e-number-card-measure-container e-number-card-text-ellipsis');
             numberContainer.append(bbdesigner$('<div>').addClass('e-number-card-measure-text ' + this.model.tooltip.class + ' e-number-card-text-ellipsis'));
             measureWrapper.append(numberContainer);
         },
-        _createSparklineContainer: function() {
+        _createSparklineContainer: function () {
             var cardsaprklineWrapper = bbdesigner$(this.element).find('.e-number-card-sparkline-wrapper');
             var sparklineContainer = bbdesigner$('<div>').addClass('e-number-card-sparkline-container');//absolute positioned so, we couldn't set in %
             cardsaprklineWrapper.append(sparklineContainer);
             sparklineContainer.append(bbdesigner$('<div>').attr('id', bbdesigner$(this.element).attr('id') + '-sparkline'));
-			// sparkline gradient svg container
-			var gradientContainer = bbdesigner$('<div>').addClass('e-sparkline-gradient-container');
-			this.element.append(gradientContainer);
-			
+            // sparkline gradient svg container
+            var gradientContainer = bbdesigner$('<div>').addClass('e-sparkline-gradient-container');
+            this.element.append(gradientContainer);
+
         },
-        _createBackgroundImageWrapper: function() {
+        _createBackgroundImageWrapper: function () {
             var backgroundImageWrapper = bbdesigner$('<div>').addClass('e-number-card-background-image-wrapper').css({ 'height': (this.model.size.height - this.margin) + 'px', 'width': (this.model.size.width - this.margin) + 'px' });
             this.element.append(backgroundImageWrapper);
             backgroundImageWrapper.append(bbdesigner$('<div>').addClass('e-number-card-background-image-container e-number-card-image-styles'));
         },
 
         // Update Visibility
-        _updateTitleVisibility: function() {
+        _updateTitleVisibility: function () {
             if (this.model.title.visibility) {
                 this._showTitle();
             } else {
                 this._hideTitle();
             }
         },
-		_updateDescriptionVisibility: function() {
-			if (this.model.description.visibility) {
+        _updateDescriptionVisibility: function () {
+            if (this.model.description.visibility) {
                 this._showDescription();
             } else {
                 this._hideDescription();
             }
-		},
-        _updateDimensionVisibility: function() {
+        },
+        _updateDimensionVisibility: function () {
             if (this.model.dimension.visibility) {
                 this._showDimension();
             } else {
                 this._hideDimension();
             }
         },
-        _updateIconVisibility: function() {
+        _updateIconVisibility: function () {
             if (this.model.icon.visibility) {
                 this._showIcon();
             } else {
@@ -6972,7 +7004,7 @@ var BoldBIDashboardSparkline;
             }
             this._updateMeasureWrapper();
         },
-        _updateMeasureVisibility: function() {
+        _updateMeasureVisibility: function () {
             if (this.model.measure.visibility) {
                 this._showMeasure();
             } else {
@@ -6980,30 +7012,110 @@ var BoldBIDashboardSparkline;
             }
             this._updateMeasureWrapper();
         },
-        _updateMeasureWrapper: function() {
+        _updateMeasureWrapper: function () {
             if (!this.model.measure.visibility && !this.model.icon.visibility) {
                 this._hideMeasureWrapper();
             } else {
                 this._showMeasureWrapper();
             }
         },
-        _updateImageVisibility: function() {
+        _updateImageVisibility: function () {
             if (!this.model.image.visibility && !this.model.image.visibility) {
                 this._hideImage();
             } else {
                 this._showImage();
             }
         },
-        _resizeBackgroundContainer: function() {            
-                this.element.find('.e-number-card-background-image-container').addClass('e-number-card-plotarea-default');
-                this.element.find('.e-number-card-background-image-container').removeClass('e-number-card-plotarea-content');            
+        _resizeBackgroundContainer: function () {
+            this.element.find('.e-number-card-background-image-container').addClass('e-number-card-plotarea-default');
+            this.element.find('.e-number-card-background-image-container').removeClass('e-number-card-plotarea-content');
         },
-        _updateSparklineVisibility: function() {
+        _updateSparklineVisibility: function () {
             // this.element.find('.e-number-card-sparkline-container').css({ 'height': this.model.size.height - this.margin, 'width': this.model.size.width - this.margin });
             if (this._isSparklinePresent()) {
                 this._showSparkline();
             } else {
                 this._hideSparkline();
+            }
+        },
+        _updateTitleWrap: function () {
+            if (this.model.title.visibility && this.model.title.enableWrap && !BoldBIDashboard.isNullOrUndefined(this.model.title.text)
+                && this.model.title.text.length > 0 && this.model.title.text.indexOf(' ') > 0) {
+                // Title Width Calculation
+                var marginLeft = 16;
+                var marginRight = 16;
+                var parentWidth = this.model.size.width - marginLeft - marginRight;
+                this.element.find('.e-number-card-wrapper-parent').css({ 'width': parentWidth + 'px', 'margin-left': marginLeft + 'px', 'margin-right': marginRight + 'px' });
+                var titleWidth = this.element.find('.e-number-card-title-text').width();
+
+                // Available Lines Calculation For Tile Text Wrap
+                var cardHt = (this.model.size.height - this.margin - this.marginTop - this.bottomMargin);
+                var titleHt = this.element.find('.e-number-card-title-text').height();
+                var descriptionHt = this.model.description.visibility ? this.element.find('.e-number-card-description-text').height() + 10 : 0; // 10 - top + bottom margin
+                if (titleHt < descriptionHt) {
+                    titleHt = descriptionHt;
+                }
+                var sparklineHeight = this._isSparklinePresent() ? (this.model.size.height - this.margin - this.marginTop - this.bottomMargin) * .2 : 0;
+                var margin = this.element.find('.e-number-card-title-container').hasClass('e-number-card-display-flex') && this.element.find('.e-number-card-content-image-wrapper').hasClass('e-number-card-display-flex') ? (this.inBetweenMargin * 2) : 0;
+                cardHt = cardHt - (this._getFontHight(true) + margin - titleHt - sparklineHeight);
+                this.element.find('.e-number-card-title-container').append(bbdesigner$('<div>').addClass('temp-wrapper-class').css({
+                    'white-space': 'nowrap',
+                    'text-overflow': 'unset',
+                    'font-size': this._getResolutionBasedFontSize(this.model.title.fontSize) + 'px',
+                    'line-height': 1.25
+                }));
+                this.element.find('.temp-wrapper-class').html(this.model.title.text);
+
+                if (!BoldBIDashboard.isNullOrUndefined(this.model.title.fontSettings)) {
+                    this._updateFontSettings(this.element.find('.temp-wrapper-class'), this.model.title.fontSettings); // To add font customization(Rule)
+                }
+                var textHt = this.element.find('.temp-wrapper-class').height();
+                var availableLines = parseInt(cardHt / textHt);
+
+                // Text Wrap Calculation
+                this.element.find('.e-number-card-title-text').html('');
+                var tempText = '';
+                var titleText = this.model.title.text.split(' ');
+                var currentLine = 0;
+                for (var i = 0; i < titleText.length; i++) {
+                    this.element.find('.temp-wrapper-class').html(tempText + titleText[i]);
+                    if (currentLine < availableLines - 1) {
+                        if (titleWidth > this.element.find('.temp-wrapper-class').width()) {
+                            if (i === titleText.length - 1) {
+                                tempText += titleText[i];
+                                this.element.find('.e-number-card-title-text').append(bbdesigner$('<div>').html(tempText.trim()));
+                            } else {
+                                tempText += titleText[i] + ' ';
+                            }
+                        } else {
+                            this.element.find('.temp-wrapper-class').html(titleText[i]);
+                            if (titleWidth > this.element.find('.temp-wrapper-class').width()) {
+                                this.element.find('.e-number-card-title-text').append(bbdesigner$('<div>').html(tempText.trim()));
+                                currentLine++;
+                                i = i - 1;
+                            } else {
+                                if (tempText.length > 0) {
+                                    this.element.find('.e-number-card-title-text').append(bbdesigner$('<div>').html(tempText.trim()));
+                                    currentLine++;
+                                    i = i - 1;
+                                } else {
+                                    this.element.find('.e-number-card-title-text').append(bbdesigner$('<div>').html(titleText[i]).addClass('e-number-card-text-ellipsis'));
+                                    currentLine++;
+                                }
+                            }
+                            tempText = '';
+                            this.element.find('.temp-wrapper-class').html('');
+                        }
+                    } else {
+                        if (i === titleText.length - 1) {
+                            tempText += titleText[i];
+                            this.element.find('.e-number-card-title-text').append(bbdesigner$('<div>').html(tempText.trim()).addClass('e-number-card-text-ellipsis'));
+                        } else {
+                            tempText += titleText[i] + ' ';
+                        }
+                    }
+                }
+                this.element.find('.e-number-card-title-container').find('.temp-wrapper-class').remove();
             }
         },
 		_updateContentImageWrapper: function() {
@@ -7269,6 +7381,7 @@ var BoldBIDashboardSparkline;
             // this._updateTitleVisibility();
 			// this._updateDimensionVisibility
 			// this._updateSparklineVisibility();
+            this._updateTitleWrap();
             var calculatedHt = this._getFontHight(false);
 			var marginLeft = 16;
 			var marginRight = 16;

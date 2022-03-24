@@ -27,25 +27,30 @@ input::-ms-reveal {
   z-index: 0; }
 
 .material-checkbox + input + label {
-  position: relative;
-  padding: 5px 0 0 25px !important;
   cursor: pointer;
   display: inline-block;
-  color: var(--colorText);
   height: 25px;
+  font-family: var(--font-family);
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.26px;
   margin: 0;
+  padding: 6px 7px 0 24px !important;
+  position: relative;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none; }
   .material-checkbox + input + label::after {
-    border-radius: 3px; }
+    border-radius: 2px; }
   .material-checkbox + input + label::before, .material-checkbox + input + label::after {
     content: '';
     left: 0;
     position: absolute;
     -webkit-transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
     transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
-    z-index: 1; }
+    z-index: 1;
+    width: 11px;
+    height: 8px; }
 
 .material-checkbox:not(:checked) + input + label::before {
   width: 0;
@@ -58,38 +63,41 @@ input::-ms-reveal {
   height: 16px;
   width: 16px;
   background-color: transparent;
-  border: 2px solid #eeeeee;
+  border: 1px solid #b3b3b3;
   top: 0px;
   z-index: 1;
   margin-top: 7px;
   margin-bottom: 2px; }
 
 .material-checkbox:checked + input + label::before {
-  bottom: 14px;
-  color: var(--colorOnPrimary);
-  content: "";
+  bottom: 11.2px;
+  color: #fff;
+  content: "";
   font-family: "Server";
-  height: 10px;
-  width: 5px;
-  left: 3px; }
+  left: 1px;
+  font-size: 14px;
+  font-weight: bold; }
 
 .material-checkbox:checked + input + label::after {
   top: 0;
   width: 16px;
   height: 16px;
-  border: 1.5px solid var(--colorPrimary);
+  border: 1px solid var(--colorPrimary);
   background-color: var(--colorPrimary);
   z-index: 0;
   margin-top: 7px;
   margin-bottom: 2px; }
 
 .material-checkbox:disabled + input + label::after {
-  background-color: #eeeeee;
-  border: 1px solid #eeeeee; }
+  background-color: #f2f2f2;
+  border: 1px solid #cccccc; }
+
+.material-checkbox:disabled + input + label::before {
+  color: #b3b3b3; }
 
 .material-checkbox:not(:checked):disabled + input + label::after {
-  background-color: #fff;
-  border: 1px solid #eeeeee; }
+  background-color: #f2f2f2;
+  border: 1px solid #cccccc; }
 
 .material-checkbox:not(:checked), .material-checkbox:checked {
   position: absolute;

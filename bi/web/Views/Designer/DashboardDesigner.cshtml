@@ -16,8 +16,7 @@
     var idPUrl = _globalAppSettings.SystemSettings.IDPUrl;
     var faviconLogo = globalAppSettings.SystemSettings.FavIcon;
     var currentUrl = Context.Request.GetEncodedUrl();
-    var dashboardBIUrl = new DashboardServerEndPoints(globalAppSettings).DashboardServerBIUrl();
-    var designerShapeFilesLink = globalAppSettings.SystemSettings.UseCDN ? globalAppSettings.SystemSettings.DesignerCdnLink + "/cdn/scripts/designer/shapefiles" : (isSelfHosted ? ServerAppConfig.InternalAppDataServiceUrl + "/scripts/shapefiles" : "/scripts/shapefiles");
+    var dashboardBIUrl = new DashboardServerEndPoints(globalAppSettings).DashboardServerBIUrl();    
     var tourCookie = Context.Request.Cookies["syncfusion.dashboards.designer.tour"];
     var tourObj = new TourCookie();
     if (tourCookie != null)
@@ -67,7 +66,15 @@
     });
     var rootUrl = Context.Request.RouteValues["tenantName"] != null ? (Context.Request.PathBase + "/" + ServerAppConfig.TenantIdentifierPrefix + "/" + Context.Request.RouteValues["tenantName"]).TrimEnd('/') : Context.Request.PathBase.ToString();
     var granularPermissions = ViewBag.GranularPermissions as Dictionary<object, bool>;
-    var hasDashboardSettingsPermission = (_identityResponse.IsAdmin || granularPermissions[SettingsScopes.All] || granularPermissions[SettingsScopes.DashboardSettings] || granularPermissions[SettingsScopes.Connectors]).ToString();
+    var hasDashboardSettingsPermissionFlag = (_identityResponse.IsAdmin || granularPermissions[SettingsScopes.All] || granularPermissions[SettingsScopes.DashboardSettings]);
+    if (ServerAppConfig.IsSelfHosted)
+    {
+        hasDashboardSettingsPermissionFlag = hasDashboardSettingsPermissionFlag || granularPermissions[SettingsScopes.Connectors];
+    }
+    var hasDashboardSettingsPermission = hasDashboardSettingsPermissionFlag.ToString();
+    var themeCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".css";
+    var themeMinCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".min.css";
+    var themeBaseColors = globalAppSettings.SystemSettings.AppTheme.BaseColors;
 }
 <!DOCTYPE html>
 
@@ -77,7 +84,7 @@
     <meta name="viewport" content="width=device-width" />
     @if (!isSelfHosted && !globalAppSettings.SystemSettings.IsDebug)
     {
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     }
 
     <meta name="dashboard_server:url" content="@dashboardServerApiUrl" />
@@ -108,28 +115,7 @@
     <meta name="globalization:date_format" content="@_clientDateTimeInfo.ClientDateTime.DateFormat" />
     <meta name="globalization:time_format" content="@_clientDateTimeInfo.ClientDateTime.TimeFormat" />
 
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/worldmap_continent.js" />
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/canada.js" />
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/usa_states.js" />
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/africa.js" />
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/southamerica.js" />
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/france.js" />
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/germany.js" />
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/australia_territories.js" />
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/unitedkingdom.js" />
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/europe.js" />
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/asia.js" />
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/northamerica.js" />
-    <meta name="dashboard_designer:maps:shapes" content="@designerShapeFilesLink/india.js" />
-
-    @if (ViewBag.dashboardName != null)
-    {
-        <title>@ViewBag.dashboardName - [[[Design Dashboard]]] - @globalAppSettings.SystemSettings.OrganizationName</title>
-    }
-    else
-    {
-        <title>Untitled - [[[Design Dashboard]]] - @globalAppSettings.SystemSettings.OrganizationName</title>
-    }
+    <title>@(ViewBag.dashboardName != null ? ViewBag.dashboardName : "Untitled") - @T["Design Dashboard"] - @globalAppSettings.SystemSettings.OrganizationName</title>
     <link rel="icon" href="@faviconLogo" onerror="if (this.href !== null && this.href.toLowerCase() !== '@globalAppSettings.SystemSettings.CDNLink/images/application/@ServerAppConfig.AppSettings.AppBranding.Identifier/@IconFileNames.Favicon') this.href = '@globalAppSettings.SystemSettings.CDNLink/images/application/@ServerAppConfig.AppSettings.AppBranding.Identifier/@IconFileNames.Favicon';" />
 
     @await Html.PartialAsync("~/Views/Shared/_LoaderIcon.cshtml")
@@ -141,21 +127,21 @@
     </style>
     @if (!ServerAppConfig.IsCustomThemeForMenu)
     {
-        <style>
+    <style>
             :root {
-                      --nav-menu-bg-color: var(--white); --nav-menu-text-color: var(--primary-black); --nav-menu-text-sec-color: var(--grey-700); --nav-menu-content-color: var(--grey-800); --nav-menu-active-color: var(--blue-lighter); --nav-menu-active-text-color: var(--blue); --nav-menu-active-sec-color: var(--blue); --nav-menu-active-content-color: var(--grey-800); --nav-menu-hover-color: var(--grey-300); --nav-menu-hover-text-color: var(--primary-black); --nav-menu-hover-text-sec-color: var(--grey-700); --nav-menu-hover-content-color: var(--grey-800); --nav-menu-create-icon-bgcolor: var(--blue); --nav-menu-separtor-icon-color: var(--grey-400); --item-menu-hover-bg-color: var(--white); --item-menu-hover-border-color: var(--blue); --item-menu-section-bg-color: var(--blue-lighten); --item-menu-bg-color: var(--nav-menu-bg-color); --item-menu-title-color: var(--nav-menu-text-color); --item-menu-descrip-color: var(--nav-menu-text-sec-color); --nav-menu-create-item-icon-border-normal-color: var(--create-item-icon-border-normal); --item-menu-hover-title-color: var(--nav-menu-hover-text-color); --item-menu-hover-descrip-color: var(--nav-menu-hover-text-sec-color); --nav-notification-menu-bg-color: var(--nav-menu-bg-color); --nav-notification-items-hover-bg-color: var(--nav-menu-hover-color); --nav-notification-heading-text-color: var(--nav-menu-text-color); --nav-notification-sub-heading-text-color: var(--nav-menu-text-sec-color); --nav-notification-content-text-color: var(--nav-menu-content-color); --nav-notification-time-text-color: var(--nav-menu-text-sec-color); --nav-notification-content-hover-text-color: var(--nav-menu-hover-content-color); --nav-notification-time-hover-text-color: var(--nav-menu-hover-text-sec-color);
-                  }
-        </style>
+                    @themeBaseColors
+            }
+    </style>
     }
     else
     {
-        <style>
+    <style>
             :root {
 
                     @ServerAppConfig.ThemeStyle
-                    --item-menu-bg-color: var(--nav-menu-bg-color); --nav-menu-create-item-icon-border-normal-color: var(--nav-menu-create-icon-bgcolor); --item-menu-section-bg-color: var(--nav-menu-bg-color); --item-menu-title-color: var(--nav-menu-text-color); --item-menu-descrip-color: var(--nav-menu-text-sec-color); --item-menu-hover-bg-color: var( --nav-menu-hover-color); --item-menu-hover-border-color: var( --nav-menu-hover-color); --item-menu-hover-title-color: var(--nav-menu-hover-text-color); --item-menu-hover-descrip-color: var(--nav-menu-hover-text-sec-color); --nav-notification-menu-bg-color: var(--nav-menu-bg-color); --nav-notification-items-hover-bg-color: var(--nav-menu-hover-color); --nav-notification-heading-text-color: var(--nav-menu-text-color); --nav-notification-sub-heading-text-color: var(--nav-menu-text-sec-color); --nav-notification-content-text-color: var(--nav-menu-content-color); --nav-notification-time-text-color: var(--nav-menu-text-sec-color); --nav-notification-content-hover-text-color: var(--nav-menu-hover-content-color); --nav-notification-time-hover-text-color: var(--nav-menu-hover-text-sec-color);
+                    --item-menu-bg-color: var(--nav-menu-bg-color); --nav-menu-create-item-icon-border-normal-color: var(--nav-menu-create-icon-bgcolor); --item-menu-section-bg-color: var(--nav-menu-bg-color); --item-menu-title-color: var(--nav-menu-text-color); --item-menu-descrip-color: var(--nav-menu-text-sec-color); --item-menu-hover-bg-color: var( --nav-menu-hover-color); --item-menu-hover-border-color: var( --nav-menu-hover-color); --item-menu-hover-title-color: var(--nav-menu-hover-text-color); --item-menu-hover-descrip-color: var(--nav-menu-hover-text-sec-color); --nav-notification-menu-bg-color: var(--nav-menu-bg-color); --nav-notification-items-hover-bg-color: var(--nav-menu-hover-color); --nav-notification-heading-text-color: var(--nav-menu-text-color); --nav-notification-sub-heading-text-color: var(--nav-menu-text-sec-color); --nav-notification-content-text-color: var(--nav-menu-content-color); --nav-notification-time-text-color: var(--nav-menu-text-sec-color); --nav-notification-content-hover-text-color: var(--nav-menu-hover-content-color); --nav-notification-time-hover-text-color: var(--nav-menu-hover-text-sec-color); --nav-menu-create-top-sec-title-text-color: var(--nav-menu-text-color);
                   }
-        </style>
+    </style>
     }
 
     <script>
@@ -188,10 +174,10 @@
         var custombrandName = "@ServerAppConfig.CustomBrandName";
         var timeZone = "@_clientDateTimeInfo.ClientDateTime.TimeZone";
         var granularPermissions = @Html.Raw(JsonConvert.SerializeObject(granularPermissions));
+        var confirmationMessage = "@T["Are you sure you want to close? The current progress will be lost if you continue."]";
     </script>
     <script type="text/javascript">
         window.addEventListener("beforeunload", function (e) {
-            var confirmationMessage = "[[[Are you sure you want to close? The current progress will be lost if you continue.]]]";
 
             if ($('#dashboardDesigner').data('BoldBIDashboardDesigner').hasReportChanges()) {
                 (e || window.event).returnValue = confirmationMessage;
@@ -213,17 +199,17 @@
                 </svg>
             </div>
         </div>
-        <div id="loader_text" align="center" style="font-family:@globalAppSettings.SystemSettings.FontPreference,Segoe UI,SegoeUI,Helvetica Neue,Helvetica,Arial,sans-serif;position:relative;top: 42%;font-size:21px;font-weight:400;">[[[Initializing Dashboard Designer]]]</div>
+        <div id="loader_text" align="center" style="font-family:@globalAppSettings.SystemSettings.FontPreference,Segoe UI,SegoeUI,Helvetica Neue,Helvetica,Arial,sans-serif;position:relative;top: 42%;font-size:21px;font-weight:400;">@T["Initializing Dashboard Designer"]</div>
     </div>
 
     <environment include="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/designer/dashboard-designer.css" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardDesignerResourceUrl/cdn/css/designer/dashboard-designer-component.css" />
         <script asp-append-version="true" src="@dashboardDesignerResourceUrl/cdn/scripts/designer/dashboard-designer-dependency.js"></script>
     </environment>
     <environment exclude="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.min.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeMinCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/designer/dashboard-designer.min.css" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardDesignerResourceUrl/cdn/css/designer/dashboard-designer-component.min.css" />
         <script asp-append-version="true" src="@dashboardDesignerResourceUrl/cdn/scripts/designer/dashboard-designer-dependency.min.js"></script>
@@ -247,10 +233,6 @@
             <link rel="stylesheet" asp-append-version="true" href="@ServerAppConfig.CustomFontUrl(globalAppSettings?.SystemSettings?.FontPreference, dashboardServerResourceUrl)" />
             <script asp-append-version="true" src="@dashboardDesignerResourceUrl/cdn/scripts/designer/dashboard-designer-component.min.js"></script>
         </environment>
-
-        <script>
-        $.getScript("@ServerAppConfig.InternalAppDataServiceUrl/scripts/shapefiles/worldmap_countries.js", function () { });
-        </script>
     }
     else
     {
@@ -261,9 +243,6 @@
         <environment exclude="Development,CloudDevelopment">
             <script asp-append-version="true" src="@dashboardDesignerResourceUrl/cdn/scripts/designer/dashboard-designer-component.min.js"></script>
         </environment>
-        <script>
-        $.getScript("@designerShapeFilesLink/worldmap_countries.js", function () { });
-        </script>
     }
 
     <environment include="Development,CloudDevelopment">
@@ -283,7 +262,7 @@
     @*<div id="designer-header" class="custom-bootstrap-styles">
             <div class="dashboard-name">
                 <span class="edit-dashboard">@ViewBag.dashboardName</span>
-                <span class="dashboard-status">[[[(Edited)]]]</span>
+                <span class="dashboard-status">@T["(Edited)"]</span>
                 <span class="dashboard-unsave" style="display:none">Unsaved Changes</span>
             </div>
         </div>*@
@@ -295,7 +274,7 @@
         <div class="message-content text-center"></div>
         <div class="message-box-btn-holder"></div>
     </div>
-    @if (showTour)
+    @if (showTour && ViewBag.isEmbed != "true")
     {
         <environment include="Development,CloudDevelopment">
             <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/dashboard-designer-tour.css" />
@@ -318,7 +297,7 @@
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/dashboard-feedback.min.css" />
     </environment>
 
-    @if (!ServerAppConfig.IsSelfHosted)
+    @if (!ServerAppConfig.IsSelfHosted && (ViewBag.isEmbed != null && ViewBag.isEmbed.ToString().ToLower() != "true"))
     {
         @await Html.PartialAsync("~/Views/Shared/_GeneralFeedback.cshtml")
         @await Html.PartialAsync("~/Views/Support/_ConciergeSupport.cshtml")
@@ -357,7 +336,7 @@
                 <span id="message-content"></span>
             </div>
             <div class="close-div">
-                <span id="close-content">[[[Close]]]</span>
+                <span id="close-content">@T["Close"]</span>
             </div>
         </div>
     </div>

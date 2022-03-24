@@ -9,40 +9,59 @@
     height: 0px;
     position: relative;
     width: 40px;
+    margin-bottom: 0px;
 }
 
 .material-switch > label::before {
-    background: rgb(0, 0, 0);
-    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     content: '';
     height: 16px;
-    margin-top: -8px;
-    margin-left: 15px;
-    position:absolute;
-    opacity: 0.3;
-    transition: all 0.4s ease-in-out;
-    width: 40px;
-}
-.material-switch > label::after {
-    background: rgb(255, 255, 255);
-    border-radius: 16px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-    content: '';
-    height: 24px;
-    left: -4px;
-    margin-top: -8px;
-    margin-left: 15px;
     position: absolute;
-    top: -4px;
-    transition: all 0.3s ease-in-out;
-    width: 24px;
+    margin-top: -12px;
+    transition: all .4s ease-in-out;
+    width: 28px;
 }
+
+.material-switch > label::after {
+    border-radius: 10px;
+    content: '';
+    height: 9px;
+    left: 4px;
+    position: absolute;
+    top: -8.5px;
+    transition: all .3s ease-in-out;
+    width: 9px;
+    border-radius: 50%;
+}
+
+.material-switch > label::before {
+    background: $material-switch-background-bg-normal-color;
+    border: 1px solid $material-switch-background-border-normal-color;
+}
+
+.material-switch > label:hover::before {
+    border: 1px solid $material-switch-background-border-hover-color;
+}
+
 .material-switch > input[type="checkbox"]:checked + label::before {
-    background: $primary-color;
-    opacity: 0.5;
+    background: $material-switch-background-bg-active-color;
+    border: 1px solid $material-switch-background-border-active-color;
 }
+
+.material-switch > input[type="checkbox"]:disabled + label::before {
+    background: $material-switch-background-bg-disable-color;
+    border: 1px solid $material-switch-background-border-disable-color;
+}
+
+.material-switch > label::after {
+    background: $material-switch-foreground-bg-normal-color;
+}
+
 .material-switch > input[type="checkbox"]:checked + label::after {
-    background: $primary-color;
-    left: 20px;
+    background: $material-switch-foreground-bg-active-color;
+    left: 15px;
+}
+
+.material-switch > input[type="checkbox"]:disabled + label::after {
+    background: $material-switch-foreground-bg-disable-color;
 }

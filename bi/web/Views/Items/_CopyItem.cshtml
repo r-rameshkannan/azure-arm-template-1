@@ -12,6 +12,7 @@
     var copyItemUrl = "@Url.Action("copyitem", "items")";
     var cloneItemUrl = "@Url.Action("cloneitem", "items")";
     var canCreateCategory = "@canCreateCategory";
+    var isUsageAnalytics = "@ViewBag.IsUsageAnalytics";
 
     function load() {
         if (($(parent.window).width()) > 1400) {
@@ -48,18 +49,13 @@
                         <span class="su su-clone Head-icon"></span>
                     }
                 }
-                @if (isDataSource)
-                {
-                    <span class="PopupTitle">@ViewBag.Action [[[Data Source]]]</span>
-                }
-                else
-                {
-                    <span class="PopupTitle">@ViewBag.Action [[[Dashboard]]]</span>
-                }
+
+                <span class="PopupTitle">@ViewBag.PopupTitle</span>
+
                 <div class="report-name padding10 no-left-padding no-top-padding ellipsis" title="@ViewBag.FullItemName">@ViewBag.FullItemName</div>
             </div>
             <div class="col-xs-1 no-padding">
-                <a href="javascript:void(0);" title="[[[Close]]]" class="PopupClose close-dialog"><span class="su su-close"></span></a>
+                <a href="javascript:void(0);" title="@T["Close"]" class="PopupClose close-dialog"><span class="su su-close"></span></a>
             </div>
         </div>
         @if (TempData["ErrorMessage"] == null)
@@ -67,7 +63,7 @@
             <form class="dialog-body col-xs-12 no-padding copy-move-category" id="item_action_form">
                 <div>
                     <div class="col-xs-12 padding20 no-bottom-padding" id="item-name-division">
-                        <div class="col-xs-3 no-padding text-right text-label">[[[Name]]]<span class="mandatory">*</span></div>
+                        <div class="col-xs-3 no-padding text-right text-label">@T["Name"]<span class="mandatory">*</span></div>
                         <div class="col-xs-1 no-padding"></div>
                         <div class="col-xs-8 no-padding">
                             <input type="text" id="item_name" name="itemName" maxlength="255" value="@ViewBag.FullItemName" class="form-control site-orgname-fields bottom-margin30 text" />
@@ -77,22 +73,22 @@
                     @if (!isDataSource)
                     {
                         <div class="col-xs-12 padding20 no-bottom-padding no-top-padding bottom-margin30" id="action-category-division">
-                            <div class="col-xs-3 no-padding text-right text-label">@ViewBag.Action [[[to Category]]]</div>
+                            <div class="col-xs-3 no-padding text-right text-label">@ViewBag.ActionCategory</div>
                             <div class="col-xs-1 no-padding"></div>
                             @if (canCreateCategory)
                             {
                                 <div class="col-xs-7 no-padding dropup">
-                                    <select id="CategoryList" class="selectpicker" data-live-search="true" data-size="3" title='[[[Select category]]]' style="width:230px;"></select>
+                                    <select id="CategoryList" class="selectpicker" data-live-search="true" data-size="3" title='@T["Select category"]' style="width:230px;"></select>
                                     <span class="category-validation-error text"></span>
                                 </div>
                                 <span class="col-xs-1 input-group-btn no-padding" id="add-new-category">
-                                    <button class="btn btn-default" style="padding:4px 10px;" type="button" title="[[[Add new Category]]]" data-toggle="tooltip"><span class="su-add" style="font-size:12px;"></span></button>
+                                    <button class="btn btn-default" style="padding:4px 10px;" type="button" title="@T["Add new Category"]" data-toggle="tooltip"><span class="su-add" style="font-size:12px;"></span></button>
                                 </span>
                             }
                             else
                             {
                                 <div class="col-xs-8 no-padding dropup">
-                                    <select id="CategoryList" class="selectpicker" data-live-search="true" data-size="3" title='[[[Select category]]]' style="width:230px;"></select>
+                                    <select id="CategoryList" class="selectpicker" data-live-search="true" data-size="3" title="@T["Select category"]" style="width:230px;"></select>
                                 </div>
                             }
                         </div>
@@ -112,14 +108,14 @@
                     @{
                         if (ViewBag.Action == "Copy")
                         {
-                            <input type="button" title="" id="CopyButton" class="app-button app-primary-button app-btn-primary" value="[[[Copy]]]" />
+                            <input type="button" title="" id="CopyButton" class="app-button app-primary-button app-btn-primary" value="@T["Copy"]" />
                         }
                         else if (ViewBag.Action == "Clone")
                         {
-                            <input type="button" id="CloneButton" title="" class="app-button app-primary-button app-btn-primary" value="[[[Clone]]]" />
+                            <input type="button" id="CloneButton" title="" class="app-button app-primary-button app-btn-primary" value="@T["Clone"]" />
                         }
                     }
-                    <input type="button" id="CancelButton" title="" class="app-button app-secondary-button app-btn-secondary PopupClose" value="[[[Cancel]]]" />
+                    <input type="button" id="CancelButton" title="" class="app-button app-secondary-button app-btn-secondary PopupClose" value="@T["Cancel"]" />
                 </div>
             </div>
         }
@@ -132,7 +128,7 @@
                 </div>
                 <div class="col-xs-12 dialog-footer no-right-padding no-left-padding dialog-footer-position" id="action-button-division">
                     <div class="col-xs-12 no-padding text-center">
-                        <input type="button" id="CancelButton" title="" class="app-button app-secondary-button app-btn-secondary" value="[[[OK]]]" />
+                        <input type="button" id="CancelButton" title="" class="app-button app-secondary-button app-btn-secondary" value="@T["OK"]" />
                     </div>
                 </div>
             </div>

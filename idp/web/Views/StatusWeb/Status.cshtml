@@ -7,7 +7,7 @@
     Layout = null;
     var headerLogo = (ViewBag.LoginLogo != null) ? ViewBag.LoginLogo : CloudAppConfig.FallbackLoginLogoUrl;
     var apprunning = Model.TrueForAll(s => s.IsRunning);
-    var tenantmanagementurl = CloudAppConfig.IdPUrl.TrimEnd('/') + "/ums/startup";
+    var tenantmanagementurl = GlobalAppSettings.SystemSettings.InternalAppUrls.Idp.TrimEnd('/') + "/ums/startup";
     var querystringerror = @Context.Request.Query["error"];
 }
 @await Html.PartialAsync("../Shared/_FontReference")

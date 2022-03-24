@@ -8,9 +8,11 @@
     var hasDashboards = (itemsCount != null && itemsCount.ContainsKey(ItemType.Dashboard) && (itemsCount[ItemType.Dashboard] > 0));
     var globalAppSettings = _globalAppSettings;
     var dashboardServerResourceUrl = globalAppSettings.SystemSettings.CDNLink.TrimEnd('/');
+    var url = new Uri(Context.Request.GetDisplayUrl());
+    var requestUrl = url.AbsolutePath.ToString().ToLower();
 }
 <environment include="Development,CloudDevelopment">
-<link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/default-pages.css" />
+    <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/default-pages.css" />
 </environment>
 <environment exclude="Development,CloudDevelopment">
     <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/default-pages.min.css" />
@@ -22,23 +24,23 @@
 <div class="col-xs-12 defafult-pages-container no-padding">
     <div class="default-pages">
         <img class="default-pages-dashboard-image" src="@(GlobalAppSettings.CdnDomain)/static/default-pages/v1/@fileName">
-        <h1 class="default-pages-header">@(itemType == ItemType.Dashboard ? "[[[Dashboards]]]" : itemType == ItemType.Schedule ? "[[[Schedules]]]" : itemType == ItemType.Datasource ? "[[[Data Sources]]]" : "[[[Slideshow]]]")</h1>
+        <h1 class="default-pages-header">@(itemType == ItemType.Dashboard ? @T["Dashboards"] : itemType == ItemType.Schedule ? @T["Schedules"] : itemType == ItemType.Datasource ? @T["Data Sources"] : @T["Slideshow"])</h1>
 
         @if (itemType == ItemType.Dashboard)
         {
-            <p class="default-pages-message">@string.Concat("[[[Welcome, ]]]", displayName, "[[[! Bring your data, choose your KPIs and go live with your dashboard in minutes.]]]")</p>
+            <p class="default-pages-message">@string.Format(T["Welcome, {0}! Bring your data, choose your KPIs and go live with your dashboard in minutes."].Value, displayName)</p>
             if (!isMobile && model != null && model.ContainsKey(ItemType.Dashboard) && model[ItemType.Dashboard])
             {
-                <button class="sf-primary-button" data-action="create-items">[[[Create my first Dashboard]]]</button>
+                <button class="sf-primary-button app-btn-primary" data-action="create-items">@T["Create my first Dashboard"]</button>
                 <div class="dashboard-notification">
                     <img class="stacked-column" src="@(GlobalAppSettings.CdnDomain)/static/default-pages/v1/dashboard-notification.svg">
                     <div class="dashboard-main">
-                        <h2 class="default-pages-header">[[[Dashboard Samples]]]</h2>
+                        <h2 class="default-pages-header">@T["Dashboard Samples"]</h2>
                         <span class="notification-close su-close"></span>
-                        <p class="message">[[[Explore our features and see what the application is capable of achieving with our 50+ sample dashboards.]]]</p>
+                        <p class="message">@T["Explore our features and see what the application is capable of achieving with our 50+ sample dashboards."]</p>
                         <div class="explore">
                             <a class="sf-nav-link">
-                                [[[Explore]]]
+                                @T["Explore"]
                                 <span class="arrow su-arrow-right"></span>
                             </a>
                         </div>
@@ -48,35 +50,29 @@
         }
         else if (itemType == ItemType.Datasource)
         {
-            <p class="default-pages-message">[[[Start building your dashboard by adding your first data source.]]]</p>
+            <p class="default-pages-message">@T["Start building your dashboard by adding your first data source."]</p>
             if (!isMobile && model != null && model.ContainsKey(ItemType.Datasource) && model[ItemType.Datasource])
             {
-                <button id="create-datasource-connection" class="sf-primary-button">[[[Create my first Data Source]]]</button>
+                <button id="create-datasource-connection" class="sf-primary-button app-btn-primary">@T["Create my first Data Source"]</button>
             }
         }
         else if (itemType == ItemType.Schedule)
         {
-            if (hasDashboards)
-            {
-                <p class="default-pages-message">[[[Schedule your dashboards to export them and send them through email.]]]</p>
-            }
-            else
-            {
-                <p class="default-pages-message">[[[Schedule your dashboards to export them and send them through email. Start building your dashboards to schedule them.]]]</p>
-            }
-
+            <p class="default-pages-message">
+                @string.Concat(T["Schedule your dashboards to export them and send them through email."].Value, !hasDashboards ? string.Concat(" ", T["Start building your dashboards to schedule them."].Value) : string.Empty)
+            </p>
             if (!isMobile)
             {
                 if (hasDashboards)
                 {
                     if (model != null && model.ContainsKey(ItemType.Schedule) && model[ItemType.Schedule])
                     {
-                        <button class="sf-primary-button create-schedule">[[[Create Schedule]]]</button>
+                        <button class="sf-primary-button create-schedule app-btn-primary">@T["Create Schedule"]</button>
                     }
                 }
                 else if (model != null && model.ContainsKey(ItemType.Dashboard) && model[ItemType.Dashboard])
                 {
-                    <button class="sf-primary-button" data-action="create-items">[[[Create Dashboard]]]</button>
+                    <button class="sf-primary-button app-btn-primary" data-action="create-items">@T["Create Dashboard"]</button>
                 }
             }
         }
@@ -84,25 +80,24 @@
         {
             if (hasDashboards)
             {
-                <p class="default-pages-message">[[[Present dashboards in TV mode and embed them in slides.]]]</p>
+                <p class="default-pages-message">@T["Present dashboards in TV mode and embed them in slides."]</p>
             }
             else
             {
-                <p class="default-pages-message">[[[Present dashboards in TV mode and by embedding them in slides. Start building your dashboards to create slideshows using them.]]]</p>
+                <p class="default-pages-message">@T["Present dashboards in TV mode and by embedding them in slides. Start building your dashboards to create slideshows using them."]</p>
             }
-
             if (!isMobile)
             {
                 if (hasDashboards)
                 {
                     if (model != null && model.ContainsKey(ItemType.Slideshow) && model[ItemType.Slideshow])
                     {
-                        <button class="sf-primary-button create-presentation">[[[Create Slideshow]]]</button>
+                        <button class="sf-primary-button create-presentation app-btn-primary">@T["Create Slideshow"]</button>
                     }
                 }
                 else if (model != null && model.ContainsKey(ItemType.Dashboard) && model[ItemType.Dashboard])
                 {
-                    <button class="sf-primary-button" data-action="create-items">[[[Create Dashboard]]]</button>
+                    <button class="sf-primary-button app-btn-primary" data-action="create-items">@T["Create Dashboard"]</button>
                 }
             }
         }

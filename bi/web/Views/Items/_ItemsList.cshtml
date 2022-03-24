@@ -57,19 +57,19 @@
 </script>
 
 <script type="text/x-jsrender" id="itemNameHeader">
-    <div class="item-name">[[[Name]]]</div>
+    <div class="item-name">@T["Name"]</div>
 </script>
 <script type="text/x-jsrender" id="descriptionHeader">
-    <div class="item-header">[[[Description]]]</div>
+    <div class="item-header">@T["Description"]</div>
 </script>
 <script type="text/x-jsrender" id="categoryHeader">
-    <div class="item-header">[[[Category]]]</div>
+    <div class="item-header">@T["Category"]</div>
 </script>
 <script type="text/x-jsrender" id="ownerHeader">
-    <div class="item-header">[[[Owner]]]</div>
+    <div class="item-header">@T["Owner"]</div>
 </script>
 <script type="text/x-jsrender" id="lastModifiedHeader">
-    <div class="item-header">[[[Last Modified]]]</div>
+    <div class="item-header">@T["Last Modified"]</div>
 </script>
 <script type="text/x-jsrender" id="Description">
     <div class="item-description" title="{{:~renderDoubleQuotes(Description)}}" data-toggle="tooltip" data-placement="top">
@@ -100,10 +100,10 @@
 <script type="text/x-jsrender" id="favoriteItem">
     {{if ItemType=="@((int)ItemType.Dashboard)"}}
     {{if IsFavorite== true}}
-    <div class="su su-favorite favorite favoriteItem" title="{{:Favorite}}" data-toggle="tooltip" data-placement="top" data-itemid="{{:Id}}" data-value="False" data-original-title="[[[Remove from favorites]]]">
+    <div class="su su-favorite favorite favoriteItem" title="{{:Favorite}}" data-toggle="tooltip" data-placement="top" data-itemid="{{:Id}}" data-value="False" data-original-title="@T["Remove from favorites"]">
     </div>
     {{else}}
-    <div class="su su-dis-favorite favoriteItem" title="{{:Favorite}}" data-toggle="tooltip" data-placement="top" data-itemid="{{:Id}}" data-value="True" data-original-title="[[[Mark as favorite]]]">
+    <div class="su su-dis-favorite favoriteItem" title="{{:Favorite}}" data-toggle="tooltip" data-placement="top" data-itemid="{{:Id}}" data-value="True" data-original-title="@T["Mark as favorite"]">
     </div>
     {{/if}}
     {{/if}}
@@ -113,17 +113,17 @@
 <script type="text/x-jsrender" id="itemName">
     {{if ItemType == "@((int)ItemType.Dashboard)"}}
     {{if !IsChildDashboard}}
-    <a class="item-link col-lg-12 col-md-12 col-sm-12 col-xs-12 disabled" href="{{if IsDraft}} {{:~draftDesignerEditUrlEncode(Name, Id)}} {{else}} {{:~urlWithSection(CategoryName, Name, Id)}} {{/if}}" data-culture="/@culture" role="tab" data-toggle="tooltip" data-placement="@(!isMobile ? "right" : "auto top")" data-name="{{:Name}}" data-itemid="{{:Id}}" data-category-name="{{:CategoryName}}" data-isdraft="{{:IsDraft}}" data-html="true" data-container="body" title="[[[Name]]] : {{:Name}} <br> {{if Description}} [[[Description]]]: {{:~renderDoubleQuotes(Description)}} <br> {{/if}} {{if CategoryName}} [[[Category]]] : {{:CategoryName}} <br> {{/if}} [[[Added Date]]] : {{:CreatedDate}}">
+    <a class="item-link col-lg-12 col-md-12 col-sm-12 col-xs-12 disabled" href="{{if IsDraft}} {{:~draftDesignerEditUrlEncode(Name, Id)}} {{else}} {{:~urlWithSection(CategoryName, Name, Id)}} {{/if}}" data-culture="/@culture" role="tab" data-toggle="tooltip" data-placement="@(!isMobile ? "right" : "auto top")" data-name="{{:Name}}" data-itemid="{{:Id}}" data-category-name="{{:CategoryName}}" data-isdraft="{{:IsDraft}}" data-html="true" data-container="body" title="@T["Name"] : {{:Name}} <br> {{if Description}} @T["Description"]: {{:~renderDoubleQuotes(Description)}} <br> {{/if}} {{if CategoryName}} @T["Category"] : {{:CategoryName}} <br> {{/if}} @T["Added Date"] : {{:CreatedDate}}">
         <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 name-and-options" data-href="{{:~urlWithoutSection(CategoryName, Name, Id)}}">
             {{if ItemType=="@((int)ItemType.Dashboard)"}}
             {{if IsDraft}}
             <span class="col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding"></span>
             {{else}}
             {{if IsFavorite== true}}
-            <span class="su su-favorite favorite favorite-item col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" data-itemid="{{:Id}}" data-value="False" data-original-title="[[[Remove from favorites]]]">
+            <span class="su su-favorite favorite favorite-item col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" data-itemid="{{:Id}}" data-value="False" data-original-title="@T["Remove from favorites"]">
             </span>
             {{else}}
-            <span class="su su-dis-favorite favorite-item col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" data-itemid="{{:Id}}" data-value="True" data-original-title="[[[Mark as favorite]]]">
+            <span class="su su-dis-favorite favorite-item col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" data-itemid="{{:Id}}" data-value="True" data-original-title="@T["Mark as favorite"]">
             </span>
             {{/if}}
             {{/if}}
@@ -132,10 +132,10 @@
             <span class="item-name col-lg-9 col-md-9 col-sm-9 col-xs-9 no-padding" data-href="{{:~urlWithoutSection(CategoryName, Name, Id)}}" data-container="body">{{:Name}}</span>
             {{else}}
             <span class="item-name col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding" data-href="{{:~urlWithoutSection(CategoryName, Name, Id)}}" data-container="body">{{:Name}}</span>
-            <span class="su-multi-tabbed multi-dashboard-icon col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" data-toggle="tooltip" data-container="body" data-placement="bottom" title="[[[Contains multiple dashboards]]]"></span>
+            <span class="su-multi-tabbed multi-dashboard-icon col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" data-toggle="tooltip" data-container="body" data-placement="bottom" title="@T["Contains multiple dashboards"]"></span>
             {{/if}}
             {{if !IsDraft}}
-            <i class="su su-open-link-newtab col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" id="open-dashboard" data-isdraft="{{:IsDraft}}" data-href="{{:~urlWithoutSection(CategoryName, Name, Id)}}" data-toggle="tooltip" data-container="body" data-placement="bottom" title="[[[Open Dashboard in new tab]]]"></i>
+            <i class="su su-open-link-newtab col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" id="open-dashboard" data-isdraft="{{:IsDraft}}" data-href="{{:~urlWithoutSection(CategoryName, Name, Id)}}" data-toggle="tooltip" data-container="body" data-placement="bottom" title="@T["Open Dashboard in new tab"]"></i>
             {{/if}}
             {{if IsDraft}}
             {{if CreatedById==@(userId) || @(Convert.ToBoolean(Context.Session.GetString("IsAdmin")).ToString().ToLower()) == true}}
@@ -146,13 +146,13 @@
                     <li>
                         <span class="web-designer option-click" title="" href="{{:~draftDesignerEditUrlEncode(Name, Id)}}" data-itemid="{{:Id}}" data-name="{{:Name}}" data-category-name="draft">
                             <i class="su su-edit"></i>
-                            <span>[[[Edit]]]</span>
+                            <span>@T["Edit"]</span>
                         </span>
                     </li>
                     <li>
                         <span title="" class="item-delete option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}">
                             <i class="su su-delete"></i>
-                            <span>[[[Delete]]]</span>
+                            <span>@T["Delete"]</span>
                         </span>
                     </li>
                 </ul>
@@ -169,12 +169,12 @@
                         {{if ItemType=="@((int)ItemType.Dashboard)"}}
                         <span class="open-item option-click" href="{{:~urlWithoutSection(CategoryName, Name, Id)}}" title="" target="_blank">
                             <i class="su su-open"><i class="su su-open path1"></i></i>
-                            <span>[[[Open]]]</span>
+                            <span>@T["Open"]</span>
                         </span>
                         {{else ItemType=="@((int)ItemType.Widget)" }}
                         <span class="open-item option-click" href="{{:~widgetUrlEncode(Name, Id)}}" title="" target="_blank">
                             <i class="su su-open"><i class="su su-open path1"></i></i>
-                            <span>[[[Open]]]</span>
+                            <span>@T["Open"]</span>
                         </span>
                         {{/if}}
                     </li>
@@ -186,7 +186,7 @@
                     <li>
                         <span class="web-designer option-click" title="" href="{{:~designerEditUrlEncode(CategoryName,Name, Id)}}" data-itemid="{{:Id}}" data-name="{{:Name}}" data-category-name="{{:CategoryName}}">
                             <i class="su su-edit"></i>
-                            <span>[[[Edit]]]</span>
+                            <span>@T["Edit"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -198,12 +198,12 @@
                         {{if ItemType == "@((int)ItemType.Dashboard)"}}
                         <span title="" class="make-public option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}" data-url="{{:~urlWithoutSection(CategoryName, Name, Id)}}">
                             <i class="su su-public"></i>
-                            <span>[[[Make Public]]]</span>
+                            <span>@T["Make Public"]</span>
                         </span>
                         {{else ItemType == "@((int)ItemType.Widget)"}}
                         <span title="" class="make-public option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}" data-url="{{:~widgetUrlEncode(Name, Id)}}">
                             <i class="su su-public"></i>
-                            <span>[[[Make Public]]]</span>
+                            <span>@T["Make Public"]</span>
                         </span>
                         {{/if}}
 
@@ -212,12 +212,12 @@
                         {{if ItemType=="@((int)ItemType.Dashboard)"}}
                         <span title="" class="remove-public option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}" data-url="{{:~urlWithoutSection(CategoryName, Name, Id)}}">
                             <i class="su su-remove-public"><span class="su-remove-public path1"></span><span class="su-remove-public path2"></span><span class="su-remove-public path3"></span></i>
-                            <span>[[[Make Private]]]</span>
+                            <span>@T["Make Private"]</span>
                         </span>
                         {{else ItemType == "@((int)ItemType.Widget)"}}
                         <span title="" class="remove-public option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}" data-url="{{:~widgetUrlEncode(Name, Id)}}">
                             <i class="su su-remove-public"><span class="su-remove-public path1"></span><span class="su-remove-public path2"></span><span class="su-remove-public path3"></span></i>
-                            <span>[[[Make Private]]]</span>
+                            <span>@T["Make Private"]</span>
                         </span>
                         {{/if}}
 
@@ -230,12 +230,12 @@
                         {{if ItemType == "@((int)ItemType.Dashboard)"}}
                         <span title="" ispublic="{{:IsPublic}}" class="get-link option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-item-type="@(gridName)" data-name="{{:Name}}" data-url="{{:~urlWithoutSection(CategoryName, Name, Id)}}">
                             <i class="su su-link"></i>
-                            <span>[[[Get Link]]]</span>
+                            <span>@T["Get Link"]</span>
                         </span>
                         {{else ItemType == "@((int)ItemType.Widget)"}}
                         <span title="" ispublic="{{:IsPublic}}" class="get-link option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-item-type="@(gridName)" data-name="{{:Name}}" data-url="{{:~widgetUrlEncode(Name, Id)}}">
                             <i class="su su-link"></i>
-                            <span>[[[Get Link]]]</span>
+                            <span>@T["Get Link"]</span>
                         </span>
                         {{/if}}
                     </li>
@@ -246,12 +246,12 @@
             {{if ItemType == "@((int)ItemType.Dashboard)"}}
             <span title="" ispublic="{{:IsPublic}}" class="embed-code option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-item-type="@(gridName)" data-name="{{:Name}}" data-url="{{:~urlWithoutSection(CategoryName, Name)}}">
                 <i class="su su-embed2"></i>
-                <span>[[[Get Embed code]]]</span>
+                <span>@T["Get Embed code"]</span>
             </span>
             {{else ItemType == "@((int)ItemType.Widget)"}}
             <span title="" ispublic="{{:IsPublic}}" class="embed-code option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-item-type="@(gridName)" data-name="{{:Name}}" data-url="{{:~widgetUrlEncode(Name, Id)}}">
                 <i class="su su-embed2"></i>
-                <span>[[[Get Embed code]]]</span>
+                <span>@T["Get Embed code"]</span>
             </span>
             {{/if}}
         </li>
@@ -262,17 +262,17 @@
             {{if ItemType == "@((int)ItemType.Report)"}}
             <span class="option-click" href="@UrlHelper.GenerateUrl("ItemDownload", "Download", "FileRender", null, RouteTable.Routes, HttpContext.Current.Request.RequestContext, false)/{{:ItemTypeString}}/{{:Name}}" title="">
                 <i class="su su-download"></i>
-                <span>[[[Download Report]]]</span>
+                <span>@T["Download Report"]</span>
             </span>
             {{else ItemType == "@((int)ItemType.Dashboard)"}}
             <span class="download-item option-click" href="@UrlHelper.GenerateUrl("DashboardDownload", "Download", "FileRender", null, RouteTable.Routes, HttpContext.Current.Request.RequestContext, false)/{{:CategoryName}}/{{:Name}}" title="">
                 <i class="su su-download"></i>
-                <span>[[[Download Dashboard]]]</span>
+                <span>@T["Download Dashboard"]</span>
             </span>
             {{else}}
             <span class="download-item option-click" href="@UrlHelper.GenerateUrl("ItemDownload", "Download", "FileRender", null, RouteTable.Routes, HttpContext.Current.Request.RequestContext, false)/{{:ItemTypeString}}/{{:Name}}" title="">
                 <i class="su su-download"></i>
-                <span>[[[Download]]]</span>
+                <span>@T["Download"]</span>
             </span>
             {{/if}}
         </li>
@@ -283,12 +283,12 @@
                     <li class="dropdown dashboard-views" data-load="true">
                         <span href="javascript:void(0);" class="dropdown-toggle views" data-item-id="{{:Id}}" data-toggle="dropdown">
                             <i class="su su-filter"></i>
-                            <span>[[[Views]]]</span>
+                            <span>@T["Views"]</span>
                         </span>
                         <ul class="dropdown-menu item-views" role="menu">
                             <li>
                                 <span class="view-name" href="javascript:void(0);">
-                                    [[[Loading...]]]
+                                    @T["Loading..."]
                                 </span>
                             </li>
                         </ul>
@@ -296,7 +296,7 @@
                     <li>
                         <span class="view-schedule option-click" href="@Url.Action("Schedules", "Scheduler")?dashboard={{:Name}}">
                             <i class="su su-nav-schedule"></i>
-                            <span>[[[View Schedules]]]</span>
+                            <span>@T["View Schedules"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -309,7 +309,7 @@
                     <li>
                         <span title="" class="moveItem option-click" data-itemid="{{:Id}}" data-action="Move">
                             <i class="su su-move"></i>
-                            <span>[[[Move]]]</span>
+                            <span>@T["Move"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -317,7 +317,7 @@
                     <li>
                         <span title="" class="copyItem option-click" data-itemid="{{:Id}}" data-action="Copy">
                             <i class="su su-copy"></i>
-                            <span>[[[Copy]]]</span>
+                            <span>@T["Copy"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -325,7 +325,7 @@
                     <li>
                         <span title="" class="copyItem option-click" data-itemid="{{:Id}}" data-action="Clone">
                             <i class="su su-clone"></i>
-                            <span>[[[Clone]]]</span>
+                            <span>@T["Clone"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -342,7 +342,7 @@
                     <li>
                         <span href="javascript:void(0);" class="schedule-dashboards option-click" title="" data-category-name="{{:CategoryName}}" data-itemname="{{:Name}}" data-item-id="{{:Id}}" data-category-id="{{:CategoryId}}">
                             <i class="su su-nav-schedule"></i>
-                            <span>[[[Create Schedule]]]</span>
+                            <span>@T["Create Schedule"]</span>
                         </span>
                     </li>
 
@@ -353,7 +353,7 @@
                     <li>
                         <span class="item-permissions option-click" title="" data-itemname="{{:Name}}" data-item-id="{{:Id}}">
                             <i class="su su-manage-permission"></i>
-                            <span>[[[Sharing Permissions]]]</span>
+                            <span>@T["Sharing Permissions"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -364,7 +364,7 @@
                     <li>
                         <span class="version-button option-click" title="" data-itemname="{{:Name}}" data-item-id="{{:Id}}">
                             <i class="su su-versions"></i>
-                            <span>[[[Version History]]]</span>
+                            <span>@T["Version History"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -380,7 +380,7 @@
                     <li>
                         <span title="" class="item-edit option-click" data-item-id="{{:Id}}">
                             <i class="su su-edit"></i>
-                            <span>[[[Update]]]</span>
+                            <span>@T["Update"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -392,7 +392,7 @@
                     <li>
                         <span href="javascript:void(0);" title="" class="update-datasource option-click" data-item-id="{{:Id}}">
                             <i class="su su-nav-datasource"></i>
-                            <span>[[[Update Data Source(s)]]]</span>
+                            <span>@T["Update Data Source(s)"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -403,7 +403,7 @@
                     <li>
                         <span title="" class="item-delete option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}">
                             <i class="su su-delete"></i>
-                            <span>[[[Delete]]]</span>
+                            <span>@T["Delete"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -419,14 +419,14 @@
         </span>
     </a>
     {{else}}
-    <a class="item-link col-lg-12 col-md-12 col-sm-12 col-xs-12 disabled" href="{{:~childUrlWithSection(ParentCategoryName, CategoryName, Name, CategoryId)}}" data-culture="/@culture" data-toggle="tooltip" data-placement="@(!isMobile ? "right" : "auto top")" data-name="{{:Name}}" data-itemid="{{:Id}}" data-category-name="{{:ParentCategoryName}}" data-isdraft="{{:IsDraft}}" data-html="true" data-container="body" title="[[[Name]]] : {{:Name}} <br> {{if Description}} [[[Description]]]: {{:~renderDoubleQuotes(Description)}} <br> {{/if}} [[[Category]]] : {{:ParentCategoryName}} <br> [[[Added Date]]] : {{:CreatedDate}}">
+    <a class="item-link col-lg-12 col-md-12 col-sm-12 col-xs-12 disabled" href="{{:~childUrlWithSection(ParentCategoryName, CategoryName, Name, CategoryId)}}" data-culture="/@culture" data-toggle="tooltip" data-placement="@(!isMobile ? "right" : "auto top")" data-name="{{:Name}}" data-itemid="{{:Id}}" data-category-name="{{:ParentCategoryName}}" data-isdraft="{{:IsDraft}}" data-html="true" data-container="body" title="@T["Name"] : {{:Name}} <br> {{if Description}} @T["Description"]: {{:~renderDoubleQuotes(Description)}} <br> {{/if}} @T["Category"] : {{:ParentCategoryName}} <br> @T["Added Date"] : {{:CreatedDate}}">
         <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 name-and-options" data-href="{{:~childUrlWithoutSection(ParentCategoryName, CategoryName, Name, CategoryId)}}">
             {{if ItemType=="@((int)ItemType.Dashboard)"}}
             {{if IsFavorite== true}}
-            <span class="su su-favorite favorite favorite-item col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" data-itemid="{{:Id}}" data-value="False" data-original-title="[[[Remove from favorites]]]">
+            <span class="su su-favorite favorite favorite-item col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" data-itemid="{{:Id}}" data-value="False" data-original-title="@T["Remove from favorites"]">
             </span>
             {{else}}
-            <span class="su su-dis-favorite favorite-item col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" data-itemid="{{:Id}}" data-value="True" data-original-title="[[[Mark as favorite]]]">
+            <span class="su su-dis-favorite favorite-item col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" data-itemid="{{:Id}}" data-value="True" data-original-title="@T["Mark as favorite"]">
             </span>
             {{/if}}
             {{/if}}
@@ -436,7 +436,7 @@
             <span class="item-name col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding" data-href="{{:~childUrlWithoutSection(ParentCategoryName, CategoryName, Name, CategoryId)}}" data-container="body">{{:Name}}</span>
             <span class="su-calendar-1 multi-dashboard-icon col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding"></span>
             {{/if}}
-            <i class="su su-open-link-newtab col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" id="open-dashboard" data-href="{{:~childUrlWithoutSection(ParentCategoryName, CategoryName, Name, CategoryId)}}" data-toggle="tooltip" data-container="body" data-isdraft="{{:IsDraft}}" data-placement="bottom" title="[[[Open Dashboard in new tab]]]"></i>
+            <i class="su su-open-link-newtab col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" id="open-dashboard" data-href="{{:~childUrlWithoutSection(ParentCategoryName, CategoryName, Name, CategoryId)}}" data-toggle="tooltip" data-container="body" data-isdraft="{{:IsDraft}}" data-placement="bottom" title="@T["Open Dashboard in new tab"]"></i>
             <span class="dropdown col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding options" id="context-menu">
                 <span class="dropdown-toggle su su-options-menu options-area" data-toggle="dropdown">
                 </span>
@@ -447,12 +447,12 @@
                         {{if ItemType=="@((int)ItemType.Dashboard)"}}
                         <span class="open-item option-click" href="{{:~childUrlWithoutSection(ParentCategoryName, CategoryName, Name, CategoryId)}}" title="" target="_blank">
                             <i class="su su-open"><i class="su su-open path1"></i></i>
-                            <span>[[[Open]]]</span>
+                            <span>@T["Open"]</span>
                         </span>
                         {{else ItemType=="@((int)ItemType.Widget)" }}
                         <span class="open-item option-click" href="{{:~widgetUrlEncode(Name, Id)}}" title="" target="_blank">
                             <i class="su su-open"><i class="su su-open path1"></i></i>
-                            <span>[[[Open]]]</span>
+                            <span>@T["Open"]</span>
                         </span>
                         {{/if}}
                     </li>
@@ -464,12 +464,12 @@
                         {{if ItemType == "@((int)ItemType.Dashboard)"}}
                         <span title="" ispublic="{{:IsPublic}}" class="get-link option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-item-type="@(gridName)" data-name="{{:Name}}" data-url="{{:~childUrlWithoutSection(ParentCategoryName, CategoryName, Name, CategoryId)}}">
                             <i class="su su-link"></i>
-                            <span>[[[Get Link]]]</span>
+                            <span>@T["Get Link"]</span>
                         </span>
                         {{else ItemType == "@((int)ItemType.Widget)"}}
                         <span title="" ispublic="{{:IsPublic}}" class="get-link option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-item-type="@(gridName)" data-name="{{:Name}}" data-url="{{:~widgetUrlEncode(Name, Id)}}">
                             <i class="su su-link"></i>
-                            <span>[[[Get Link]]]</span>
+                            <span>@T["Get Link"]</span>
                         </span>
                         {{/if}}
                     </li>
@@ -480,12 +480,12 @@
                             {{if ItemType == "@((int)ItemType.Dashboard)"}}
                             <span title="" ispublic="{{:IsPublic}}" class="embed-code option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-item-type="@(gridName)" data-name="{{:Name}}" data-url="{{:~urlWithoutSection(CategoryName, Name, Id)}}">
                                 <i class="su su-embed2"></i>
-                                <span>[[[Get Embed code]]]</span>
+                                <span>@T["Get Embed code"]</span>
                             </span>
                             {{else ItemType == "@((int)ItemType.Widget)"}}
                             <span title="" ispublic="{{:IsPublic}}" class="embed-code option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-item-type="@(gridName)" data-name="{{:Name}}" data-url="{{:~widgetUrlEncode(Name, Id)}}">
                                 <i class="su su-embed2"></i>
-                                <span>[[[Get Embed code]]]</span>
+                                <span>@T["Get Embed code"]</span>
                             </span>
                             {{/if}}
                         </li>
@@ -497,12 +497,12 @@
                     <li class="dropdown dashboard-views" data-load="true">
                         <span href="javascript:void(0);" class="dropdown-toggle views" data-is-childdashboard="{{:IsChildDashboard}}" data-child-dashboard-name="{{:Name}}" data-parent-category-name="{{:ParentCategoryName}}" data-parent-itemname="{{:CategoryName}}" data-item-id="{{:Id}}" data-parent-item-id="{{:CategoryId}}" data-toggle="dropdown">
                             <i class="su su-filter"></i>
-                            <span>[[[Views]]]</span>
+                            <span>@T["Views"]</span>
                         </span>
                         <ul class="dropdown-menu item-views" role="menu">
                             <li>
                                 <span class="view-name" href="javascript:void(0);">
-                                    [[[Loading...]]]
+                                    @T["Loading..."]
                                 </span>
                             </li>
                         </ul>
@@ -516,7 +516,7 @@
                     <li>
                         <span href="javascript:void(0);" class="schedule-dashboards option-click" title="" data-category-name="{{:ParentCategoryName}}" data-itemname="{{:Name}}" data-item-id="{{:Id}}" data-multidashboard-name="{{:CategoryName}}">
                             <i class="su su-nav-schedule"></i>
-                            <span>[[[Create Schedule]]]</span>
+                            <span>@T["Create Schedule"]</span>
                         </span>
                     </li>
 
@@ -533,10 +533,10 @@
     </a>
     {{/if}}
     {{else ItemType == "@((int)ItemType.Widget)"}}
-    <a class="item-link widgets col-lg-12 col-md-12 col-sm-12 col-xs-12" href="{{:~widgetUrlEncode(Name, Id)}}" data-toggle="tooltip" data-placement="@(!isMobile ? "right" : "auto top")" data-isdraft="{{:IsDraft}}" data-html="true" data-container="body" title="[[[Name]]] : {{:Name}} <br> {{if Description}} [[[Description]]] : {{:~renderDoubleQuotes(Description)}} <br> {{/if}} [[[Added Date]]] : {{:CreatedDate}}">
+    <a class="item-link widgets col-lg-12 col-md-12 col-sm-12 col-xs-12" href="{{:~widgetUrlEncode(Name, Id)}}" data-toggle="tooltip" data-placement="@(!isMobile ? "right" : "auto top")" data-isdraft="{{:IsDraft}}" data-html="true" data-container="body" title="@T["Name"] : {{:Name}} <br> {{if Description}} @T["Description"] : {{:~renderDoubleQuotes(Description)}} <br> {{/if}} @T["Added Date"] : {{:CreatedDate}}">
         <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 name-and-options" data-href="{{:~widgetUrlEncode(Name, Id)}}">
             <span class="item-name col-lg-10 col-md-10 col-sm-10 col-xs-10 no-padding" data-href="{{:~widgetUrlEncode(Name, Id)}}">{{:Name}}</span>
-            <i class="su su-open-link-newtab col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" id="open-widget" data-href="{{:~widgetUrlEncode(Name, Id)}}" data-isdraft="{{:IsDraft}}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="[[[Open Widget in new tab]]]"></i>
+            <i class="su su-open-link-newtab col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding" id="open-widget" data-href="{{:~widgetUrlEncode(Name, Id)}}" data-isdraft="{{:IsDraft}}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="@T["Open Widget in new tab"]"></i>
             <span class="dropdown col-lg-1 col-md-1 col-sm-1 col-xs-1 no-padding options" id="context-menu">
                 <span class="dropdown-toggle su su-options-menu options-area" data-toggle="dropdown">
                 </span>
@@ -547,12 +547,12 @@
                         {{if ItemType=="@((int)ItemType.Dashboard)"}}
                         <span class="open-item option-click" href="{{:~urlWithoutSection(CategoryName, Name, Id)}}" title="" target="_blank">
                             <i class="su su-open"><i class="su su-open path1"></i></i>
-                            <span>[[[Open]]]</span>
+                            <span>@T["Open"]</span>
                         </span>
                         {{else ItemType=="@((int)ItemType.Widget)" }}
                         <span class="open-item option-click" href="{{:~widgetUrlEncode(Name, Id)}}" title="" target="_blank">
                             <i class="su su-open"><i class="su su-open path1"></i></i>
-                            <span>[[[Open]]]</span>
+                            <span>@T["Open"]</span>
                         </span>
                         {{/if}}
                     </li>
@@ -565,7 +565,7 @@
             <span title="Open with Dashboard Designer" class="option-click" id="launcher" data-itemid="{{:Id}}">
                 <span id="designerArgument" style="display:none">{{:DesignerArgument}}</span>
                 <i class="su su-edit"></i>
-                <span>[[[Open with Dashboard Designer]]]</span>
+                <span>@T["Open with Dashboard Designer"]</span>
             </span>
         </li>
         {{/if}}
@@ -577,13 +577,13 @@
                         {{if ItemType == "@((int)ItemType.Dashboard)"}}
                         <span title="" class="make-public option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}" data-url="{{:~urlWithoutSection(CategoryName, Name, Id)}}">
                             <i class="su su-public"></i>
-                            <span>[[[Make Public]]]</span>
+                            <span>@T["Make Public"]</span>
                         </span>
                         {{else ItemType == "@((int)ItemType.Widget)"}}
                         <span title="" class="make-public option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}" data-url="{{:~widgetUrlEncode(Name, Id)}}">
                             <i class="su su-public"></i>
                             <span>
-                                [[[Make Public]]]
+                                @T["Make Public"]
                             </span>
                         </span>
                         {{/if}}
@@ -593,12 +593,12 @@
                         {{if ItemType=="@((int)ItemType.Dashboard)"}}
                         <span title="" class="remove-public option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}" data-url="{{:~urlWithoutSection(CategoryName, Name, Id)}}">
                             <i class="su su-remove-public"><span class="su-remove-public path1"></span><span class="su-remove-public path2"></span><span class="su-remove-public path3"></span></i>
-                            <span>[[[Make Private]]]</span>
+                            <span>@T["Make Private"]</span>
                         </span>
                         {{else ItemType == "@((int)ItemType.Widget)"}}
                         <span title="" class="remove-public option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}" data-url="{{:~widgetUrlEncode(Name, Id)}}">
                             <i class="su su-remove-public"><span class="su-remove-public path1"></span><span class="su-remove-public path2"></span><span class="su-remove-public path3"></span></i>
-                            <span>[[[Make Private]]]</span>
+                            <span>@T["Make Private"]</span>
                         </span>
                         {{/if}}
 
@@ -611,12 +611,12 @@
                         {{if ItemType == "@((int)ItemType.Dashboard)"}}
                         <span title="" ispublic="{{:IsPublic}}" class="get-link option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-item-type="@(gridName)" data-name="{{:Name}}" data-url="{{:~urlWithoutSection(CategoryName, Name, Id)}}">
                             <i class="su su-link"></i>
-                            <span>[[[Get Link]]]</span>
+                            <span>@T["Get Link"]</span>
                         </span>
                         {{else ItemType == "@((int)ItemType.Widget)"}}
                         <span title="" ispublic="{{:IsPublic}}" class="get-link option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-item-type="@(gridName)" data-name="{{:Name}}" data-url="{{:~widgetUrlEncode(Name, Id)}}">
                             <i class="su su-link"></i>
-                            <span>[[[Get Link]]]</span>
+                            <span>@T["Get Link"]</span>
                         </span>
                         {{/if}}
                     </li>
@@ -627,12 +627,12 @@
             {{if ItemType == "@((int)ItemType.Dashboard)"}}
             <span title="" ispublic="{{:IsPublic}}" class="embed-code option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-item-type="@(gridName)" data-name="{{:Name}}" data-url="{{:~urlWithoutSection(CategoryName, Name)}}">
                 <i class="su su-embed2"></i>
-                <span>[[[Get Embed code]]]</span>
+                <span>@T["Get Embed code"]</span>
             </span>
             {{else ItemType == "@((int)ItemType.Widget)"}}
             <span title="" ispublic="{{:IsPublic}}" class="embed-code option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-item-type="@(gridName)" data-name="{{:Name}}" data-url="{{:~widgetUrlEncode(Name, Id)}}">
                 <i class="su su-embed2"></i>
-                <span>[[[Get Embed code]]]</span>
+                <span>@T["Get Embed code"]</span>
             </span>
             {{/if}}
         </li>
@@ -644,17 +644,17 @@
             {{if ItemType == "@((int)ItemType.Report)"}}
             <span class="option-click" href="@UrlHelper.GenerateUrl("ItemDownload", "Download", "FileRender", null, RouteTable.Routes, HttpContext.Current.Request.RequestContext, false)/{{:ItemTypeString}}/{{:Name}}" title="">
                 <i class="su su-download"></i>
-                <span>[[[Download Report]]]</span>
+                <span>@T["Download Report"]</span>
             </span>
             {{else ItemType == "@((int)ItemType.Dashboard)"}}
             <span class="download-item option-click" href="@UrlHelper.GenerateUrl("DashboardDownload", "Download", "FileRender", null, RouteTable.Routes, HttpContext.Current.Request.RequestContext, false)/{{:CategoryName}}/{{:Name}}" title="">
                 <i class="su su-download"></i>
-                <span>[[[Download Dashboard]]]</span>
+                <span>@T["Download Dashboard"]</span>
             </span>
             {{else}}
             <span class="download-item option-click" href="@UrlHelper.GenerateUrl("ItemDownload", "Download", "FileRender", null, RouteTable.Routes, HttpContext.Current.Request.RequestContext, false)/{{:ItemTypeString}}/{{:Name}}" title="">
                 <i class="su su-download"></i>
-                <span>[[[Download]]]</span>
+                <span>@T["Download"]</span>
             </span>
             {{/if}}
         </li>
@@ -667,7 +667,7 @@
                     <li>
                         <span title="" class="moveItem option-click" data-itemid="{{:Id}}" data-action="Move">
                             <i class="su su-move"></i>
-                            <span>[[[Move]]]</span>
+                            <span>@T["Move"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -675,7 +675,7 @@
                     <li>
                         <span title="" class="copyItem option-click" data-itemid="{{:Id}}" data-action="Copy">
                             <i class="su su-copy"></i>
-                            <span>[[[Copy]]]</span>
+                            <span>@T["Copy"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -683,7 +683,7 @@
                     <li>
                         <span title="" class="copyItem option-click" data-itemid="{{:Id}}" data-action="Clone">
                             <i class="su su-clone"></i>
-                            <span>[[[Clone]]]</span>
+                            <span>@T["Clone"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -695,7 +695,7 @@
                     <li>
                         <span class="schedule-dashboards option-click" title="" data-itemname="{{:Name}}" data-item-id="{{:Id}}">
                             <i class="su su-nav-schedule"></i>
-                            <span>[[[Create Schedule]]]</span>
+                            <span>@T["Create Schedule"]</span>
                         </span>
                     </li>
 
@@ -711,7 +711,7 @@
                         {{if CreatedById==@(userId) || @(Convert.ToBoolean(Context.Session.GetString("IsAdmin")).ToString().ToLower()) == true}}
                         <span class="item-permissions option-click" title="" data-itemname="{{:Name}}" data-item-id="{{:Id}}">
                             <i class="su su-manage-permission"></i>
-                            <span>[[[Sharing Permissions]]]</span>
+                            <span>@T["Sharing Permissions"]</span>
                         </span>
                         {{/if}}
                     </li>
@@ -723,7 +723,7 @@
                     <li>
                         <span class="version-button option-click" title="" data-itemname="{{:Name}}" data-item-id="{{:Id}}">
                             <i class="su su-versions"></i>
-                            <span>[[[Version History]]]</span>
+                            <span>@T["Version History"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -739,7 +739,7 @@
                     <li>
                         <span title="" class="item-edit option-click" data-item-id="{{:Id}}">
                             <i class="su su-edit"></i>
-                            <span>[[[Update]]]</span>
+                            <span>@T["Update"]</span>
                         </span>
                     </li>
                     {{/if}}
@@ -750,7 +750,7 @@
                     <li>
                         <span title="" class="item-delete option-click" data-itemtype="{{:ItemType}}" data-item-id="{{:Id}}" data-name="{{:Name}}">
                             <i class="su su-delete"></i>
-                            <span>[[[Delete]]]</span>
+                            <span>@T["Delete"]</span>
                         </span>
                     </li>
                     {{/if}}

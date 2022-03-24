@@ -25,12 +25,9 @@ label {
     font-weight: normal;
 }
 
-a, a:hover {
+a, a:hover, a:focus {
     text-decoration: none !important;
-}
-
-a:focus {
-    text-decoration: underline !important;
+    color: $primary-color;
 }
 
 input[type=button], input[type=submit], button[type=submit] {

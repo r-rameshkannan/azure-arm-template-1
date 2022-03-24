@@ -50,81 +50,81 @@ $(document).ready(function () {
     inputBoxInitialization('#txt-emailid');
     inputBoxInitialization('#new-password');
     inputBoxInitialization('#txt-confirm-password');
-
-    function onDropDownListChange(args) {
-        if (args.element.id == 'database-type')
-            onDatbaseChange(args);
-        if (args.element.id == 'check-windows')
-            onWindowsChange(args);
-        if (args.element.id == 'tenant-type')
-            changeTenantType(args);
-    }
-
-    function onAuthRadioButtonChange(args) {
-        onWindowsChange(args);
-    }
-
-    function onDatabaseRadioButtonChange(args) {
-        onDbSelectChange(args);
-    }
-
-    function onBlobRadioButtonChange(args) {
-        onBlobStorageChange(args);
-    }
-
-    function onConnectionRadioButtonChange(args) {
-        onConnectionRadioChange(args);
-    }
-
-    function dropDownListInitialization(id, placeHolder) {
-        var dropDownList = new ejs.dropdowns.DropDownList({
-            index: 0,
-            floatLabelType: "Always",
-            placeholder: placeHolder,
-            change: onDropDownListChange,
-            cssClass: 'e-outline e-custom'
-        });
-
-        dropDownList.appendTo(id);
-    }
-
-    function inputBoxInitialization(id, isDisable) {
-        var inputbox = new ejs.inputs.TextBox({
-            cssClass: 'e-outline e-custom',
-            floatLabelType: 'Auto'
-        });
-
-        if (isDisable) {
-            inputbox.enabled = false;
-        }
-
-        inputbox.appendTo(id);
-    }
-
-    function radioButtonInitialization(id, label, name, isChecked, value) {
-
-        var radiobutton = new ejs.buttons.RadioButton({
-            label: label,
-            name: name,
-            checked: isChecked,
-            value: value,
-            change: onAuthRadioButtonChange,
-            cssClass: 'e-custom'
-        });
-
-        if (name == 'checkWindows') 
-            radiobutton.change = onAuthRadioButtonChange
-
-        if (name == 'databaseType')
-            radiobutton.change = onDatabaseRadioButtonChange
-
-        if (name == 'IsBlobStorage')
-            radiobutton.change = onBlobRadioButtonChange
-
-        if (name == 'Connection')
-            radiobutton.change = onConnectionRadioButtonChange
-
-        radiobutton.appendTo(id);
-    }
 });
+
+function onDropDownListChange(args) {
+    if (args.element.id == 'database-type')
+        onDatbaseChange(args);
+    if (args.element.id == 'check-windows')
+        onWindowsChange(args);
+    if (args.element.id == 'tenant-type')
+        changeTenantType(args);
+}
+
+function onAuthRadioButtonChange(args) {
+    onWindowsChange(args);
+}
+
+function onDatabaseRadioButtonChange(args) {
+    onDbSelectChange(args);
+}
+
+function onBlobRadioButtonChange(args) {
+    onBlobStorageChange(args);
+}
+
+function onConnectionRadioButtonChange(args) {
+    onConnectionRadioChange(args);
+}
+
+function dropDownListInitialization(id, placeHolder) {
+    var dropDownList = new ejs.dropdowns.DropDownList({
+        index: 0,
+        floatLabelType: "Always",
+        placeholder: placeHolder,
+        change: onDropDownListChange,
+        cssClass: 'e-outline e-custom'
+    });
+
+    dropDownList.appendTo(id);
+}
+
+function inputBoxInitialization(id, isDisable) {
+    var inputbox = new ejs.inputs.TextBox({
+        cssClass: 'e-outline e-custom',
+        floatLabelType: 'Auto'
+    });
+
+    if (isDisable) {
+        inputbox.enabled = false;
+    }
+
+    inputbox.appendTo(id);
+}
+
+function radioButtonInitialization(id, label, name, isChecked, value) {
+
+    var radiobutton = new ejs.buttons.RadioButton({
+        label: label,
+        name: name,
+        checked: isChecked,
+        value: value,
+        change: onAuthRadioButtonChange,
+        cssClass: 'e-custom'
+    });
+
+    if (name == 'checkWindows')
+        radiobutton.change = onAuthRadioButtonChange
+
+    if (name == 'databaseType')
+        radiobutton.change = onDatabaseRadioButtonChange
+
+    if (name == 'IsBlobStorage')
+        radiobutton.change = onBlobRadioButtonChange
+
+    if (name == 'Connection')
+        radiobutton.change = onConnectionRadioButtonChange
+
+    radiobutton.appendTo(id);
+}
 

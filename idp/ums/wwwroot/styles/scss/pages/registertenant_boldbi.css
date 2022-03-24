@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* don't show the eye for password inputs */
 ::-ms-reveal {
   width: 0;
@@ -17,18 +16,16 @@
 label {
   font-weight: normal; }
 
-a, a:hover {
-  text-decoration: none !important; }
-
-a:focus {
-  text-decoration: underline !important; }
+a, a:hover, a:focus {
+  text-decoration: none !important;
+  color: var(--colorPrimary); }
 
 input[type=button], input[type=submit], button[type=submit] {
   padding: 0px !important; }
 
 input.form-control:not(.input-block-level), .btn-group.form-control .btn.dropdown-toggle, .form-control.StripeElement {
   box-shadow: none !important;
-  border: 1px solid #eaeaea; }
+  border: 1px solid #CCCCCC; }
 
 .bs-searchbox .input-block-level.form-control {
   box-shadow: none !important;
@@ -453,8 +450,6 @@ body {
             border: none;
             position: static;
             font-family: 'server' !important; }
-          .register-tenant-parent .register-tenant-child .register-tenant-bg .register-tenant-fields-div .register-tenant-fields-container #outer-container .plan-list .btn-group .dropdown-toggle .caret:before {
-            content: ""; }
         .register-tenant-parent .register-tenant-child .register-tenant-bg .register-tenant-fields-div .register-tenant-fields-container #outer-container .plan-list .btn-group .btn:focus, .register-tenant-parent .register-tenant-child .register-tenant-bg .register-tenant-fields-div .register-tenant-fields-container #outer-container .plan-list .btn-group .btn:hover, .register-tenant-parent .register-tenant-child .register-tenant-bg .register-tenant-fields-div .register-tenant-fields-container #outer-container .plan-list .btn-group .btn:active {
           outline: none !important;
           background-color: #FFFFFF; }
@@ -491,7 +486,7 @@ body {
             font-size: 14px;
             background-color: #f6f6f6;
             border-radius: 2px;
-            border: 1px solid #eaeaea;
+            border: 1px solid #CCCCCC;
             font-family: 'Heebo', sans-serif;
             font-weight: normal;
             font-style: normal;

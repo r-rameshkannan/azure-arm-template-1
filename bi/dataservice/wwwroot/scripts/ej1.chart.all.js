@@ -1,6 +1,6 @@
 /*!
 *  filename: ej1.chart.all.js
-*  version : 4.2.69
+*  version : 5.1.55
 *  Copyright Syncfusion Inc. 2001 - 2017. All rights reserved.
 *  Use of this code is subject to the terms of our license.
 *  A copy of the current license can be obtained at any time by e-mailing
@@ -4727,7 +4727,15 @@ BoldBIDashboard.EjSvgRender.utils = {
         if (element.length==0) {
             var textObj = document.createElement('text');
             bbdesigner$(textObj).attr({ 'id': 'measureTex' });
-            document.body.appendChild(textObj);
+            // fix for bootstrap default line-height property (Start) (JS-63856)
+            if (chartContainerID) {
+                var chartContainer = document.getElementById(chartContainerID);
+                chartContainer.style.lineHeight = 'normal';
+                chartContainer.appendChild(textObj);
+            } else {
+                document.body.appendChild(textObj);
+            }
+            // fix for bootstrap default line-height property (End)
         }
         else
         {
@@ -7960,7 +7968,7 @@ var ejDoubleValue = ejExtendClass(BoldBIDashboard.EjAxisRenderer, {
         var end = baseRange.max;
         var rangePadding = axis.rangePadding.toLowerCase();
         var interval= baseRange.interval;
-		var setMinRange = axis._initialRange.min == null ? false : true; // JS-64032
+		var setMinRange = axis._initialRange.min != null && axis._initialRange.max == null ? true : false; //JS-64032 && JS-64136
         if ((!axis.setRange ||setMinRange ) && (!chartObj.zoomed)) {
                
             if (rangePadding == 'normal') {
@@ -17043,7 +17051,7 @@ BoldBIDashboard.ejTMA = ejExtendClass(BoldBIDashboard.EjIndicatorRender, {
                     'x': positionX + pyrX,
                     'y': positionY + textsize.height / 4 + pyrY,
                     'fill': marker.dataLabel.font.color,
-                    'font-size': marker.dataLabel.font.size,
+                    'font-size': font.size, // JS-63856
                     'font-family': font.fontFamily,
                     'font-style': font.fontStyle,
                     'font-weight': font.fontWeight,
@@ -17223,11 +17231,11 @@ BoldBIDashboard.ejTMA = ejExtendClass(BoldBIDashboard.EjIndicatorRender, {
                         svgHeight = bbdesigner$(chartObj.svgObject).height();
 
                     // This condition is removed due to datalabel crop issue (JS-63856)
-                     if (currentseries._enableSmartLabels && (svgWidth < 250 || svgHeight < 250)) {
-                         dataLabelFont.size = "9px"; //Change pie/doughnut text size dynamically
-                         size = measureText(commonEventArgs.data.text, svgWidth, dataLabelFont);
-                         textOffset = 10;
-                     }
+                     //if (currentseries._enableSmartLabels && (svgWidth < 250 || svgHeight < 250)) {
+                     //    dataLabelFont.size = "9px"; //Change pie/doughnut text size dynamically
+                     //    size = measureText(commonEventArgs.data.text, svgWidth, dataLabelFont);
+                     //    textOffset = 10;
+                     //}
                     if (isNull(connectorLine.height))
                         textOffset = textOffset || measureText(commonEventArgs.data.text, null, dataLabelFont).height;
                     else
@@ -17487,7 +17495,32 @@ BoldBIDashboard.ejTMA = ejExtendClass(BoldBIDashboard.EjIndicatorRender, {
 							conEle.hide();
 							connectorDirection = "";
                         }
-
+                        // To check the datalabel overlaps with chart bounds - (Start)
+                        var textWidthD = datalabelShape.width;
+                        var textHeightD = datalabelShape.height;
+                        var x = textOptions.x; var y = textOptions.y;
+                        const topPadding = 5; // 5 for datalabel bounds top value correction
+                        const bottomPadding = 10; //10 for datalabel bounds bottom value correction
+                        if (textOptions["text-anchor"] === "start") {
+                            y -= textHeightD;
+                        } else if (textOptions["text-anchor"] === "end") {
+                            x -= textWidthD;
+                            y -= textHeightD;
+                        } else {
+                            x -= (textWidthD / 2);
+                            y -= textHeightD;
+                        }
+                        y += topPadding;
+                        var chartBound = {
+                            x: chartObj.model.border.width / 2,
+                            y: chartObj.model.border.width / 2,
+                            width: chartObj.model.svgWidth - (2 * chartObj.model.border.width),
+                            height: chartObj.model.svgHeight - (2 * chartObj.model.border.width)
+                        }
+                        if (y < chartBound.y || (y + textHeight - bottomPadding) > (chartBound.y + chartBound.height)) {
+                            point.hide = true;
+                        }
+                        // To check the datalabel overlaps with chart bounds - (End)
 						if (!point.hide) chartObj.svgRenderer.drawText(textOptions, datalabelText, chartObj.gSeriesTextEle[seriesIndex]);
 
                         var datalabelSize = measureText(datalabelText, datalabelText.length, dataLabelFont);
@@ -21043,7 +21076,8 @@ BoldBIDashboard.ejCandleSeries = ejExtendClass(BoldBIDashboard.EjSeriesRender, {
  });
 
  BoldBIDashboard.seriesTypes.radar = BoldBIDashboard.ejRadarSeries;
-})(bbdesigner$);;
+})(bbdesigner$);
+;
 BoldBIDashboard.BoldBIDashboardChart = {};
 (function(bbdesigner$) {
 String.prototype.parseTemplate = function () {

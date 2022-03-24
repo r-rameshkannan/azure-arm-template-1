@@ -44,6 +44,9 @@
     var dashboardDesignerResourceUrl = globalAppSettings.SystemSettings.DesignerCdnLink.TrimEnd('/');
     var rootUrl = Context.Request.RouteValues["tenantName"] != null ? (Context.Request.PathBase + "/" + ServerAppConfig.TenantIdentifierPrefix + "/" + Context.Request.RouteValues["tenantName"]).TrimEnd('/') : Context.Request.PathBase.ToString();
     var isEmbed = @Context.Request.QueryString.ToString().ToLower().Contains("isembed");
+    var themeCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".css";
+    var themeMinCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".min.css";
+    var themeBaseColors = globalAppSettings.SystemSettings.AppTheme.BaseColors;
 }
 <!DOCTYPE html>
 
@@ -53,7 +56,7 @@
     <meta name="viewport" content="width=device-width" />
     @if (!isSelfHosted && !globalAppSettings.SystemSettings.IsDebug)
     {
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     }
     <meta name="dashboard_service:url" content="@globalAppSettings.SystemSettings.InternalAppDataServiceUrl" />
     <meta name="dashboard_server:url" content="@dashboardServerApiUrl" />
@@ -76,15 +79,7 @@
     <meta name="globalization:time_format" content="@_clientDateTimeInfo.ClientDateTime.TimeFormat" />
 
 
-
-    @if (ViewBag.DataSourceName != null)
-    {
-        <title>@ViewBag.DataSourceName - [[[Design Datasource]]] - @globalAppSettings.SystemSettings.OrganizationName</title>
-    }
-    else
-    {
-        <title>Untitled - [[[Design Datasource]]] - @globalAppSettings.SystemSettings.OrganizationName</title>
-    }
+    <title>@(ViewBag.DataSourceName != null ? ViewBag.DataSourceName : T["Untitled"].Value) - @T["Design Datasource"] - @globalAppSettings.SystemSettings.OrganizationName</title>
     <link rel="icon" href="@faviconLogo" onerror="if (this.href !== null && this.href.toLowerCase() !== '@cdnLink/images/application/@ServerAppConfig.AppSettings.AppBranding.Identifier/@IconFileNames.Favicon') this.href = '@cdnLink/images/application/@ServerAppConfig.AppSettings.AppBranding.Identifier/@IconFileNames.Favicon';" />
     <style>
         #create-item, #user-system-notification {
@@ -93,21 +88,22 @@
     </style>
     @if (!ServerAppConfig.IsCustomThemeForMenu)
     {
-        <style>
+    <style>
             :root {
-                    --nav-menu-bg-color: var(--white); --nav-menu-text-color: var(--primary-black); --nav-menu-text-sec-color: var(--grey-700); --nav-menu-content-color: var(--grey-800); --nav-menu-active-color: var(--blue-lighter); --nav-menu-active-text-color: var(--blue); --nav-menu-active-sec-color: var(--blue); --nav-menu-active-content-color: var(--grey-800); --nav-menu-hover-color: var(--grey-300); --nav-menu-hover-text-color: var(--primary-black); --nav-menu-hover-text-sec-color: var(--grey-700); --nav-menu-hover-content-color: var(--grey-800); --nav-menu-create-icon-bgcolor: var(--blue); --nav-menu-separtor-icon-color: var(--grey-400); --item-menu-hover-bg-color: var(--white); --item-menu-hover-border-color: var(--blue); --item-menu-section-bg-color: var(--blue-lighten); --item-menu-bg-color: var(--nav-menu-bg-color); --item-menu-title-color: var(--nav-menu-text-color); --item-menu-descrip-color: var(--nav-menu-text-sec-color); --nav-menu-create-item-icon-border-normal-color: var(--create-item-icon-border-normal); --item-menu-hover-title-color: var(--nav-menu-hover-text-color); --item-menu-hover-descrip-color: var(--nav-menu-hover-text-sec-color); --nav-notification-menu-bg-color: var(--nav-menu-bg-color); --nav-notification-items-hover-bg-color: var(--nav-menu-hover-color); --nav-notification-heading-text-color: var(--nav-menu-text-color); --nav-notification-sub-heading-text-color: var(--nav-menu-text-sec-color); --nav-notification-content-text-color: var(--nav-menu-content-color); --nav-notification-time-text-color: var(--nav-menu-text-sec-color); --nav-notification-content-hover-text-color: var(--nav-menu-hover-content-color); --nav-notification-time-hover-text-color: var(--nav-menu-hover-text-sec-color);
-                  }
-        </style>
+                    @themeBaseColors
+            }
+    </style>
+
     }
     else
     {
-        <style>
+    <style>
             :root {
 
                      @ServerAppConfig.ThemeStyle
-                     --item-menu-bg-color: var(--nav-menu-bg-color); --nav-menu-create-item-icon-border-normal-color: var(--nav-menu-create-icon-bgcolor); --item-menu-section-bg-color: var(--nav-menu-bg-color); --item-menu-title-color: var(--nav-menu-text-color); --item-menu-descrip-color: var(--nav-menu-text-sec-color); --item-menu-hover-bg-color: var( --nav-menu-hover-color); --item-menu-hover-border-color: var( --nav-menu-hover-color); --item-menu-hover-title-color: var(--nav-menu-hover-text-color); --item-menu-hover-descrip-color: var(--nav-menu-hover-text-sec-color); --nav-notification-menu-bg-color: var(--nav-menu-bg-color); --nav-notification-items-hover-bg-color: var(--nav-menu-hover-color); --nav-notification-heading-text-color: var(--nav-menu-text-color); --nav-notification-sub-heading-text-color: var(--nav-menu-text-sec-color); --nav-notification-content-text-color: var(--nav-menu-content-color); --nav-notification-time-text-color: var(--nav-menu-text-sec-color); --nav-notification-content-hover-text-color: var(--nav-menu-hover-content-color); --nav-notification-time-hover-text-color: var(--nav-menu-hover-text-sec-color);
+                     --item-menu-bg-color: var(--nav-menu-bg-color); --nav-menu-create-item-icon-border-normal-color: var(--nav-menu-create-icon-bgcolor); --item-menu-section-bg-color: var(--nav-menu-bg-color); --item-menu-title-color: var(--nav-menu-text-color); --item-menu-descrip-color: var(--nav-menu-text-sec-color); --item-menu-hover-bg-color: var( --nav-menu-hover-color); --item-menu-hover-border-color: var( --nav-menu-hover-color); --item-menu-hover-title-color: var(--nav-menu-hover-text-color); --item-menu-hover-descrip-color: var(--nav-menu-hover-text-sec-color); --nav-notification-menu-bg-color: var(--nav-menu-bg-color); --nav-notification-items-hover-bg-color: var(--nav-menu-hover-color); --nav-notification-heading-text-color: var(--nav-menu-text-color); --nav-notification-sub-heading-text-color: var(--nav-menu-text-sec-color); --nav-notification-content-text-color: var(--nav-menu-content-color); --nav-notification-time-text-color: var(--nav-menu-text-sec-color); --nav-notification-content-hover-text-color: var(--nav-menu-hover-content-color); --nav-notification-time-hover-text-color: var(--nav-menu-hover-text-sec-color); --nav-menu-create-top-sec-title-text-color: var(--nav-menu-text-color);
                   }
-        </style>
+    </style>
     }
 
     <script>
@@ -139,7 +135,7 @@
     </script>
     <script type="text/javascript">
         window.addEventListener("beforeunload", function (e) {
-            var confirmationMessage = "[[[Are you sure you want to close? The current progress will be lost if you continue.]]]";
+            var confirmationMessage = "@T["Are you sure you want to close? The current progress will be lost if you continue."]";
 
             if ($('#datasourceDesigner').data('BoldBIDashboardDesigner').hasReportChanges()) {
                 (e || window.event).returnValue = confirmationMessage;
@@ -152,15 +148,16 @@
     </script>
     @if (isEmbed)
     {
-        <style>
-            #menu-area {
-                display: none !important;
-            }
-            #datasourceDesigner {
-                padding-left: 0px !important;
-                width: 100% !important;
-            }
-        </style>
+    <style>
+        #menu-area {
+            display: none !important;
+        }
+
+        #datasourceDesigner {
+            padding-left: 0px !important;
+            width: 100% !important;
+        }
+    </style>
     }
 </head>
 <body ng-app="serverApp" id="body" style="overflow: hidden; position: static; margin: 0; padding: 0; height: 100%; width: 100%">
@@ -173,17 +170,17 @@
                 </svg>
             </div>
         </div>
-        <div id="loader_text" align="center" style="font-family:@globalAppSettings.SystemSettings.FontPreference,Segoe UI,SegoeUI,Helvetica Neue,Helvetica,Arial,sans-serif;position:relative;top: 42%;font-size:21px;font-weight:400;">[[[Initializing Datasource Designer]]]</div>
+        <div id="loader_text" align="center" style="font-family:@globalAppSettings.SystemSettings.FontPreference,Segoe UI,SegoeUI,Helvetica Neue,Helvetica,Arial,sans-serif;position:relative;top: 42%;font-size:21px;font-weight:400;">@T["Initializing Datasource Designer"]</div>
     </div>
 
     <environment include="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/designer/datasource-designer.css" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardDesignerResourceUrl/cdn/css/designer/dashboard-designer-component.css" />
         <script asp-append-version="true" src="@dashboardDesignerResourceUrl/cdn/scripts/designer/dashboard-designer-dependency.js"></script>
     </environment>
     <environment exclude="Development,CloudDevelopment">
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.min.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeMinCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/designer/datasource-designer.min.css" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardDesignerResourceUrl/cdn/css/designer/dashboard-designer-component.min.css" />
         <script asp-append-version="true" src="@dashboardDesignerResourceUrl/cdn/scripts/designer/dashboard-designer-dependency.min.js"></script>
@@ -241,7 +238,7 @@
     <environment exclude="Development,CloudDevelopment">
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/dashboard-feedback.min.css" />
     </environment>
-    @if (!ServerAppConfig.IsSelfHosted)
+    @if (!ServerAppConfig.IsSelfHosted && ViewBag.isEmbed != null && ViewBag.isEmbed.ToString().ToLower() != "true")
     {
         @await Html.PartialAsync("~/Views/Shared/_GeneralFeedback.cshtml")
         @await Html.PartialAsync("~/Views/Support/_ConciergeSupport.cshtml")
@@ -291,7 +288,7 @@
                 <span id="message-content"></span>
             </div>
             <div class="close-div">
-                <span id="close-content">[[[Close]]]</span>
+                <span id="close-content">@T["Close"]</span>
             </div>
         </div>
     </div>

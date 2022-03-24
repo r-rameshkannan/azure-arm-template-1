@@ -10,7 +10,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>[[[Login Error]]]</title>
+    <title>@T["Login Error"]</title>
     <environment include="Development,CloudDevelopment">
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/layout.css" />
@@ -46,19 +46,19 @@
                 <div class="error-image-center-2">
                     <img src="@GlobalAppSettings.CdnDomain/static/error-pages/v1/login-failed.svg" class="error-image-2">
                 </div>
-                <div class="error-type">[[[Login Error!]]]</div>
+                <div class="error-type">@T["Login Error!"]</div>
 
                 @if (ViewBag.IsSilentAuthentication != null && ViewBag.IsSilentAuthentication)
                 {
                     <div class="error-text">
-                        <span>[[[Sorry, we are having trouble logging you in due to one of the following reasons. If the problem persists, please contact your administrator.]]]</span>
+                        <span>@T["Sorry, we are having trouble logging you in due to one of the following reasons. If the problem persists, please contact your administrator."]</span>
                         <br /><br />
                         <ul style="text-align: left; list-style-position: inside;">
                             <li>
-                                <span>[[[Unable to validate the current user authorization]]]</span>
+                                <span>@T["Unable to validate the current user authorization"]</span>
                             </li>
                             <li>
-                                <span>[[[The domain request for authorization is invalid]]]</span>
+                                <span>@T["The domain request for authorization is invalid"]</span>
                             </li>
                         </ul>
                     </div>
@@ -66,17 +66,16 @@
                 else
                 {
                     <div class="error-text">
-                        <span>[[[Looks like something went wrong while establishing a connection. Please refresh the page and try again.]]]</span>
+                        <span>@T["Looks like something went wrong while establishing a connection. Please refresh the page and try again."]</span>
                         <br />
-                        <span>[[[If the problem persists, please contact your administrator.]]]</span>
+                        <span>@T["If the problem persists, please contact your administrator."]</span>
                     </div>
                     <div class="take-me-back-to-home-page">
                         <span class="error-page-cursor">
-                            <a class="error-to-beck-text-color" href="javascript:window.location.reload(true)">[[[Refresh the page]]]</a>
+                            <a class="error-to-beck-text-color" href="javascript:window.location.reload(true)">@T["Refresh the page"]</a>
                         </span>
                     </div>
                 }
-
             </div>
         </div>
     </div>

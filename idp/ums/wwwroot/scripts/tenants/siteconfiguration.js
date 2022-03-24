@@ -69,6 +69,7 @@ $(document).ready(function () {
         $("#tenant-identifier-validation-error").css("display", "none");
         $("#tenant-identifier-empty-validation-error").css("display", "none");
         $("#domain-validation-error").css("display", "none");
+        $("#enable-ssl").css("margin-bottom", "5px");
         $("#domain-validation-error").html("");
         $(".empty-validation-error").css("padding-bottom", "0px");
         $(".identifier-info").css("padding-top", "20px");
@@ -250,7 +251,7 @@ $(document).ready(function () {
             tenantidentifier: {
                 required: true,
                 isValidIdentifier: true,
-                maxlength: 255
+                maxlength: 32
             },
             domainname: {
                 isDomainRequired: true,
@@ -277,7 +278,7 @@ $(document).ready(function () {
             tenantidentifier: {
                 required: window.TM.App.LocalizationContent.SiteIdentifierValidator,
                 isValidIdentifier: window.TM.App.LocalizationContent.AvoidSpecailCharacters,
-                maxlength: window.TM.App.LocalizationContent.SiteValidation
+                maxlength: window.TM.App.LocalizationContent.SiteIdentifierValidation
             },
             messages: {
                 domainname: {
@@ -295,8 +296,9 @@ function changeTenantType(args) {
             item = "reports";
             $("#enable-ssl").val(reportScheme);
             $("#input-domain").val(reportDomain);
-            $(".get-data-security").css("display", "inline");
-            $("#selection-data-security").css("display", "inline");
+            $(".get-data-security").css("display", "none");
+            $("#selection-data-security").css("display", "none");
+            $(".selector").removeClass("selector-alignment");
             $(".select-storage").html(window.TM.App.LocalizationContent.SelectStorage);
             $("#header-description").html(window.TM.App.LocalizationContent.BoldReportsMultiTenancy);
             if (useSiteIdentifierEnable) {
@@ -320,6 +322,7 @@ function changeTenantType(args) {
             $("#input-domain").val(biDomain);
             $(".get-data-security").css("display", "inline");
             $("#selection-data-security").css("display", "inline");
+            $(".selector").addClass("selector-alignment");
             $(".select-intermediate-database").html(window.TM.App.LocalizationContent.SiteDataStore);
             $(".select-storage").html(window.TM.App.LocalizationContent.SelectStorage);
             $("#header-description").html(window.TM.App.LocalizationContent.BoldBiMultiTenancy);

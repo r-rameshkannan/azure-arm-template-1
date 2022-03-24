@@ -5,13 +5,9 @@ var dialog;
 
 $(document).ready(function () {
     addPlacehoder("body");
-    $("[data-toggle='tooltip']").tooltip();
-    $("[data-toggle='popover']").popover({
-        container: '#active-directory-container'
-    });
 
     signingKeyConfirmationDlg();
-    var scope = angular.element('#active-directory-container').scope();
+    var scope = angular.element('#auth-settings-container').scope();
 
     scope.$apply(function () {
         scope.oauthSettingsForm.isValidOAuthLogoUrl = (scope.oauthLogoUrl.$viewValue != '');
@@ -49,56 +45,13 @@ $(document).ready(function () {
         closeOnEscape: true
     });
 
-    $(document).on('click',
-        function (e) {
-
-            if ($(".popover").children().hasClass("popover-content")) {
-                $(".popover-content").attr("id", "popover-content");
-                $(".arrow").attr("id", "arrow");
-            }
-
-            var popoverIds = [
-                "popover-content",
-                "arrow",
-                "oauth-overwrite-settings-info",
-                "oauth-provider-name-info",
-                "oauth-logo-info",
-                "oauth-auth-endpoint-info",
-                "oauth-token-endpoint-info",
-                "oauth-scopes-info",
-                "oauth-user-info-endpoint-info",
-                "oauth-user-data-info",
-                "openid-overwrite-settings-info",
-                "openid-provider-name-info",
-                "openid-logo-info",
-                "openid-authority-info",
-                "openid-identifier-info",
-                "oauth-callback-info",
-                "openid-callback-info",
-                "relyingParty-info",
-                "clientId-info",
-                "application-id-uri-info",
-                "uri-info",
-                "tenantName-info",
-                "mobile-clientId-info"
-            ];
-
-            if (jQuery.inArray(e.target.id, popoverIds) === -1) {
-                $(".popover").css("display", "none");
-            }
-            $('.popover').each(function () {
-                if (!($(this).is(e.target) || $(this).has(e.target).length > 0) &&
-                    $(this).siblings('.popover').length !== 0 &&
-                    $(this).siblings('.popover').has(e.target).length === 0) {
-                    $(this).popover().remove();
-                }
-            });
-        });
-
-    $('[data-toggle="popover"]').on('click', function () {
-        $('[data-toggle="popover"]').not(this).popover('hide');
-    });
-
+    dropDownListInitialization("#login-provider-type", window.TM.App.LocalizationContent.DefaultAuthenticationSettings);
+    groupImportDropDownListInitialization("#group-import-provider-oauth", window.TM.App.LocalizationContent.Provider, "Oauth");
+    groupImportDropDownListInitialization("#group-import-provider-openid", window.TM.App.LocalizationContent.Provider, "OpenId");
+    if (providerNameCount != 0) {
+        document.getElementById("login-provider-type").ej2_instances[0].value = selectedDefaultAuthValue;
+        document.getElementById("login-provider-type").ej2_instances[0].text = selectedDefaultAuthText;
+    }
 
     $(document).on("click", "#oauth-callback-link-copy, #openid-callback-link-copy, #oauth-mobile-callback-link-copy, #openid-mobile-callback-link-copy", function (e) {
         $(this).siblings("input").select();
@@ -114,32 +67,36 @@ $(document).ready(function () {
         }
     });
 
-    $('[data-id="login-provider-type"]').css('cssText', 'outline: none !important');
-    $('#login-provider-type').css('cssText', 'outline: none !important');
-
     if (!$("#enable-defaultauthentication").is(":checked")) {
         $("#update-defaultauthlogin-settings").prop("disabled", true);
-        $("#login-provider-type").prop("disabled", true);
+        if (providerNameCount != 0) {
+            document.getElementById("login-provider-type").ej2_instances[0].enabled = false;
+        }
     }
 
     $("#enable-defaultauthentication").click(function () {
-        $('[data-id="login-provider-type"]').css('cssText', 'outline: none !important');
         var isChecked = $("#enable-defaultauthentication").is(":checked");
         if (isChecked) {
-            $("#login-provider-type").attr('disabled', false);
-            $('#login-provider-type').selectpicker('refresh');
+            if (providerNameCount != 0) {
+                document.getElementById("login-provider-type").ej2_instances[0].enabled = true;
+            }
+            $('[data-id="login-provider-type"]').removeClass("disabled").next().find("li").removeClass("disabled");
             $("#update-defaultauthlogin-settings").attr("disabled", false);
         }
         else {
-            $("#login-provider-type").prop("disabled", true);
+            if (providerNameCount != 0) {
+                document.getElementById("login-provider-type").ej2_instances[0].enabled = false;
+            }
+            $('[data-id="login-provider-type"]').addClass("disabled");
             $("#update-defaultauthlogin-settings").prop("disabled", false);
         }
     });
 
-    if ($("#active-directory-container").is(":visible")) {
+    if ($("#auth-settings-container").is(":visible")) {
         if (location.href.match(/openid-settings/)) {
             $("#openid-settings").tab("show");
             $("#update-oauth-settings").hide();
+            $("#update-windowsad-settings").hide();
             $("#update-defaultauthlogin-settings").hide();
             $("#update-jwt-settings").hide();
             $("#update-saml-settings").hide();
@@ -147,6 +104,7 @@ $(document).ready(function () {
         else if (location.href.match(/oauth-settings/)) {
             $("#oauth-settings").tab("show");
             $("#update-openid-settings").hide();
+            $("#update-windowsad-settings").hide();
             $("#update-defaultauthlogin-settings").hide();
             $("#update-jwt-settings").hide();
             $("#update-saml-settings").hide();
@@ -154,6 +112,7 @@ $(document).ready(function () {
         else if (location.href.match(/jwt-settings/)) {
             $("#jwt-settings").tab("show");
             $("#update-saml-settings").hide();
+            $("#update-windowsad-settings").hide();
             $("#update-defaultauthlogin-settings").hide();
             $("#update-openid-settings").hide();
             $("#update-oauth-settings").hide();
@@ -161,6 +120,15 @@ $(document).ready(function () {
         else if (location.href.match(/azure-ad-settings/)) {
             $("#azure-ad-settings").tab("show");
             $("#update-jwt-settings").hide();
+            $("#update-windowsad-settings").hide();
+            $("#update-defaultauthlogin-settings").hide();
+            $("#update-openid-settings").hide();
+            $("#update-oauth-settings").hide();
+        }
+        else if (location.href.match(/windows-ad-settings/)) {
+            $("#windows-ad-settings").tab("show");
+            $("#update-jwt-settings").hide();
+            $("#update-saml-settings").hide();
             $("#update-defaultauthlogin-settings").hide();
             $("#update-openid-settings").hide();
             $("#update-oauth-settings").hide();
@@ -169,6 +137,7 @@ $(document).ready(function () {
             $("#default-authentication-settings").tab("show");
             $("#update-oauth-settings").hide();
             $("#update-openid-settings").hide();
+            $("#update-windowsad-settings").hide();
             $("#update-jwt-settings").hide();
             $("#update-saml-settings").hide();
             var query = (window.location.search).toString();
@@ -182,6 +151,7 @@ $(document).ready(function () {
         if ($(this).attr("id") == "oauth-settings") {
             $("#update-oauth-settings").show();
             $("#update-openid-settings").hide();
+            $("#update-windowsad-settings").hide();
             $("#update-defaultauthlogin-settings").hide();
             $("#update-jwt-settings").hide();
             $("#update-saml-settings").hide();
@@ -193,6 +163,7 @@ $(document).ready(function () {
         else if ($(this).attr("id") == "openid-settings") {
             $("#update-openid-settings").show();
             $("#update-oauth-settings").hide();
+            $("#update-windowsad-settings").hide();
             $("#update-defaultauthlogin-settings").hide();
             $("#update-jwt-settings").hide();
             $("#update-saml-settings").hide();
@@ -209,6 +180,7 @@ $(document).ready(function () {
                 $("#update-defaultauthlogin-settings").show();
             }
             $("#update-openid-settings").hide();
+            $("#update-windowsad-settings").hide();
             $("#update-oauth-settings").hide();
             $("#update-jwt-settings").hide();
             $("#update-saml-settings").hide();
@@ -219,8 +191,9 @@ $(document).ready(function () {
         }
         else if ($(this).attr("id") == "default-authentication-settings-info") {
             $("#update-defaultauthlogin-settings").hide();
-            $("#update-openid-settings").hide();
+            $("#update-windowsad-settings").hide();
             $("#update-oauth-settings").hide();
+            $("#update-openid-settings").hide();
             $("#update-jwt-settings").hide();
             $("#update-saml-settings").hide();
             var query = (window.location.search).toString();
@@ -232,6 +205,7 @@ $(document).ready(function () {
             $("#update-jwt-settings").show();
             $("#update-saml-settings").hide();
             $("#update-defaultauthlogin-settings").hide();
+            $("#update-windowsad-settings").hide();
             $("#update-openid-settings").hide();
             $("#update-oauth-settings").hide();
             var query = (window.location.search).toString();
@@ -242,12 +216,25 @@ $(document).ready(function () {
         else if ($(this).attr("id") == "azure-ad-settings") {
             $("#update-saml-settings").show();
             $("#update-jwt-settings").hide();
+            $("#update-windowsad-settings").hide();
             $("#update-defaultauthlogin-settings").hide();
             $("#update-openid-settings").hide();
             $("#update-oauth-settings").hide();
             var query = (window.location.search).toString();
             if (query != "?view=azure-ad-settings") {
                 history.pushState(null, '', '?view=azure-ad-settings');
+            }
+        }
+        else if ($(this).attr("id") == "windows-ad-settings") {
+            $("#update-windowsad-settings").show();
+            $("#update-saml-settings").hide();
+            $("#update-jwt-settings").hide();
+            $("#update-defaultauthlogin-settings").hide();
+            $("#update-openid-settings").hide();
+            $("#update-oauth-settings").hide();
+            var query = (window.location.search).toString();
+            if (query != "?view=windows-ad-settings") {
+                history.pushState(null, '', '?view=windows-ad-settings');
             }
         }
         $(".success-message, .error-message").hide();
@@ -290,9 +277,7 @@ $(document).ready(function () {
             else if (name === "azuread") {
                 scope.ssoSettingsForm.$setUntouched();
                 scope.ssoSettingsForm.$setPristine();
-                $("span.validation-message").addClass("ng-hide");
             }
-
             updateAuthSettingsButton.prop("disabled", false);
         } else {
             if (name === "oauth" && scope.oauthSettingsForm.$invalid) {
@@ -312,9 +297,11 @@ $(document).ready(function () {
             }
         }
 
-        $("#token-method-type").selectpicker("refresh");
-        $("#user-info-method-type").selectpicker("refresh");
-        $(".group-import-provider-type").selectpicker("refresh");
+        if (name === "oauth" || name === "openid") {
+            document.getElementById("group-import-provider-" + name).ej2_instances[0].enabled = $("#" + name + "IsEnabled").is(":checked");
+        }
+
+        $("span.validation-message").addClass("ng-hide");
     };
 
     $(document).on("focusout", "#oauth-provider-name, #oauth-authorization-endpoint", function (e) {
@@ -332,8 +319,8 @@ $(document).ready(function () {
     function OAuthOpenIdImageValidation(e) {
         var authLogo = e.currentTarget.name === "oauthLogoUrl" || e.currentTarget.name === "oauthProviderName" || e.currentTarget.name === "oauthAuthorizationEP" ? scope.oauthLogoUrl : (e.currentTarget.name === "openidLogoUrl" || e.currentTarget.name === "openidProviderName" || e.currentTarget.name === "openidAuthority" ? scope.openidLogoUrl : scope.jwtLogoUrl);
         if (authLogo === null || authLogo === undefined || authLogo === '') {
-            e.currentTarget.name === "oauthLogoUrl" || e.currentTarget.name === "oauthProviderName" || e.currentTarget.name === "oauthAuthorizationEP" ? $("#oauth-image-upload-box").siblings(".validation-message").html(window.TM.App.LocalizationContent.SelectAuthProviderLogo) : ((e.currentTarget.name === "openidLogoUrl" || e.currentTarget.name === "openidProviderName" || e.currentTarget.name === "openidAuthority") ? $("#openid-image-upload-box").siblings(".validation-message").html(window.TM.App.LocalizationContent.SelectAuthProviderLogo)
-                : $("#jwt-image-upload-box").siblings(".validation-message").html(window.TM.App.LocalizationContent.SelectAuthProviderLogo));
+            e.currentTarget.name === "oauthLogoUrl" || e.currentTarget.name === "oauthProviderName" || e.currentTarget.name === "oauthAuthorizationEP" ? $("#oauth-image-upload-box").siblings(".validation-message").removeClass("ng-hide").html(window.TM.App.LocalizationContent.SelectAuthProviderLogo) : ((e.currentTarget.name === "openidLogoUrl" || e.currentTarget.name === "openidProviderName" || e.currentTarget.name === "openidAuthority") ? $("#openid-image-upload-box").siblings(".validation-message").removeClass("ng-hide").html(window.TM.App.LocalizationContent.SelectAuthProviderLogo)
+                : $("#jwt-image-upload-box").siblings(".validation-message").removeClass("ng-hide").html(window.TM.App.LocalizationContent.SelectAuthProviderLogo));
         }
 
         scope.$apply(function () {
@@ -393,6 +380,9 @@ $(document).ready(function () {
             else if (this.id === 'update-saml-settings') {
                 updatesamlSetting();
             }
+            else if (this.id === 'update-windowsad-settings') {
+                updateWindowsSettings();
+            }
 
         }
     });
@@ -408,8 +398,9 @@ $(document).ready(function () {
     };
 
     function updatesamlSetting() {
+        var isEnabled = $("#enable-sso").is(":checked");
         var ssoSettingsData = {
-            IsEnabled: scope.ssoSettings.IsEnabled,
+            IsEnabled: isEnabled,
             ApplicationId: $("input[name='ApplicationId']").val().trim(),
             ApplicationIdURI: $("input[name='ApplicationIdURI']").val().trim(),
             TenantName: $("input[name='TenantName']").val().trim(),
@@ -434,9 +425,36 @@ $(document).ready(function () {
         });
     };
 
-    function updateJwtSetting() {
+    function updateWindowsSettings() {
         var authSettingsData = {
-            IsEnabled: scope.jwtSettings.jwtIsEnabled,
+            IsEnabled: scope.windowsAdEnabled,
+            AuthProvider: "WindowsAD",
+        };
+        $.ajax({
+            url: updateauthsettingsUrl,
+            type: "POST",
+            data: { AuthSettingsData: JSON.stringify(authSettingsData) },
+            beforeSend: showWaitingPopup($("#server-app-container")),
+            success: function (result) {
+                hideWaitingPopup($("#server-app-container"));
+                if (result.IsSuccess) {
+                    window.location.href = window.location.href;
+                    SuccessAlert(window.TM.App.LocalizationContent.WindowsAdSettings, window.TM.App.LocalizationContent.WindowsAdSettingsUpdated, 7000);
+                }
+                else {
+                    WarningAlert(window.TM.App.LocalizationContent.WindowsAdSettings, window.TM.App.LocalizationContent.WindowsAdSettingsUpdateError, 7000);
+                }
+            },
+            error: function () {
+                hideWaitingPopup($("#server-app-container"));
+            }
+        });
+    };
+
+    function updateJwtSetting() {
+        var jwtEnabled = $("#enable-jwt").is(":checked");
+        var authSettingsData = {
+            IsEnabled: jwtEnabled,
             AuthProvider: $("input[name='jwtAuthenticationProvider']").val().trim(),
             LogoUrl: scope.jwtLogoUrl,
             IsLogoChanged: jwtLogoChanged,
@@ -470,7 +488,7 @@ $(document).ready(function () {
     }
 
     $(document).on("click", ".update-defaultauth-settings", function () {
-        var authProvider = $("#enable-defaultauthentication").is(":checked") ? $("#login-provider-type").val() : "0";
+        var authProvider = $("#enable-defaultauthentication").is(":checked") ? document.getElementById("login-provider-type").ej2_instances[0].value : "0";
         $.ajax({
             type: "POST",
             url: defaultauthsettingsUrl,
@@ -522,7 +540,7 @@ $(document).ready(function () {
     }
 
     function getAuthSettingsToPost(authPrefix) {
-        var isEnabled = $("input[name='" + authPrefix + "IsEnabled']").is(":checked");
+        var isEnabled = $("#"+authPrefix + "IsEnabled").is(":checked");
         var authSettingsData;
         if (isEnabled) {
             if (authPrefix === 'oauth') {
@@ -546,6 +564,7 @@ $(document).ready(function () {
                         UserInfoFirstname: $("input[name='userInfoFirstname']").val().trim(),
                         UserInfoLastname: $("input[name='userInfoLastname']").val().trim(),
                         Logo: $("input[name='oauthLogo']").val().trim(),
+                        LogoutEndPoint: $("input[name='oauthLogoutEndpoint']").val().trim(),
                         GroupImportSettings: getGroupImportSettings("oauth")
                     }
                 };
@@ -564,6 +583,7 @@ $(document).ready(function () {
                         Identifier: $("input[name='openidIdentifier']").val().trim(),
                         Authority: $("input[name='openidAuthority']").val().trim(),
                         Logo: $("input[name='openidLogo']").val().trim(),
+                        LogoutUrl: $("input[name='openidLogoutUrl']").val().trim(),
                         GroupImportSettings: getGroupImportSettings("openid")
                     }
                 };
@@ -679,32 +699,9 @@ $(document).ready(function () {
         }
     }
 
-    $(".group-import-provider-type").on("change", function () {
-        var groupImportDiv = $(this).closest(".group-import");
-        groupImportDiv.find(".cognito-fields, .auth0-fields, .okta-fields, .onelogin-fields").addClass("display-none");
-        groupImportDiv.find("input[type='text']").val("");
-        switch (this.value) {
-            case "CognitoAWS":
-                groupImportDiv.find(".cognito-fields").removeClass("display-none");
-                break;
-            case "Auth0":
-                groupImportDiv.find(".auth0-fields").removeClass("display-none");
-                break;
-            case "Okta":
-                groupImportDiv.find(".okta-fields").removeClass("display-none");
-                break;
-            case "OneLogin":
-                groupImportDiv.find(".onelogin-fields").removeClass("display-none");
-                break;
-
-            default:
-                break;
-        }
-    });
-
     function getGroupImportSettings(authType) {
         var groupImportDiv = authType === "oauth" ? $("#oauth-group-import") : $("#openid-group-import");
-        var providerType = groupImportDiv.find("select.group-import-provider-type").val();
+        var providerType = authType === "oauth" ? document.getElementById("group-import-provider-oauth").ej2_instances[0].value : document.getElementById("group-import-provider-openid").ej2_instances[0].value;
         var groupImportSettings = null;
         switch (providerType) {
             case "CognitoAWS":
@@ -777,12 +774,17 @@ function getDefaultAuthDisplayName(provider) {
 }
 
 function fnCopySigningKey(inputId, buttonId) {
-    var copyText = $(inputId);
-    copyText.select();
-    document.execCommand("copy");
-    if (copyText.val() == "") {
-        navigator.clipboard.writeText(signingKey);
+    if (typeof (navigator.clipboard) != 'undefined') {
+        var value = $(inputId).val();
+        navigator.clipboard.writeText(value)
     }
+    else {
+        var copyText = $(inputId);
+        copyText.attr("type", "text").select();
+        document.execCommand("copy");
+        copyText.attr("type", "password");
+    }
+
     setTimeout(function () {
         $(buttonId).attr("data-original-title", "Copied");
         $(buttonId).tooltip('show');
@@ -792,15 +794,6 @@ function fnCopySigningKey(inputId, buttonId) {
         $(buttonId).tooltip();
     }, 3000);
 }
-
-$(document).on("mousedown", ".show-hide-password", function () {
-    $(this).siblings("input").attr('type', 'text');
-    $("#jwt-signing-key").val(signingKey);
-});
-
-$(document).on("mouseup", ".show-hide-password", function () {
-    $("#jwt-signing-key").val("");
-});
 
 function signingKeyConfirmationDlg() {
     ej.base.enableRipple(true);
@@ -833,7 +826,7 @@ function fnRegenerateSigningKey() {
         success: function (data) {
             if (data != false) {
                 SuccessAlert(window.TM.App.LocalizationContent.RegenerateKey, window.TM.App.LocalizationContent.RegenerateKeySuccess, 7000);
-                signingKey = data;
+                $("#jwt-signing-key").val(data);
             } else {
                 WarningAlert(window.TM.App.LocalizationContent.RegenerateKey, window.TM.App.LocalizationContent.RegenerateKeyError, 7000);
             }
@@ -859,3 +852,30 @@ $(document).on("keypress", "#dialog", function (ev) {
         fnRegenerateSigningKey();
     }
 });
+
+function ongroupImportchange(args) {
+    if (args.element.id === 'group-import-provider-oauth') {
+        var groupImportDiv = $(".group-import-provider-type-oauth").parent(".e-input-group").closest(".group-import");
+    } else {
+        var groupImportDiv = $(".group-import-provider-type-openid").parent(".e-input-group").closest(".group-import");
+    }
+    groupImportDiv.find(".cognito-fields, .auth0-fields, .okta-fields, .onelogin-fields").addClass("display-none");
+    var value = this.value;
+    switch (this.value) {
+        case "CognitoAWS":
+            groupImportDiv.find(".cognito-fields").removeClass("display-none");
+            break;
+        case "Auth0":
+            groupImportDiv.find(".auth0-fields").removeClass("display-none");
+            break;
+        case "Okta":
+            groupImportDiv.find(".okta-fields").removeClass("display-none");
+            break;
+        case "OneLogin":
+            groupImportDiv.find(".onelogin-fields").removeClass("display-none");
+            break;
+
+        default:
+            break;
+    }
+}

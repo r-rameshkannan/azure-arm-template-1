@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Http.Extensions;
 @{
     var globalAppSettings = _globalAppSettings;
-    ViewBag.Title = "[[[Permission Denied]]] - " + globalAppSettings.SystemSettings.OrganizationName;
+    ViewBag.Title = T["Permission Denied"].Value +" - " + globalAppSettings.SystemSettings.OrganizationName;
+    var contactAdmin = T["Please contact your administrator."];
     ViewBag.MessageBox = false;
     var cdnLink = ServerAppConfig.AppSettings.EndPoints.CdnLink.TrimEnd('/');
     var url = new Uri(Context.Request.GetDisplayUrl());
@@ -9,6 +10,9 @@
     var dashboardsPageUrl = Url.Action("Dashboards", "Dashboards");
     var dashboardServerResourceUrl = globalAppSettings.SystemSettings.CDNLink.TrimEnd('/');
     var canDownloadTemplate = ViewBag.CanDownloadTemplate == null ? true : ViewBag.CanDownloadTemplate;
+    var themeCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".css";
+    var themeMinCss = globalAppSettings.SystemSettings.AppTheme.BaseTheme + ".min.css";
+    var themeBaseColors = globalAppSettings.SystemSettings.AppTheme.BaseColors;
 }
 @await Html.PartialAsync("~/Views/Shared/_LoaderIcon.cshtml")
 @if (Layout == null)
@@ -18,14 +22,19 @@
 @section MainSection{
     <environment include="Development,CloudDevelopment">
         <script asp-append-version="true" src="@dashboardServerResourceUrl/cdn/scripts/bootstrap.js"></script>
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/error-page-new.css" />
     </environment>
     <environment exclude="Development,CloudDevelopment">
         <script asp-append-version="true" src="@dashboardServerResourceUrl/cdn/scripts/bootstrap.min.js"></script>
-        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.min.css" />
+        <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/@themeMinCss" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/error-page-new.min.css" />
     </environment>
+    <style>
+          :root {
+              @themeBaseColors
+          }
+    </style>
     <script>
         $(document).ready(function (e) {
             generateProfileAvatar();
@@ -37,31 +46,25 @@
                 <div class="error-image-center-2">
                     <img src="@GlobalAppSettings.CdnDomain/static/error-pages/v1/access-denied.svg" class="error-image-2">
                 </div>
-                <div class="error-type">[[[Access Denied]]]</div>
+                <div class="error-type">@T["Access Denied"]</div>
+                <div class="error-text">
                 @if (!canDownloadTemplate)
-                {
-                    <div class="error-text">
-                        [[[You do not have permission to download this dashboard template.<br>Please contact your administrator.]]]
-                    </div>
+                {   
+                    @T["You do not have permission to download this dashboard template."]<br>@contactAdmin
                 }
                 else if (_identityResponse.IsAdmin && !globalAppSettings.SystemSettings.UsageAnalytics && url.ToString().ToLower().Contains("/usage-analytics/"))
                 {
-                    <div class="error-text">
-                        [[[Usage analytics dashboards are disabled in ]]] <a href="@Url.Action("DashboardSettings", "Administration")">[[[dashboard settings.</a>]]]
-                    </div>
+                    @Html.Raw(string.Format(T["Usage analytics dashboards are disabled in {0}dashboard settings{1}."].Value,"<a href='" + Url.Action("DashboardSettings", "Administration") + "'>","</a>"))
                 }
                 else if (requestUrl.IndexOf(dashboardsPageUrl, StringComparison.OrdinalIgnoreCase) != -1)
                 {
-                    <div class="error-text">
-                        [[[You do not have permission to view this dashboard.<br>Please contact your administrator.]]]
-                    </div>
+                    @T["You do not have permission to view this dashboard."]<br>@contactAdmin
                 }
                 else
                 {
-                    <div class="error-text">
-                        [[[You do not have permission to view this page.<br>Please contact your administrator.]]]
-                    </div>
-                }
+                    @T["You do not have permission to view this page."]<br>@contactAdmin
+                }   
+                </div>
             </div>
         </div>
     </div>

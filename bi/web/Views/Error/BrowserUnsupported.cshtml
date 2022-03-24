@@ -3,7 +3,7 @@
     var cdnLink = string.Empty;
     var globalAppSettings = _globalAppSettings;
     var faviconLogo = string.Empty;
-	var loginLogo = string.Empty;
+    var loginLogo = string.Empty;
     var dashboardServerResourceUrl = string.Empty;
     if (ServerAppConfig.IsSelfHosted)
     {
@@ -25,7 +25,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>[[[Browser Not Supported]]]</title>
+    <title>@T["Browser Not Supported"]</title>
     <environment include="Development,CloudDevelopment">
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/theme/light.css" />
         <link rel="stylesheet" asp-append-version="true" href="@dashboardServerResourceUrl/cdn/css/layout.css" />
@@ -53,10 +53,10 @@
                 <div class="error-image-center-2">
                     <img src="@cdnLink/static/error-pages/v1/browser-not-supported.svg" class="error-image-2">
                 </div>
-                <div class="error-type error-type-color">[[[Oops! Your browser is not compatible.]]]</div>
+                <div class="error-type error-type-color">@T["Oops! Your browser is not compatible."]</div>
                 <div class="error-text">
-                    <span>[[[We recommend using the latest version of Chrome, Firefox, or Edge for a better application experience.]]]</span>
-                </div>
+                    <span>@string.Format(T["We recommend using the latest version of {0} or {1} for a better application experience."].Value, "Chrome, Firefox", "Edge")</span>
+              </div>
             </div>
         </div>
     </div>
