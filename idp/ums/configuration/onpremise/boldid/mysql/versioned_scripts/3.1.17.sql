@@ -1,1 +1,0 @@
-ALTER TABLE {database_name}.BOLDTC_TenantLog ADD OptionalData longtext NULL;

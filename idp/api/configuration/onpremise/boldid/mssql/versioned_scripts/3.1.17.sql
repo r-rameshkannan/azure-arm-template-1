@@ -1,1 +1,0 @@
-ALTER TABLE [BOLDTC_TenantLog] ADD OptionalData nvarchar(max) Null;
