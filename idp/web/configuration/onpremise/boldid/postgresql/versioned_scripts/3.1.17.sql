@@ -1,0 +1,1 @@
+ALTER TABLE BOLDTC_TenantLog ADD OptionalData varchar(1026) NULL;
