@@ -1,1 +1,0 @@
-ALTER TABLE [BOLDTC_AzureBlob] ALTER  COLUMN Uri nvarchar(max) NULL;
