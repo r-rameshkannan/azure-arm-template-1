@@ -5,10 +5,9 @@
   },
   "compilationOptions": {
     "defines": [
-      "DEBUG",
       "TRACE",
       "OnPremise",
-      "ONPREMISE_DEBUG",
+      "ONPREMISE_RELEASE",
       "NETCOREAPP",
       "NETCOREAPP3_1",
       "NETCOREAPP1_0_OR_GREATER",

@@ -854,7 +854,7 @@ input.e-input::selection, textarea.e-input::selection, .e-input-group input.e-in
 .material-checkbox:checked + input + label::before {
   bottom: 11.2px;
   color: #fff;
-  content: "";
+  content: "";
   font-family: "Server";
   left: 1px;
   font-size: 14px;

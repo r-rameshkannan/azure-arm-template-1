@@ -152,7 +152,6 @@
       "wwwroot/scripts/essentialjs/ej.toolbar.min.js",
       "wwwroot/scripts/essentialjs/ej.menu.min.js",
       "wwwroot/scripts/essentialjs/ej.timepicker.min.js",
-      "wwwroot/scripts/core/server.core.js",
       "wwwroot/scripts/tenants/viewsite.js",
       "wwwroot/scripts/system/checkmailsettings.js",
       "wwwroot/scripts/user/adduser.js",

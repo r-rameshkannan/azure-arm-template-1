@@ -61,17 +61,17 @@
         {{else}}
         <a class="item-name grid-content" title="{{:DisplayName}}" data-toggle="tooltip" href="@Url.Action("ViewProfile", "UserManagement")?userid={{:UserId}}">{{:DisplayName}}</a>
         {{/if}}
-        {{if DirectoryTypeId == @((int)DirectoryType.AzureAD)}}
+        {{if DirectoryType.Id == @((int)DirectoryType.AzureAD)}}
         <span class="su su-azure-ad grid-directory-icon"> </span>
-        {{else DirectoryTypeId == @((int)DirectoryType.ExternalDatabase)}}
+        {{else DirectoryType.Id == @((int)DirectoryType.ExternalDatabase)}}
         <span class="su su-datasource grid-directory-icon"> </span>
-        {{else DirectoryTypeId == @((int)DirectoryType.WindowsAD)}}
+        {{else DirectoryType.Id == @((int)DirectoryType.WindowsAD)}}
         <span class="su su-windows-ad grid-directory-icon"> </span>
-        {{else DirectoryTypeId == @((int)DirectoryType.OAuth2)}}
+        {{else DirectoryType.Id == @((int)DirectoryType.OAuth2)}}
         <span class="su su-oauth grid-directory-icon"><span class="su su-oauth path1"></span><span class="su su-oauth path2"></span><span class="su su-oauth path3"></span></span>
-        {{else DirectoryTypeId == @((int)DirectoryType.OpenIDConnect)}}
+        {{else DirectoryType.Id == @((int)DirectoryType.OpenIDConnect)}}
         <span class="su su-openid grid-directory-icon"> </span>
-        {{else DirectoryTypeId == @((int)DirectoryType.JWTSSO)}}
+        {{else DirectoryType.Id == @((int)DirectoryType.JWTSSO)}}
         <span class="su su-single-sign-on grid-directory-icon"> </span>
         {{/if}}
     </script>

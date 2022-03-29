@@ -712,7 +712,7 @@
           #add-tenants-dialog_wrapper .e-dialog-scroller #add-tenants-dialog .modal-dialog .modal-content .modal-body #add_tenants_grid .e-gridheader .material-checkbox:checked + input + label::before {
             bottom: 11.2px;
             color: #fff;
-            content: "";
+            content: "";
             font-family: "Server";
             left: 1px;
             font-size: 14px;
@@ -786,7 +786,7 @@
             #add-tenants-dialog_wrapper .e-dialog-scroller #add-tenants-dialog .modal-dialog .modal-content .modal-body #add_tenants_grid .e-gridcontent .material-checkbox:checked + input + label::before {
               bottom: 11.2px;
               color: #fff;
-              content: "";
+              content: "";
               font-family: "Server";
               left: 1px;
               font-size: 14px;
