@@ -954,6 +954,7 @@ function IsValidContactNumber(contactNumber) {
 }
 
 function onCloseMessageBox() {
+    $(".e-footer-content").html("");
     document.getElementById("messageBox").ej2_instances[0].hide();
 }
 

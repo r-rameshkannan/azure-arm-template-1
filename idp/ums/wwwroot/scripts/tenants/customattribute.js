@@ -72,62 +72,67 @@ function isAttributeExist() {
 }
 
 function openCustomAttributeDialog(attributeId, name) {
-    var createDialogId = document.createElement("div");
-    createDialogId.setAttribute("id", "custom-attribute-dialog");
-    if (name == 'addtenant') {
-        var element = document.getElementById("popup-container");
-        siteCreation = true;
+    if (!isCustomAttributeBinded) {
+        var createDialogId = document.createElement("div");
+        createDialogId.setAttribute("id", "custom-attribute-dialog");
+        if (name == 'addtenant') {
+            var element = document.getElementById("popup-container");
+            siteCreation = true;
+        }
+        else {
+            var element = document.getElementById("content-area");
+        }
+        element.appendChild(createDialogId);
+        $("#custom-attribute-dialog").css("height", $("#popup-container").height());
+        var dialog = new ejs.popups.Dialog({
+            header: '<div class="dlg-title">' + window.TM.App.LocalizationContent.AddCustomAttribute + '</div>',
+            content: document.getElementById("custom-attribute-content"),
+            buttons: [
+                { click: saveAttribute, buttonModel: { isPrimary: true, content: window.TM.App.LocalizationContent.SaveButton } },
+                { click: onCloseCustomAttribute, buttonModel: { content: window.TM.App.LocalizationContent.CancelButton } },
+            ],
+            animationSettings: { effect: 'Zoom' },
+            beforeOpen: showCustomAttribute,
+            beforeClose: beforeCloseAttributeDialog,
+            width: '514px',
+            height: '474px',
+            showCloseIcon: true,
+            isModal: true,
+        });
+        dialog.appendTo(createDialogId);
+        isCustomAttributeBinded = true;
     }
     else {
-        var element = document.getElementById("content-area");
-    }
-    element.appendChild(createDialogId);
-    $("#custom-attribute-dialog").css("height", $("#popup-container").height());
-    var dialog = new ejs.popups.Dialog({
-        header: '<div class="dlg-title">' + window.TM.App.LocalizationContent.AddCustomAttribute + '</div>',
-        content: document.getElementById("custom-attribute-content"),
-        buttons: [
-            {
-                'click': function (e) {
-                    if ($("#custom-attribute-form").valid() && !$("#custom-attribute-name").hasClass("e-error")) {
-                        if (isAttributeEdit) {
-                            updateCustomAttribute(customAttributeInfo.Id);
-                        } else {
-                            saveCustomAttribute();
-                        }
-                    }
-                },
-                buttonModel: {
-                    isPrimary: true,
-                    content: window.TM.App.LocalizationContent.SaveButton
-                }
-            },
-            {
-                'click': function () {
-                    $("#custom-attribute-form").find("div.validation-errors").html("");
-                    $("#custom-attribute-form").find("div").removeClass("e-error");
-                    dialog.hide();
-                },
-                buttonModel: {
-                    content: window.TM.App.LocalizationContent.CancelButton
-                }
-            },
+        var dialog = document.getElementById("custom-attribute-dialog").ej2_instances;
+        dialog[0].buttons = [
+            { click: saveAttribute, buttonModel: { isPrimary: true, content: window.TM.App.LocalizationContent.SaveButton } },
+            { click: onCloseCustomAttribute, buttonModel: { content: window.TM.App.LocalizationContent.CancelButton } },
         ],
-        animationSettings: { effect: 'Zoom' },
-        beforeOpen: showCustomAttribute,
-        beforeClose: beforeCloseAttributeDialog,
-        width: '514px',
-        height: '474px',
-        showCloseIcon: true,
-        isModal: true,
-    });
-    dialog.appendTo(createDialogId);
+        dialog[0].show();
+    }
     
     if (isAttributeEdit) {
         setTimeout(function () {
             showSavedAttributes();
         }, 500);
     }
+}
+
+function saveAttribute() {
+    if ($("#custom-attribute-form").valid() && !$("#custom-attribute-name").hasClass("e-error")) {
+        if (isAttributeEdit) {
+            updateCustomAttribute(customAttributeInfo.Id);
+        } else {
+            saveCustomAttribute();
+        }
+    }
+}
+
+function onCloseCustomAttribute() {
+    $("#custom-attribute-form").find("div.validation-errors").html("");
+    $("#custom-attribute-form").find("div").removeClass("e-error");
+    var dialog = document.getElementById("custom-attribute-dialog").ej2_instances;
+    dialog[0].hide();
 }
 
 function showSavedAttributes() {
