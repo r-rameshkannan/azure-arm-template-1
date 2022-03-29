@@ -3092,12 +3092,6 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/cdn/scripts/localizationcontent.js",
-    "inputFiles": [
-      "wwwroot/Scripts/Core/localizationcontent.js"
-    ]
-  },
-  {
     "outputFileName": "wwwroot/cdn/css/font-server.css",
     "inputFiles": [
       "wwwroot/Styles/Fonts/font-Server.css"

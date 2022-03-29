@@ -147,7 +147,6 @@
                                             @T["If enabled, the current view will be set as your default view for this dashboard."]
                                             @if (!@ServerAppConfig.IsHideHelpLink)
                                             {
-                                                <span>[[[Learn more about]]]<a target="_blank" href="@(helpSiteBaseUrl + defaultViewHelpSiteUrl)">[[[ default views.]]]</a></span>
                                                 <span>@Html.Raw(string.Format(T["Learn more about {0}default views{1}."].Value, "<a target = '_blank' href = '"+ (helpSiteBaseUrl + defaultViewHelpSiteUrl) + "' >","</a>"))</span>
                                             }
                                         </div>

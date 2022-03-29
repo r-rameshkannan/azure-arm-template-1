@@ -256,7 +256,8 @@
                                             </div>
                                         </div>
                                         <div id="id-account-link">
-                                            <a hreflang="en" href="@idpUserPreferenceUrl" id="edit-link">@T["Update application language details through your account"]</a>
+                                           <a hreflang="en" href="@idpUserPreferenceUrl" id="edit-link">@T["Update application language details through your account"]</a>
+                                            
                                         </div>
                                     </div>
                                 }
@@ -269,7 +270,7 @@
                                             @Html.DropDownList("model-language", ViewBag.UserModelLanguages as IEnumerable<SelectListItem>, new { @class = "selectpicker user-model-language-dropdown pull-left", disabled = "disabled", data_live_search = "true", data_size = 10 })
                                         </div>
                                         <div id="id-account-link">
-                                            <a hreflang="en" href="@idpUserPreferenceUrl" id="edit-link">@T["Update data language details through your account"]</a>
+                                           <a hreflang="en" href="@idpUserPreferenceUrl" id="edit-link">@T["Update data language details through your account"]</a>
                                         </div>
                                     }
                                     else

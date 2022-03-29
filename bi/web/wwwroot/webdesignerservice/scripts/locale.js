@@ -271,6 +271,7 @@
                 groupBarSettingsText: "Group Bar Settings",
                 grandTotalsSettingsText: "Grand Totals Settings",
                 editFieldSettingsText: "Edit Field Settings",
+                alignmentSettingsText:"Alignment Settings",
 				contentSettingsText: "Content Settings",
                 kpiValueText: "KPI Value",
 				noDataContainerText: "No Data Appearence",
@@ -735,6 +736,11 @@
                     groupPanelBackground: "Group Panel Background",
                     headerBackground: "Header Background",
                     headerForeground: "Header Foreground"
+                },
+                alignmentSettings:{
+                    rowHeaderText:"Row Header",
+                    columnHeaderText:"Column Header",
+                    valueText:"Value"
                 },
 				noDataContainerSettings: {
                     hideIcon: "Hide Icon",
@@ -4906,8 +4912,8 @@
                 waitingTextForPdf: "Exporting to pdf...",
                 exportWidgetTitle: "Export Widget",
                 moreOptions: "More Options",
-                includeFilterInfoTooltipForImage: "When 'Include filter information' is switched on, the dashboard exported Image will contain the applied filter(s) information.",
-                includeFilterInfoTooltipForPdf: "When 'Include filter information' is switched on, the dashboard exported PDF will contain the applied filter(s) information.",
+                includeFilterInfoTooltipForImage: "When Include filter information is switched on, the dashboard exported Image will contain the applied filter(s) information.",
+                includeFilterInfoTooltipForPdf: "When Include filter information is switched on, the dashboard exported PDF will contain the applied filter(s) information.",
                 includeFilterInfoText: "Include filter information",
                 reset: "Reset",
                 apiExportErrMsg: "Invalid export parameter (widgetName)"

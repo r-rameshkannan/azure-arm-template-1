@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-08-26 20:48+05:30\n"
+"POT-Creation-Date: 2022-03-25 12:20+05:30\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2406,6 +2406,15 @@ msgstr ""
 msgid "Failed to update the connected account detail."
 msgstr ""
 
+msgid "Error while adding file"
+msgstr ""
+
+msgid "Dashboard has been published successfully."
+msgstr ""
+
+msgid "Item has been published successfully."
+msgstr ""
+
 msgid "Error occured while validating the domain."
 msgstr ""
 
@@ -2661,6 +2670,9 @@ msgstr ""
 msgid "Please try again later."
 msgstr ""
 
+msgid "Please refresh the page and try again."
+msgstr ""
+
 msgid "Please reload the page and try again"
 msgstr ""
 
@@ -2847,7 +2859,7 @@ msgstr ""
 msgid "Delete profile picture"
 msgstr ""
 
-msgid "Please choose a valid SYDJ file to upload"
+msgid "Please choose a valid {0} file to upload"
 msgstr ""
 
 msgid "Dashboard with the same name already exists"
@@ -3351,16 +3363,10 @@ msgstr ""
 msgid "Upgrade your plan"
 msgstr ""
 
-msgid "Payment for the current billing cycle has failed and your site will be suspended on "
-msgstr ""
-
-msgid "Click "
-msgstr ""
-
 msgid "here"
 msgstr ""
 
-msgid " to update payment details to avoid suspension of the site."
+msgid "Payment for the current billing cycle has failed and your site will be suspended on {0}. Click {1}here{2} to update payment details to avoid suspension of the site."
 msgstr ""
 
 msgid "Your Dashboards has been suspended due to failed payments. Please update your payment details to continue using the site."
@@ -3637,9 +3643,6 @@ msgid "Username, First name, Last name are not required as the user already exis
 msgstr ""
 
 msgid "Username should be between 3 to 254 characters"
-msgstr ""
-
-msgid "Failed to add user. Please refresh the page and try again."
 msgstr ""
 
 msgid "Add User in Group"
@@ -4065,6 +4068,12 @@ msgstr ""
 msgid "Failed to save refresh schedule."
 msgstr ""
 
+msgid "Refresh schedule not configured"
+msgstr ""
+
+msgid "Not refreshed yet"
+msgstr ""
+
 msgid "Refresh Data"
 msgstr ""
 
@@ -4452,13 +4461,16 @@ msgstr ""
 msgid "Dashboard has been moved successfully."
 msgstr ""
 
-msgid "There is an error in moving the dashboard. Please try again later."
+msgid "There is an error in moving the dashboard."
 msgstr ""
 
 msgid "Copy Dashboard"
 msgstr ""
 
 msgid "Dashboard has been copied successfully."
+msgstr ""
+
+msgid "There is an error in copying the dashboard."
 msgstr ""
 
 msgid "Copy Data source"
@@ -4470,6 +4482,9 @@ msgstr ""
 msgid "Data source copied successfully."
 msgstr ""
 
+msgid "There is an error in copying the datasource."
+msgstr ""
+
 msgid "Data Source Copied"
 msgstr ""
 
@@ -4479,7 +4494,7 @@ msgstr ""
 msgid "Dashboard has been cloned successfully."
 msgstr ""
 
-msgid "There is an error in cloning the dashboard. Please try again later."
+msgid "There is an error in cloning the dashboard."
 msgstr ""
 
 msgid "Dashboard Limit Exceeded"
@@ -4593,10 +4608,10 @@ msgstr ""
 msgid "Failed to add the sample dashboards"
 msgstr ""
 
-msgid "An error occurred while retrieving dashboards. Please try again."
+msgid "An error occurred while retrieving dashboards."
 msgstr ""
 
-msgid "An error occurred while retrieving categories. Please try again."
+msgid "An error occurred while retrieving categories."
 msgstr ""
 
 msgid "default"
@@ -4965,7 +4980,7 @@ msgstr ""
 msgid "Update Data Source(s)"
 msgstr ""
 
-msgid "Data Source(s) has been Updated successfully."
+msgid "Data source(s) has been updated successfully."
 msgstr ""
 
 msgid "Unable to update Data Source(s)."
@@ -5361,7 +5376,7 @@ msgstr ""
 msgid "Your support request has been submitted. Our support team will contact you soon."
 msgstr ""
 
-msgid "Unable to submit your support request. Please try again later."
+msgid "Unable to submit your support request."
 msgstr ""
 
 msgid "New Support Request"
@@ -5469,16 +5484,16 @@ msgstr ""
 msgid "has been successfully added."
 msgstr ""
 
-msgid "Failed to deploy the sample dashboard. Please refresh the page and try again."
+msgid "Failed to deploy the sample dashboard."
 msgstr ""
 
 msgid "Sample Dashboard"
 msgstr ""
 
-msgid "Error while updating a template dashboard with your data. Please try again later."
+msgid "Error while updating a template dashboard with your data."
 msgstr ""
 
-msgid "Failed to deploy the template dashboard. Please refresh the page and try again."
+msgid "Failed to deploy the template dashboard."
 msgstr ""
 
 msgid "Create Data Source"
@@ -5607,7 +5622,7 @@ msgstr ""
 msgid "Dashboard security has been updated successfully for {0}"
 msgstr ""
 
-msgid "Failed to update Dashboard Security. Please try again."
+msgid "Failed to update Dashboard Security."
 msgstr ""
 
 msgid "Enter the list of domains separated by commas."
@@ -7887,6 +7902,9 @@ msgstr ""
 msgid "My Incidents"
 msgstr ""
 
+msgid "Subscription and Billing"
+msgstr ""
+
 msgid "Move Dashboard"
 msgstr ""
 
@@ -8944,6 +8962,18 @@ msgid "Oops! Your browser is not compatible."
 msgstr ""
 
 msgid "We recommend using the latest version of {0} or {1} for a better application experience."
+msgstr ""
+
+msgid "Manage support team’s access to your resources."
+msgstr ""
+
+msgid "Allow"
+msgstr ""
+
+msgid "Allow support team to access my account."
+msgstr ""
+
+msgid "Please check our {0}license agreement{1} for this access."
 msgstr ""
 
 msgid "Last Authorized"
