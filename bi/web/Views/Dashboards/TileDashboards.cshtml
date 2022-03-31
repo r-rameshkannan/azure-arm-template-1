@@ -405,7 +405,7 @@
                                                             <span>@T["Get Link"]</span>
                                                         </span>
                                                     </li>
-                                                    <li ng-if="dashboardItem.ItemType == @((int)ItemType.Dashboard) && !isTablet" ng-hide="schemesDetails != null && !schemesDetails.GetEmbedCode">
+                                                    <li ng-if="dashboardItem.ItemType == @((int)ItemType.Dashboard) && !isTablet" ng-hide="schemesDetails != null && !schemesDetails.GetEmbedCode || activeMenu === @((int)DisplayCategory.UsageAnalytics)">
                                                         <span title="" class="get-embed-code option-click" ng-click="getEmbedCode()">
                                                             <i class="su su-embed"></i>
                                                             <span>@T["Get Embed code"]</span>

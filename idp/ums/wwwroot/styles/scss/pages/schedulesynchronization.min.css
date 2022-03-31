@@ -50,7 +50,7 @@
   #schedule-synchronization-container .material-checkbox:checked + input + label::before {
     bottom: 11.2px;
     color: #fff;
-    content: "";
+    content: "";
     font-family: "Server";
     left: 1px;
     font-size: 14px;
@@ -153,7 +153,7 @@
     #schedule-synchronization-container #schedule-panel .material-checkbox:checked + input + label::before {
       bottom: 11.2px;
       color: #fff;
-      content: "";
+      content: "";
       font-family: "Server";
       left: 1px;
       font-size: 14px;
@@ -330,7 +330,7 @@
   #schedule-synchronization-container .material-checkbox:checked + input + label::before {
     bottom: 11.2px;
     color: #fff;
-    content: "";
+    content: "";
     font-family: "Server";
     left: 1px;
     font-size: 14px;
@@ -403,7 +403,7 @@
   #schedule-panel #weekly-schedule-option div .material-checkbox:checked + input + label::before {
     bottom: 11.2px;
     color: #fff;
-    content: "";
+    content: "";
     font-family: "Server";
     left: 1px;
     font-size: 14px;
